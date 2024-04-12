@@ -16,6 +16,8 @@
 \usepackage{dsfont}
 \usepackage{graphicx}
 \usepackage{mathdesign}
+\usepackage{float}
+
 
 \setlength{\parindent}{0pt}
 
@@ -266,20 +268,146 @@ Let $f: \mathbb{R}^n \rightarrow \mathbb{R}$ be a function that is $C^2$ at $x_0
 % *
 % *
 
-\section{Convexity}
+\section{Important subsets of $\mathbb{R}^n$}
 
-\subsection{Definitions and Fundamental Theorems}
+\begin{definition}{Open set} \\
+A set $S \subseteq \mathbb{R}^n$ is open if for all $x \in S$, there exists $\epsilon > 0$ such that $B(x, \epsilon) \subseteq S$.
+\end{definition}
+
+\begin{definition}{Closed set} \\
+A set $S \subseteq \mathbb{R}^n$ is closed if its complement is open.
+\end{definition}
+
+\begin{definition}{Interior point} \\
+A point $x \in S$ is an interior point of $S$ if there exists $\epsilon > 0$ such that $B(x, \epsilon) \subseteq S$.
+\end{definition}
+
+\begin{corollary}{Open set characterization} \\
+A set $S \subseteq \mathbb{R}^n$ is open if and only if every point in $S$ is an interior point of $S$.
+\end{corollary}
+
+\begin{definition}{Boundary point} \\
+A point $x \in S$ is a boundary point of $S$ if for all $\epsilon > 0$, $B(x, \epsilon) \cap S \neq \emptyset$ and $B(x, \epsilon) \cap S^c \neq \emptyset$.
+\end{definition}
+
+\begin{definition}{Half-space} \\
+A half-space in $\mathbb{R}^n$ is a set of the form $\{x \in \mathbb{R}^n : a^T x \leq b\}$ for some $a \in \mathbb{R}^n$ and $b \in \mathbb{R}$.
+\end{definition}
+
+\begin{definition}{Hyperplane} \\
+A hyperplane in $\mathbb{R}^n$ is a set of the form $\{x \in \mathbb{R}^n : a^T x = b\}$ for some $a \in \mathbb{R}^n$ and $b \in \mathbb{R}$.
+\end{definition}
+
+\begin{definition}{Polyhedron (Polyhedra)} \\
+A polyhedron in $\mathbb{R}^n$ is a set of the form $\{x \in \mathbb{R}^n : Ax \leq b\}$ for some $A \in \mathbb{R}^{m \times n}$ and $b \in \mathbb{R}^m$.
+Equivalently, a polyhedron is the intersection of finitely many half-spaces.
+\end{definition}
+
+\begin{definition}{Polytope} \\
+A polytope in $\mathbb{R}^n$ is a bounded polyhedron - i.e., there exists $r > 0$ such that $\forall x \in \{x \in \mathbb{R}^n : Ax \leq b\} \implies ||x|| \leq r$.
+Equivalently, a polytope is the convex hull of finitely many points.
+\end{definition}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{Figs/polyhedron.png}
+    \caption{Polytope}
+\end{figure}
 
 \begin{definition}{Convex set} \\
     A set $S \subseteq \mathbb{R}^n$ is convex if for all $x,y \in S$ and $\lambda \in [0,1]$, we have $\lambda t + (1- \lambda)y \in S$.
 \end{definition}    
 
-\begin{definition} (Convex function): A function $f : S \rightarrow \mathbb{R}$ defined on a convex set $S$ is convex if, for all $x, y \in S$ and $\theta \in [0,1]$, 
-\[ f(\theta x + (1-\theta)y) \leq \theta f(x) + (1-\theta) f(y). \]
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Figs/convex_set.png}
+    \caption{Convex set}
+\end{figure}
+
+\begin{definition}{Convex hull} \\
+The convex hull of a set $S \subseteq \mathbb{R}^n$ is the smallest convex set that contains $S$.
 \end{definition}
+
+
+\begin{definition}{Conic combination} \\
+A point $x \in \mathbb{R}^n$ is a conic combination of $y_1, \ldots, y_k \in \mathbb{R}^n$ 
+if there exist $\lambda_1, \ldots, \lambda_k \geq 0$ such that $x = \sum_{i=1}^k \lambda_i y_i$.    
+\end{definition}
+
+\begin{definition}{Conic hull} \\
+The conic hull of a finite set $S \subseteq \mathbb{R}^n$ is the set of all conic combinations of points in $S$.
+\end{definition}
+
+
+\begin{definition}{Convex cone} \\
+A set $S \subseteq \mathbb{R}^n$ is a convex cone if for all $x \in S$ and $\lambda \geq 0$, we have $\lambda x \in S$.
+\end{definition}
+
+\begin{figure}[H]
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Figs/circular-pyramid.png}
+        \caption{Convex cone that is not a conic hull of finitely many generators.}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Figs/polyhedral_cone.png}
+        \caption{Convex cone genrated by the conic combination of three black vectors (conic hull).}
+    \end{subfigure}
+\end{figure}
+
+\begin{definition}{Normal cone} \\
+The normal cone to a set $S$ at a point $x$ is defined as
+\begin{equation}
+    N_S(x) = \{ v \in \mathbb{R}^n : \langle v, y-x \rangle \leq 0 \text{ for all } y \in S \}
+\end{equation}
+\end{definition}
+
+\begin{definition}{Tangent cone} \\
+The tangent cone to a set $S$ at a point $x$ is defined as
+\begin{equation}
+    T_S(x) = \{ v \in \mathbb{R}^n : \lim_{t \rightarrow 0^+} \frac{x + tv - x}{t} \in S \}
+\end{equation}
+\end{definition}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Figs/normal-cones.png}
+    \caption{Normal and tangent cones}
+\end{figure}
+
+\begin{theorem}{Normal cone of polyhedron} \\
+The normal cone to a polyhedron $S = \{x \in \mathbb{R}^n : \forall j \in [m] \quad a_j \cdot x \leq b_j\}$ at a point $x$ is given by
+\begin{equation}
+    N_S(x) = \{ \sum_{j} \lambda_j a_j : \lambda_j \geq 0  \text{ and }  a_j \cdot x = b_j \}
+\end{equation}
+    
+\end{theorem}
+
+\section{Convexity}
+
+\subsection{Definitions and Fundamental Theorems}
+
+
+
+\begin{definition} (Convex function): A function $f : S \rightarrow \mathbb{R}$ defined on a convex set $S$ is convex if, for all $x, y \in S$ and $\lambda \in [0,1]$, 
+\[ f(\lambda x + (1-\lambda)y) \leq \lambda f(x) + (1-\lambda) f(y). \]
+\end{definition}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Figs/convex_function.png}
+    \caption{Convex function}
+\end{figure}
 
 \begin{theorem} (Characterization via epigraph): A function $f : S \to \mathbb{R}$ is convex if and only if its epigraph $\{(x,t) \in S \times \mathbb{R} : f(x) \leq t\}$ is a convex set.
 \end{theorem}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{Figs/epigraph_of_convex_function.png}
+    \caption{Epigraph of a convex function}
+\end{figure}
 
 
 \begin{claim} (Convexity of sublevel sets): If $f : S \to \mathbb{R}$ is convex, then the sublevel set $S_t = \{ x \in S : f(x) \leq t\}$ is convex for any $t \in \mathbb{R}$.
@@ -295,6 +423,12 @@ Let $f: \mathbb{R}^n \rightarrow \mathbb{R}$ be a function that is $C^2$ at $x_0
 \begin{theorem}(First-order characterization, aka “the gradient inequality”): If $f$ is a differentiable convex function on an open set $S$, then for all $x, y \in S$,
 \[ f(y) \geq f(x) + \nabla f(x)^\top (y - x). \]
 \end{theorem}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{Figs/first_order_characterization_of_convexity.png}
+    \caption{First-order characterization of convexity}
+\end{figure}
 
 
 \begin{theorem} (Jensen’s inequality, generalized for expectation): If $f$ is a convex function and $X$ is a random variable over $S$, then
@@ -318,21 +452,36 @@ Let $f: \mathbb{R}^n \rightarrow \mathbb{R}$ be a function that is $C^2$ at $x_0
      $x^*$ is a local minimum of $f$ on $C$ if and only if $\langle \nabla f(x^*), x - x^* \rangle \geq 0$ for all $x \in C$.
 \end{theorem}
 
-\begin{definition}{Normal cone} \\
-The normal cone to a set $S$ at a point $x$ is defined as
-\begin{equation}
-    N_S(x) = \{ v \in \mathbb{R}^n : \langle v, y-x \rangle \leq 0 \text{ for all } y \in S \}
-\end{equation}
-\end{definition}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Figs/optimality_condition_constrained.png}
+    \caption{Optimality conditions, constrained}
+\end{figure}
+
 
 \begin{corollary}{Optimality conditions, constrained (alternative)} \\
-If $f$ is differentiable and $C$ is a convex set, then $x^*$ is a local minimum of $f$ on $C$ if and only if $\nabla f(x^*) \in N_C(x^*)$.
+If $f$ is differentiable and $C$ is a convex set, then $x^*$ is a local minimum of $f$ on $C$ if and only if $-\nabla f(x^*) \in N_C(x^*)$.
 \end{corollary}
 
-\begin{definition} (Projection): The projection of a point $x$ onto a convex set $C$ is defined as $\text{Proj}_C(x) = \arg\min_{y \in C} \|y-x\|$.
+\begin{definition} (Projection): The projection of a point $x$ onto a convex set $S$ is defined as $\Pi_S(x) = \arg\min_{y \in S} \|y-x\|$.
 \end{definition}
 
-\begin{theorem} (Generalized cosine theorem): In the context of convex sets, this theorem often relates to angles between vectors in normed spaces and can be used to derive or prove geometric properties about projections and distances in convex optimization.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{Figs/projection.png}
+    \caption{Projection}
+\end{figure}
+
+
+\begin{theorem} {Generalized cosine theorem} \\
+    Let \( S \subseteq \mathbb{R}^d \) be convex and \( x \in \mathbb{R}^d \). Then the projection \( \Pi_S[x] \) is unique and satisfies:
+    \begin{equation}
+    \| x - \Pi_S[x] \|^2 + \| \Pi_S[x] - y \|^2 \leq \| x - y \|^2, \quad \forall y \in S.
+    \end{equation}
+    In particular:
+    \begin{equation}
+    \| \Pi_S[x] - y \| \leq \| x - y \|, \quad \forall y \in S.
+    \end{equation}
 \end{theorem}
 
 % *
