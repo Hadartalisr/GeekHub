@@ -17,7 +17,11 @@
 \usepackage{graphicx}
 \usepackage{mathdesign}
 \usepackage{float}
+\usepackage{todonotes} % Add the necessary package
 
+
+
+\setcounter{chapter}{-1}
 
 \setlength{\parindent}{0pt}
 
@@ -29,14 +33,17 @@
 \DeclareMathOperator*{\argmin}{argmin}
 
 \newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
 \newtheorem{definition}{Definition}[section]
 \newtheorem{corollary}{Corollary}[section]
 \newtheorem{claim}{claim}[section]
 
 \newtheorem*{claim*}{Claim}
+\newtheorem*{lemma*}{Lemma}
 \newtheorem*{corollary*}{Corollary}
 \newtheorem*{remark*}{Remark}
 \setcounter{tocdepth}{3}
+
 
 
 
@@ -62,6 +69,26 @@
 
 \frontmatter
 \tableofcontents
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
 
 \mainmatter
 \chapter{Mathematical Background}
@@ -262,11 +289,13 @@ Let $f: \mathbb{R}^n \rightarrow \mathbb{R}$ be a function that is $C^2$ at $x_0
 
 \bigbreak
 
-% *
-% *
-% *
-% *
-% *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
 
 \section{Important subsets of $\mathbb{R}^n$}
 
@@ -384,6 +413,14 @@ The normal cone to a polyhedron $S = \{x \in \mathbb{R}^n : \forall j \in [m] \q
     
 \end{theorem}
 
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
 \section{Convexity}
 
 \subsection{Definitions and Fundamental Theorems}
@@ -429,6 +466,13 @@ The normal cone to a polyhedron $S = \{x \in \mathbb{R}^n : \forall j \in [m] \q
     \includegraphics[width=0.3\textwidth]{Figs/first_order_characterization_of_convexity.png}
     \caption{First-order characterization of convexity}
 \end{figure}
+
+\begin{definition}{Bergman divergence (distance)} \\
+The Bergman divergence between two points $x, y \in \mathbb{R}^n$ is defined as
+\begin{equation}
+    D_f(x,y) = f(x) - f(y) - \nabla f(y)^\top (x-y)
+\end{equation}
+\end{definition}
 
 
 \begin{theorem} (Jensen’s inequality, generalized for expectation): If $f$ is a convex function and $X$ is a random variable over $S$, then
@@ -484,25 +528,386 @@ If $f$ is differentiable and $C$ is a convex set, then $x^*$ is a local minimum 
     \end{equation}
 \end{theorem}
 
-% *
-% *
-% *
-% *
-% *
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
 
 \section{Properties of Convex Functions}
 
-% *
-% *
-% *
-% *
-% *
+\begin{definition}{L - Lipschitz continuous} \\
+A function $f: S \rightarrow \mathbb{R}$ is L-Lipschitz continuous if for all $x, y \in S$,
+\begin{equation}
+    |f(x) - f(y)| \leq L ||x-y||
+\end{equation}    
+\end{definition}
+
+\begin{theorem}{Convexity and Lipschitz continuity} \\
+If $f$ is convex, differentiable and L-Lipschitz continuous, then $||\nabla f(x)|| \leq L$ for all $x \in S$. 
+\end{theorem}
+
+\begin{definition} {Smooth function} \\
+    A differentiable function \( f \) is \(\beta\)-smooth over \( S \subseteq \text{dom} f \) if for all \( x, y \in S \):
+    \[-\frac{\beta}{2} \|y - x\|^2 \leq f(y) - f(x) - \nabla f(x) \cdot (y - x) \leq \frac{\beta}{2} \|y - x\|^2.\]
+\end{definition}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Figs/beta_smooth_function.png}
+    \caption{Smooth function}
+\end{figure}
+
+
+\begin{theorem} {Lipschitz gradient interpretation } \\
+Let \( f \) be differentiable and let \( S \subseteq \text{dom} f \) be convex and closed. Suppose that
+\[\|\nabla f(x) - \nabla f(y)\| \leq \beta \|x - y\|, \quad \forall x, y \in S.\]
+Then \( f \) is \(\beta\)-smooth over \( S \).
+\end{theorem}
+
+\begin{theorem} {Second-order characterization of smoothness} \\
+Let \( f \) be \( C^2 \) and let \( S \subseteq \text{dom} f \) be convex and closed. Then \( f \) is \(\beta\)-smooth over \( S \) if and only if
+\[-\beta I \preceq \nabla^2 f(x) \preceq \beta I, \quad \forall x \in S.\]
+\end{theorem}
+
+
+\begin {lemma} {The Descent Lemma} \\
+Let \( f : \mathbb{R}^d \rightarrow \mathbb{R} \) be \(\beta\)-smooth, and let \( x \in \mathbb{R}^d \).
+\end{lemma}
+
+\begin{itemize}
+    \item For \( \eta \leq \frac{1}{\beta} \), \( x^{+} = x - \eta \nabla f(x) \), we have
+    \[ f(x^{+}) - f(x) \leq -\frac{\eta}{2} \|\nabla f(x)\|^2. \]
+    \item For \( x^{*} \in \text{arg\,min}_x f(x) \), we have
+    \[ \frac{1}{2\beta} \|\nabla f(x)\|^2 \leq f(x) - f(x^{*}). \]
+\end{itemize}
+
+\textbf{Basic Facts}:
+\begin{itemize}
+    \item An affine function \( f : \mathbb{R}^d \rightarrow \mathbb{R}, f(x) = a^\top x + b \), is 0-smooth.
+    \item A quadratic function \( f : \mathbb{R}^d \rightarrow \mathbb{R}, f(x) = \frac{1}{2} x^\top A x + b^\top x + c \), is \( \lambda_{\text{max}}(A) \)-smooth.
+    \item A linear combination of smooth functions is smooth with an appropriate parameter.
+    \item A convex combination of \(\beta\)-smooth functions is \(\beta\)-smooth.
+\end{itemize}
+
+
+\begin{definition} {Strong convexity} \\
+A function \( f \) is \(\alpha\)-strongly convex (for \(\alpha \geq 0\)) over a convex and closed set \( S \subseteq \text{dom} f \) if for any \( x \in S \), there exists \( g_x \in \partial f(x) \) such that:
+\[
+\forall y \in S, \quad f(y) \geq f(x) + g_x \cdot (y - x) + \frac{\alpha}{2} \|y - x\|^2.
+\]
+In particular, a differentiable \( f \) is \(\alpha\)-strongly convex over \( S \) if for any \( x \in S \),
+\[
+\forall y \in S, \quad f(y) \geq f(x) + \nabla f(x) \cdot (y - x) + \frac{\alpha}{2} \|y - x\|^2.
+\]
+\end{definition}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Figs/strongly_convex.png}
+    \caption{Strongly convex function}
+\end{figure}
+
+\begin{theorem} { Strong convexity, second-order characterization}\\
+Let \( f \) be \( C^2 \) and let \( S \subseteq \text{dom} f \) be convex and closed. Then \( f \) is \(\alpha\)-strongly convex over \( S \) if and only if
+\[
+\forall x \in S, \quad \nabla^2 f(x) \succeq \alpha I.
+\]
+\end{theorem}
+
+
+\begin{theorem} {Usage of strong convexity } \\
+If a differentiable \( f \) is \(\alpha\)-strongly convex over a convex and closed \( S \subseteq \text{dom} f \) with a minimum at \( x^* \in S \), then
+\[
+\forall x \in S, \quad \frac{\alpha}{2} \|x - x^*\|^2 \leq f(x) - f(x^*) \leq \frac{1}{2\alpha} \|\nabla f(x)\|^2.
+\]
+In particular, the minimum of a strongly convex function is unique.
+\end{theorem}
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
 
 \section{Important Inequalities}
 
-\subsection{1 + x $\leq$ e$^{x}$}
+\begin{theorem}{$1 + x \leq e^x$} \\
+For all $x \in \mathbb{R}$, we have $1 + x \leq e^x$.    
+\end{theorem}
+
+\begin{proof}
+Let $f(x) = e^x - 1 - x$. Then $f'(x) = e^x - 1$ and $f''(x) = e^x > 0$. Thus, $f$ is convex and $f(0) = 0$. Therefore, $f(x) \geq 0$ for all $x \in \mathbb{R}$.
+\end{proof}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{Figs/1+x_leq_e^x.png}
+    \caption{$1 + x \leq e^x$}
+\end{figure}
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
 
 
 
+\chapter{The First Miracle: Robustness}
+
+Let f be a convex function, and let $x^*$ be a minimizer of f. 
+
+\section{Gradient Descent}
+\begin{definition}{Gradient Descent} \\
+    \begin{equation}
+       x_{t+1} = x_t - \eta \nabla f(x_t) 
+    \end{equation}
+\end{definition}
+
+It holds that:
+\begin{equation}
+    f(x^*) \geq f(x_t) + \nabla f(x_t) \cdot (x^* - x_t)
+\end{equation}
+
+\begin{equation}
+    0 \leq f(x_t) - f(x^*) \leq \nabla f(x_t) \cdot (x_t - x^*) 
+\end{equation}
+
+\subsection{Analysis of the Gradient Descent Algorithm}
+
+\begin{align*}
+    \|a\|^2  &= \|b\|^2 + \|a - b\|^2   \\ 
+    \|b\|^2 &= \|a\|^2 - \|a - b\|^2 = \|a\|^2 - ( \|a\|^2 - 2a \cdot b + \|b\|^2  ) = 2 a \cdot b - \|b\|^2
+\end{align*}
+Then we have:
+\begin{align*}
+    \| x^* - x_t \|^2 - \| x^* - x_{t+1} \|^2 &= - 2 \eta (x^* - x_t) \cdot \nabla f(x_t) - \eta^2 \| \nabla f(x_t) \|^2 \\
+    &= 2 \eta (x_t - x^*) \cdot \nabla f(x_t) - \eta^2 \| \nabla f(x_t) \|^2 \\
+    &\geq  2 ( f(x_t) - f(x^*) ) - \eta^2 L^2
+\end{align*}
+
+Where the last inequality follows from the convexity and the Lipschitz continuity of $f$. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figs/vectors_triangle.jpeg}
+    \caption{Gradient Descent}
+\end{figure}
+
+Then if we sum the above inequality from $t=1$ to $T$, we get:
+\begin{align*}
+    \sum_{t=1}^T ( f(x_t) - f(x^*) ) &\leq \frac{\|x_1 - x^*\|^2}{2 \eta} + \frac{\eta L^2}{2} T 
+\end{align*}
+
+In fact, this is a specific case of the Fundamental Inequality of Optimization. 
+
+\begin{theorem}{Fundamental Inequality of Optimization (unconstrained version)} \\
+    Suppose \( x_{t+1} = x_t - \eta g_t \) for all \( t \), where \( g_1, \ldots, g_T \in \mathbb{R}^d \) are arbitrary vectors. Then for all \( x^* \in \mathbb{R}^d \) it holds that
+    \[
+    \sum_{t=1}^T g_t \cdot (x_t - x^*) \leq \frac{\|x_1 - x^*\|^2}{2\eta} + \frac{\eta}{2} \sum_{t=1}^T \|g_t\|^2.
+    \]
+\end{theorem}
+    
+\begin{proof}{Fundamental Inequality of Optimization} \\
+    The proof tracks \( \|x_t - x^*\|^2 \) as a ``potential''. First write
+    \[
+    \|x_{t+1} - x^*\|^2 = \|(x_t - x^*) - \eta g_t\|^2 = \|x_t - x^*\|^2 - 2\eta g_t \cdot (x_t - x^*) + \eta^2 \|g_t\|^2,
+    \]
+    that is,
+    \[
+    \|x_t - x^*\|^2 - \|x_{t+1} - x^*\|^2 = 2\eta g_t \cdot (x_t - x^*) - \eta^2 \|g_t\|^2.
+    \]
+    Summing over \( t = 1, \ldots, T \) and telescoping terms, we obtain
+    \[
+    \|x_1 - x^*\|^2 - \|x_{T+1} - x^*\|^2 = 2\eta \sum_{t=1}^T g_t \cdot (x_t - x^*) - \eta^2 \sum_{t=1}^T \|g_t\|^2.
+    \]
+    Organizing terms, we conclude:
+    \[
+    \sum_{t=1}^T g_t \cdot (x_t - x^*) \leq \frac{\|x_1 - x^*\|^2 - \|x_{T+1} - x^*\|^2}{2\eta} + \frac{\eta}{2} \sum_{t=1}^T \|g_t\|^2. \quad 
+    \]
+\end{proof}
+
+\bigbreak
+
+
+\todo{SGD , choosing eta} % Use the \todo command
+    
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+
+\chapter{The Second Miracle: Potential Based}
+
+\section{Experts Problem}
+
+At each time step, the player picks an action $I_t \in [n]$ (we have n experts) and the adversary picks a loss vector $l_t \in {0,1}^n$. 
+The player incurs loss $l_t(I_t)$ and the goal is to minimize the regret:
+\begin{equation}
+    \text{Regret}_T(i) = \sum_{t=1}^T \left( l_t(I_t) - l_t(i) \right)
+\end{equation}
+
+We consider the case where in each time step the player chooses an action from a distribution $\vec{p}$ over the $n$ experts (a vector from the simplex):
+\begin{equation*}
+    \vec{p} \in \bigtriangleup_n = \{ \vec{p} \in \mathbb{R}_+^n : p_i \geq 0, \sum_{i=1}^n p_i = 1 \}
+\end{equation*}
+
+\subsubsection{Approach 1: Gradient Descent}
+We can use gradient descent on $f_t(\vec{p}_t) = \vec{l_t} \cdot \vec{p}$, where $\vec{l_t}$ is the loss vector at time $t$.
+It holds that $\nabla f_t(\vec{p}_t) = \vec{l_t}$. We can use the analysis of the gradient descent algorithm for gradient descent of convex functions varying in time.
+
+Let $q \in \bigtriangleup_n$ be any distribution. Then we have:
+\begin{align*}
+    f_t(q) &\geq f_t(\vec{p}_t) + \nabla f_t(q) \cdot (q - \vec{p}_t) \Longrightarrow \\
+    f_t(\vec{p}_t) - f_t(q) &\leq \nabla f_t(q) \cdot (\vec{p}_t - q) 
+\end{align*}
+Then:
+\begin{align*}
+    \| q - p_t \|^2 - \| q - p_{t+1} \|^2 &= - 2 \eta (q - p_t) \cdot \nabla f_t(p_t) - \eta^2 \| \nabla f_t(p_t) \|^2  \Longrightarrow \\
+    f_t(\vec{p}_t) - f_t(q) &\leq \nabla f_t(q) \cdot (\vec{p}_t - q)  = \frac{1}{2\eta} \left( \| q - \vec{p}_t \|^2  - \| q - \vec{p}_{t+1} \|^2 \right) + \frac{\eta}{2} \| \nabla f_t(\vec{p}_t) \|^2 \Longrightarrow \\ 
+    \sum_{t=1}^T \left( f_t(\vec{p}_t) - f_t(q) \right) &\leq \frac{1}{2\eta} \left( \| q - \vec{p}_1 \|^2 - \| q - \vec{p}_{T+1} \|^2 \right)+ \frac{\eta}{2} \sum_{t=1}^T \| \nabla f_t(\vec{p}_t) \|^2 \\
+    &\leq \frac{1}{2\eta} \| q - \vec{p}_1 \|^2 + \frac{\eta}{2} \sum_{t=1}^T \| \nabla f_t(\vec{p}_t) \|^2 \\
+    &\leq \frac{1}{\eta} + \frac{\eta}{2} T n  = \textbf{O} ( \sqrt{Tn} )
+\end{align*}
+
+We have used the facts that: 
+\begin{itemize}
+    \item Both $q$ and $\vec{p}_1$ are distributions, so $\| q - \vec{p}_1 \|^2 \leq 2$.
+    \item $\| \nabla f_t(\vec{p}_t) \|^2 \leq n$ (as the loss vector is in ${0,1}^n$).
+\end{itemize}
+
+we can see that in this case, the rate of convergence DO depend on the dimension of the problem, in contrast to the non-varying case.
+The fact that the rate of convergence DO NOT depend on the dimension of the problem in GD is one of the reasons why GD is so useful in practice.
+
+
+
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+
+\chapter{The Third Miracle: }
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+
+\chapter{The Fourth Miracle: }
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+
+\chapter{The Fifth Miracle: }
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
 
 \end{document}
