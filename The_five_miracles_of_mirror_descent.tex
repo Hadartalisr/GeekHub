@@ -14,6 +14,8 @@
 \usepackage{pgfplots} 
 \usepackage[ruled,vlined]{algorithm2e} 
 \usepackage{dsfont}
+\usepackage{graphicx}
+\usepackage{mathdesign}
 
 \setlength{\parindent}{0pt}
 
@@ -35,16 +37,29 @@
 \setcounter{tocdepth}{3}
 
 
-\title{The Five Miracles of Mirror Descent - Sebastian Bubeck}
-\author{Hadar Tal}
-\date{Winter 2024}
+
 
 \begin{document}
 
-\frontmatter
-\maketitle
-\tableofcontents
+\begin{titlepage}
+    \begin{center}
+     {\huge\bfseries The Five Miracles of Mirror Descent \\}
+     % ----------------------------------------------------------------
+     \vspace{1.5cm}
+     {\Large\bfseries Hadar Tal}\\[5pt]
+     hadar.tal@mail.huji.ac.il\\[14pt]
+      % ----------------------------------------------------------------
+     \vspace{2cm}
+     {This paper is a summary of the educational materials and lectures from Professor Sebastian Bubeck, enhanced by Claire Boyer's comprehensive notes, and structured according to Tomer Koren's course on Optimization for Computer Science.} \\[2cm]
 
+     \vfill
+    {Winter 2024}
+    \end{center}
+\end{titlepage}
+
+
+\frontmatter
+\tableofcontents
 
 \mainmatter
 \chapter{Mathematical Background}
@@ -245,18 +260,99 @@ Let $f: \mathbb{R}^n \rightarrow \mathbb{R}$ be a function that is $C^2$ at $x_0
 
 \bigbreak
 
+% *
+% *
+% *
+% *
+% *
+
+\section{Convexity}
+
+\subsection{Definitions and Fundamental Theorems}
+
+\begin{definition}{Convex set} \\
+    A set $S \subseteq \mathbb{R}^n$ is convex if for all $x,y \in S$ and $\lambda \in [0,1]$, we have $\lambda t + (1- \lambda)y \in S$.
+\end{definition}    
+
+\begin{definition} (Convex function): A function $f : S \rightarrow \mathbb{R}$ defined on a convex set $S$ is convex if, for all $x, y \in S$ and $\theta \in [0,1]$, 
+\[ f(\theta x + (1-\theta)y) \leq \theta f(x) + (1-\theta) f(y). \]
+\end{definition}
+
+\begin{theorem} (Characterization via epigraph): A function $f : S \to \mathbb{R}$ is convex if and only if its epigraph $\{(x,t) \in S \times \mathbb{R} : f(x) \leq t\}$ is a convex set.
+\end{theorem}
+
+
+\begin{claim} (Convexity of sublevel sets): If $f : S \to \mathbb{R}$ is convex, then the sublevel set $S_t = \{ x \in S : f(x) \leq t\}$ is convex for any $t \in \mathbb{R}$.
+\end{claim}
+
+\subsection{Inequalities and Characterizations}
+
+\begin{theorem}(Jensen's inequality): If $f$ is a convex function, then for any $x_1, x_2, \ldots, x_n \in S$ and any non-negative weights $\alpha_i$ such that $\sum_{i=1}^n \alpha_i = 1$,
+\[ f\left(\sum_{i=1}^n \alpha_i x_i\right) \leq \sum_{i=1}^n \alpha_i f(x_i). \]
+\end{theorem}
+
+
+\begin{theorem}(First-order characterization, aka “the gradient inequality”): If $f$ is a differentiable convex function on an open set $S$, then for all $x, y \in S$,
+\[ f(y) \geq f(x) + \nabla f(x)^\top (y - x). \]
+\end{theorem}
+
+
+\begin{theorem} (Jensen’s inequality, generalized for expectation): If $f$ is a convex function and $X$ is a random variable over $S$, then
+\[ f(\mathbb{E}[X]) \leq \mathbb{E}[f(X)]. \]
+\end{theorem}
+
+
+\begin{theorem} (Second-order characterization of convexity): A twice differentiable function $f$ is convex on an open set $S$ if and only if the Hessian matrix of $f$ is positive semidefinite at every point in $S$.
+\end{theorem}
+
+\subsection{Optimization and Projection}
+
+\begin{definition} (Convex optimization): The problem of minimizing a convex function over a convex set.
+\end{definition}
+
+\begin{theorem} (Optimality conditions, unconstrained): If $f$ is convex and differentiable, \\
+     $x^*$ is a local minimum of $f$ $\Leftrightarrow$ $x^*$ is a global minimum of $f$ $\Leftrightarrow$  $\nabla f(x^*) = 0$.
+\end{theorem}
+
+\begin{theorem} (Optimality conditions, constrained): If $f$ is differentiable and $C$ is a convex set,
+     $x^*$ is a local minimum of $f$ on $C$ if and only if $\langle \nabla f(x^*), x - x^* \rangle \geq 0$ for all $x \in C$.
+\end{theorem}
+
+\begin{definition}{Normal cone} \\
+The normal cone to a set $S$ at a point $x$ is defined as
+\begin{equation}
+    N_S(x) = \{ v \in \mathbb{R}^n : \langle v, y-x \rangle \leq 0 \text{ for all } y \in S \}
+\end{equation}
+\end{definition}
+
+\begin{corollary}{Optimality conditions, constrained (alternative)} \\
+If $f$ is differentiable and $C$ is a convex set, then $x^*$ is a local minimum of $f$ on $C$ if and only if $\nabla f(x^*) \in N_C(x^*)$.
+\end{corollary}
+
+\begin{definition} (Projection): The projection of a point $x$ onto a convex set $C$ is defined as $\text{Proj}_C(x) = \arg\min_{y \in C} \|y-x\|$.
+\end{definition}
+
+\begin{theorem} (Generalized cosine theorem): In the context of convex sets, this theorem often relates to angles between vectors in normed spaces and can be used to derive or prove geometric properties about projections and distances in convex optimization.
+\end{theorem}
+
+% *
+% *
+% *
+% *
+% *
+
+\section{Properties of Convex Functions}
+
+% *
+% *
+% *
+% *
+% *
+
 \section{Important Inequalities}
 
 \subsection{1 + x $\leq$ e$^{x}$}
 
-% \begin{proof}
-
-    % \begin{definition}{Subgradient} \\
-    %     Let $f: \mathbb{R}^n \rightarrow \mathbb{R}$ be a convex function. A vector $g \in \mathbb{R}^n$ is a subgradient of $f$ at $x$ if for all $y \in \mathbb{R}^n$:
-    %     \begin{equation}
-    %         f(y) \geq f(x) + g^T(y-x)
-    %     \end{equation}
-    %     \end{definition}
 
 
 
