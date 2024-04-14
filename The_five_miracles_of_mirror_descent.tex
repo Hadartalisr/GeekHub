@@ -501,7 +501,31 @@ The geometry of Euclidean space follows the familiar rules of Euclidean geometry
 It is always complete, meaning that every Cauchy sequence in Euclidean space converges to a point within the space.
 Euclidean space can be thought of as the "standard" \( n \)-dimensional space that conforms to our intuitive geometric concepts.
 
-\subsubsection{Metric and complete metric spaces}
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+
+\chapter{Topology and manifolds}
+
+\section{Metric space and complete metric space}
 
 \begin{definition}{\textbf{Metric Space}} \\
     A metric space is a set \( X \) equipped with a metric, which is a function that defines a distance between each pair of elements in \( X \), satisfying the following properties for all \( x, y, z \in X \):
@@ -510,7 +534,6 @@ Euclidean space can be thought of as the "standard" \( n \)-dimensional space th
         \item Symmetry: \( d(x, y) = d(y, x) \)
         \item Triangle inequality: \( d(x, y) + d(y, z) \geq d(x, z) \)
     \end{enumerate}
-    
 \end{definition}
 
 \( \textbf{Inner Producy Space vs Metric Space} \)
@@ -524,8 +547,24 @@ Euclidean space can be thought of as the "standard" \( n \)-dimensional space th
         \end{example*}
 \end{itemize}
 
+\begin{definition}{ \textbf{Open $\epsilon$-ball} } \\
+    Let \( (X, d) \) be a metric space and \( x \in X \). \\
+    The open \(\varepsilon\)-ball centered at \( x \) is the set \(  B(x, \varepsilon) = \{ y \in X : d(x, y) < \varepsilon \} \).
+\end{definition}
+
+\begin{definition}{ \textbf{Open set} (metric space) } \\
+    A subset \( U \) of a metric space \( (X, d) \) is open if for every point \( x \in U \), 
+    there exists an open \(\varepsilon\)-ball centered at \( x \) that is contained in \( U \).
+\end{definition}
+
+\begin{definition}{\textbf{Convergence of a sequence}} \\
+    A sequence \( (x_n) \) in a metric space \( (X, d) \) is said to \emph{converge} to a limit \( a \in X \) if, for every positive real number \( \varepsilon > 0 \),
+    there exists a positive integer \( N \) such that for all positive integers \( n \geq N \), \( x_n \in B_{\varepsilon}(a) \).
+\end{definition}
+
 \begin{definition}{\textbf{Cauchy Sequence}} \\
-    In a metric space \( (X, d) \), a sequence \( \{x_1, x_2, x_3, \ldots\} \) is said to be \emph{Cauchy} if, for every positive real number \( \varepsilon > 0 \), there exists a positive integer \( N \) such that for all positive integers \( m, n > N \), the distance
+    In a metric space \( (X, d) \), a sequence \( \{x_1, x_2, x_3, \ldots\} \) is said to be \emph{Cauchy} if, for every positive real number \( \varepsilon > 0 \),
+     there exists a positive integer \( N \) such that for all positive integers \( m, n > N \), the distance
     \[ d(x_m, x_n) < \varepsilon. \]
 \end{definition}
 
@@ -560,24 +599,29 @@ A Hilbert space generalizes the notion of Euclidean space to an infinite-dimensi
 In a Hilbert space, one can still use concepts like angle, orthogonality, and projection, which are crucial in many areas of mathematics and physics. 
 Completeness is a key feature of Hilbert spaces, meaning that every Cauchy sequence in the space converges to a limit within the space. 
     
+\section{Topological Space}
 
-\subsection{Topological Spaces}
+\begin{definition}{\textbf{Topology}} \\
+A topology \( \mathcal{T} \) on a set \( X \) is a collection of subsets of  \( X \) that satisfy the following properties:
+\begin{enumerate}
+    \item \( \emptyset, X \in \mathcal{T} \).
+    \item The intersection of any finite number of sets is in \( \mathcal{T} \) - \\ 
+    \( U_1, U_2, \ldots, U_n \in \mathcal{T} \) implies \( \bigcap_{i=1}^n U_i \in \mathcal{T} \).
+    \item The union of any number of sets (finite or infinite) is in \( \mathcal{T} \) - \\
+    \( U_\alpha \in \mathcal{T} \) for all \( \alpha \) in some index set \( A \) implies \( \bigcup_{\alpha \in A} U_\alpha \in \mathcal{T} \).
+\end{enumerate}
+\end{definition}
 
 \begin{definition}{\textbf{Topological Space}} \\
-A topological space is a set \( X \) equipped with a collection of open sets \( \mathcal{T} \) that satisfy the following properties:
-\begin{enumerate}
-    \item The empty set and the entire space are open: \( \emptyset, X \in \mathcal{T} \).
-    \item The intersection of any finite number of open sets is open.
-    \item The union of any number of open sets is open.
-\end{enumerate}
+A topological space is a pair \( (X, \mathcal{T}) \) consisting of a set \( X \) and a topology \( \mathcal{T} \) on \( X \).
 \end{definition}
 
 \begin{example*}
 Examples of topological spaces:
 \begin{enumerate}
-    \item \( X = {1, 2, 3} \) with the topology \( T = \{\varnothing , {1}, {1, 2}, {1, 2, 3} \} \).
-    \item Given any set $X$, the discrete topology on $X$ is the power set of $X$ - $\mathcal{T} = P(X)$ and is the largest possible topology on $X$.
-    \item The indiscrete topology on $X$ is $\mathcal{T} = \{\emptyset, X\}$ and is the smallest possible topology on $X$ - 
+    \item \( X = {1, 2, 3} \) with the topology \( T = \{\varnothing , \{1\}, \{1, 2\}, \{1, 2, 3\} \} \).
+    \item Given any set $X$, \textbf{the discrete topology} on $X$ is the power set of $X$ - $\mathcal{T} = P(X)$ and is the largest possible topology on $X$.
+    \item \textbf{The indiscrete topology} on $X$ is $\mathcal{T} = \{\emptyset, X\}$ and is the smallest possible topology on $X$ - 
     $\forall \mathcal{T}$, $\{\emptyset, X\} \subseteq \mathcal{T} \subseteq P(X)$.
     \item The real line \( \mathbb{R} \) with the standard topology.
     \item The set of integers \( \mathbb{Z} \) with the discrete topology.
@@ -585,13 +629,136 @@ Examples of topological spaces:
 \end{enumerate}
 \end{example*}
 
+\begin{definition}{\textbf{Open Set (topological space)}} \\
+    A subset \( U \) of a topological space \( (X, \mathcal{T}) \) is open if \( U \in \mathcal{T} \).
+\end{definition}
+
+\section{Interior, exterior, boundary, and accumulation points}
+
+Let \( (X, \mathcal{T}) \) be a topological space , and \( S \subseteq X \) (it can be an open set but it not necessarily has to be).
+
+\begin{definition}{\textbf{Interior point}} \\
+    A point \( p \in S \) is an interior point of \( S \) if there exists an open set \( U \) such that \( p \in U \subseteq S \).
+\end{definition}
+
+\begin{definition}{\textbf{Exterior point}} \\
+    A point \( p \in X \) is an exterior point of \( S \) if there exists an open set \( U \) such that \( p \in U \subseteq X \setminus S \).
+\end{definition}
+
+\begin{definition}{\textbf{Boundary point}} \\
+    A point \( p \in X \) is a boundary point of \( S \) if for every open set \( U \) containing \( p \), both \( U \cap S \) and \( U \cap (X \setminus S) \) are non-empty.
+\end{definition}
+
+\begin{definition}{\textbf{Accumulation (limit) point}} \\
+    A point \( p \in X \) is an accumulation point of \( S \) if for every open set \( U \) containing \( p \), the set \( ( U \setminus \{p\} ) \cap S \) is non-empty.
+\end{definition}
+
+\begin{figure}[H]
+    \begin{subfigure}{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figs/interior.png}
+        \caption{Interior point}
+    \end{subfigure}
+    \begin{subfigure}{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figs/exterior.png}
+        \caption{Exterior point}
+    \end{subfigure}
+    \begin{subfigure}{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figs/boundary.png}
+        \caption{Boundary point}
+    \end{subfigure}
+    \begin{subfigure}{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figs/accumulation.png}
+        \caption{Accumulation point}
+    \end{subfigure}
+    \caption{Interior, exterior, and boundary points of a set}
+\end{figure}
 
 
+\begin{definition}{\textbf{Interior of a set}} \\
+    The interior of a set \( S \), denoted by \( \text{int}(S) \) or \( S^\circ \), is the set of all interior points of \( S \).
+    \begin{equation*}
+        S^\circ = \{ p \in S : p \text{ is an interior point of } S \}
+    \end{equation*}
+\end{definition}
 
 
+\begin{definition}{\textbf{Exterior of a set}} \\
+    The exterior of a set \( S \), denoted by \( \text{ext}(S) \), is the set of all exterior points of \( S \).
+    \begin{equation*}
+        \text{ext}(S) = \{ p \in X : p \text{ is an exterior point of } S \}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}{\textbf{Boundary of a set}} \\
+    The boundary of a set \( S \), denoted by \( \text{bd}(S) \) or \( \partial S \), is the set of all boundary points of \( S \).
+    \begin{equation*}
+        \partial(S) = \{ p \in X : p \text{ is a boundary point of } S \}
+    \end{equation*}
+\end{definition}
+
+The boundary of a set \( S \) consists of all points that are either in the interior of \( S \) or in the exterior of \( S \).
 
 
-\bigbreak
+\begin{definition}{\textbf{Derived set} (derivative of a set)} \\
+    The derived set of a set \( S \), denoted by \( S' \), is the set of all accumulation points of \( S \).
+    \begin{equation*}
+        S' = \{ p \in X : p \text{ is an accumulation point of } S \}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}{\textbf{Closure of a set}} \\
+    The closure of a set \( S \), denoted by \( \overline{S} \), is the set of all points in \( X \) that are either in \( S \) or are accumulation points of \( S \).
+    \begin{equation*}
+        \overline{S} = S \cup S'
+    \end{equation*}
+\end{definition}
+
+
+\begin{example*}
+    X = \( \mathbb{R} \) ,  \( \mathbb{T} = \{ \emptyset, \mathbb{R} \} \cup \{ ( a, \infty ) : a \in \mathbb{R} \} \) is a topology on \( \mathbb{R} \). \\
+    S = \( (0, 1) \) is not an open set, and do not have any interior points. \\
+    $ X \setminus S = (-\infty, 0] \cup [1, \infty) \Rightarrow  \text{ext}(S) = (1, \infty) \Rightarrow \partial S =  [-\infty, 1)  $.)
+    
+\end{example*}
+
+
+\section{Hausdorff space}
+
+\begin{definition}{\textbf{Open neighbothood of a point}} \\
+    An open neighborhood of a point \( a \) in a topological space \( (X, \mathcal{T}) \) is an open set containing \( a \).
+\end{definition}
+
+
+\begin{definition}{ \textbf{Convergence of a sequence} } \\
+    A sequence \( (x_n) \) in a topological space \( (X, \mathcal{T}) \) is said to converge to a limit \( a \in X \) 
+    if for every open neighborhood \( U \) of \( a \), there exists a positive integer \( N \) such that for all positive integers \( n \geq N \), \( x_n \in U \).
+\end{definition}
+
+Note that there can be multiple limits of a sequence in a topological space, and the limit need not be unique.
+
+\begin{example*}
+    X = \( \mathbb{R} \) ,  \( \mathbb{T} = \{ \emptyset, \mathbb{R} \} \cup \{ ( a, \infty ) : a \in \mathbb{R} \} \) is a topology on \( \mathbb{R} \). \\
+    \( (a_n)_{n \in \mathbb{N}} = (\frac{1}{n})_{n \in \mathbb{N}} \) converges to 0, but also to any \( a \in (0, \infty) \).
+    \begin{itemize}
+        \item It converges to 0 - every open neighborhood of 0 looks like \( (a, \infty) \) for some \( a < 0 \) so \( \frac{1}{n} \in (a, \infty) \).
+        \item It converges to -1 - every open neighborhood of -1 looks like \( (a, \infty) \) for some \( a < -1 \) so \( \frac{1}{n} \in (a, \infty) \).
+        \item The same argument can be made for any \( a \in (-\infty, 0] \).
+    \end{itemize}
+\end{example*}
+
+\begin{definition}{\textbf{Hausdorff Space}} \\
+    A topological space \( (X, \mathcal{T}) \) is a Hausdorff space if for every pair of distinct points \( x, y \in X \), there exist open sets \( U \) and \( V \) such that \( x \in U \), \( y \in V \), and \( U \cap V = \emptyset \).
+\end{definition}
+
+In a Hausdorff space, every pair of distinct points can be separated by disjoint open sets.
+
+\section{Quotient space}
+
+
 
 
 
