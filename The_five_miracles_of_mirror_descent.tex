@@ -43,6 +43,7 @@
 \newtheorem*{corollary*}{Corollary}
 \newtheorem*{remark*}{Remark}
 \newtheorem*{example*}{Example}
+\newtheorem*{examples*}{Examples}
 
 
 \setcounter{tocdepth}{3}
@@ -941,6 +942,29 @@ Take \( [x]_\sim, [y]_\sim \in \mathbf{P}^n (\mathbb{R}) \) such that \( [x]_\si
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Second Countable Space}
+
+\begin{definition}{\textbf{Basis}} \\
+    A basis for a topological space \( (X, \mathcal{T}) \) is a collection \( \mathcal{B} \subseteq \mathcal{T} \) of open sets
+     such that every open set in \( \mathcal{T} \) can be written as a union of sets in \( \mathcal{B} \).
+\end{definition}
+
+\begin{examples*} of basis:
+    \begin{itemize}
+        \item \( \mathcal{B} = \mathcal{T} \) is a basis for \( \mathcal{T} \).
+        \item If \( \mathcal{T} \) is discrete, then \( \mathcal{B} = \{ \{ x \} : x \in X \} \) is a basis for \( \mathcal{T} \).
+        \item Let \( (X, \mathcal{T}) \) be a topological space induced by a metric space \( (X, d) \). \\
+            Then \( \mathcal{B} = \{ B_\varepsilon(x) : x \in X, \varepsilon > 0 \} \) is a basis for \( \mathcal{T} \).
+        \item \( \mathbb{R}^n \) with the standard topology (defined by the Euclidean metric) has a basis of open balls.
+            Then \( \mathcal{B} = \{ B_{\varepsilon}(x) : x \in \mathbb{Q}^n, \varepsilon \in \mathbb{Q}, \varepsilon > 0 \} \) is a basis for \( \mathcal{T} \).
+            Eventhought the space is uncountable, the basis has a countable number of elements.
+    \end{itemize}
+\end{examples*}
+
+\begin{definition}{\textbf{Second Countable Space}} \\
+    A topological space \( (X, \mathcal{T}) \) is second countable if there exists a countable basis for \( \mathcal{T} \).
+\end{definition}
 
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
