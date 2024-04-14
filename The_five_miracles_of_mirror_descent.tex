@@ -57,7 +57,10 @@
 
 \begin{titlepage}
     \begin{center}
-     {\huge\bfseries The Five Miracles of Mirror Descent \\}
+     {\huge\bfseries 
+     Convex optimization \\
+     Manifolds \\
+     The Five Miracles of Mirror Descent \\}
      % ----------------------------------------------------------------
      \vspace{1.5cm}
      {\Large\bfseries Hadar Tal}\\[5pt]
@@ -66,9 +69,9 @@
      \vspace{2cm}
      {This paper is a summary of the educational materials and lectures from 
      \begin{itemize}
-        \item \textbf{The Five Miracles of Mirror Descent} by Professor Sebastien Bubeck (Claire Boyer's notes)
-        \item \textbf{Optimization for Computer Science} by Professor Tomer Koren
-        \item \textbf{Manifolds 1} by "The Bright Side of Mathematics" youtube channel
+        \item \textbf{Optimization for Computer Science} by Professor Tomer Koren, Tel Aviv University
+        \item \textbf{Manifolds 1} by Dr. Julian P. Grossmann, "The Bright Side of Mathematics" 
+        \item \textbf{The Five Miracles of Mirror Descent} by Professor Sebastien Bubeck, Microsoft Research (Claire Boyer's notes)
         \item \textbf{Wikipedia}
      \end{itemize}
      }
@@ -552,658 +555,6 @@ Euclidean space can be thought of as the "standard" \( n \)-dimensional space th
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 
-\chapter{Topology and manifolds}
-
-\section{Metric space and complete metric space}
-
-\begin{definition}{\textbf{Metric Space}} \\
-    A metric space is a set \( X \) equipped with a metric, which is a function that defines a distance between each pair of elements in \( X \), satisfying the following properties for all \( x, y, z \in X \):
-    \begin{enumerate}
-        \item Non-negativity: \( d(x, y) \geq 0 \) and \( d(x, y) = 0 \) if and only if \( x = y \)
-        \item Symmetry: \( d(x, y) = d(y, x) \)
-        \item Triangle inequality: \( d(x, y) + d(y, z) \geq d(x, z) \)
-    \end{enumerate}
-\end{definition}
-
-\( \textbf{Inner Producy Space vs Metric Space} \)
-\begin{itemize}
-    \item An inner product space is a vector space equipped with an inner product, which is a function that associates each pair of vectors with a scalar.
-    \item A metric space is a set equipped with a metric, which is a function that defines a distance between each pair of elements in the set.
-    \item Every inner product space is a metric space, but not every metric space is an inner product space.
-        \begin{example*}
-            Each inner product space must satisfy the Parallelogram Law, which states that for all \( u, v \) in the space, \( 2\|u\|^2 + 2\|v\|^2 = \|u + v\|^2 + \|u - v\|^2 \).
-            A clasic example of a metric space that is not an inner product space is the space of continuous functions on the interval \([0, 1]\) with the metric \( d(f, g) = \max_{x \in [0, 1]} |f(x) - g(x)| \).
-        \end{example*}
-\end{itemize}
-
-\begin{definition}{ \textbf{Open $\epsilon$-ball} } \\
-    Let \( (X, d) \) be a metric space and \( x \in X \). \\
-    The open \(\varepsilon\)-ball centered at \( x \) is the set \(  B(x, \varepsilon) = \{ y \in X : d(x, y) < \varepsilon \} \).
-\end{definition}
-
-\begin{definition}{ \textbf{Open set} (metric space) } \\
-    A subset \( U \) of a metric space \( (X, d) \) is open if for every point \( x \in U \), 
-    there exists an open \(\varepsilon\)-ball centered at \( x \) that is contained in \( U \).
-\end{definition}
-
-\begin{definition}{\textbf{Convergence of a sequence}} \\
-    A sequence \( (x_n) \) in a metric space \( (X, d) \) is said to \emph{converge} to a limit \( a \in X \) if, for every positive real number \( \varepsilon > 0 \),
-    there exists a positive integer \( N \) such that for all positive integers \( n \geq N \), \( x_n \in B_{\varepsilon}(a) \).
-\end{definition}
-
-\begin{definition}{\textbf{Cauchy Sequence}} \\
-    In a metric space \( (X, d) \), a sequence \( \{x_1, x_2, x_3, \ldots\} \) is said to be \emph{Cauchy} if, for every positive real number \( \varepsilon > 0 \),
-     there exists a positive integer \( N \) such that for all positive integers \( m, n > N \), the distance
-    \[ d(x_m, x_n) < \varepsilon. \]
-\end{definition}
-
-\begin{figure}[H]
-    \begin{subfigure}{0.5\textwidth}
-        \centering
-        \includegraphics[width=0.45\textwidth]{Figs/Cauchy_sequence_illustration.png}
-        \caption{The plot of a Cauchy sequence \( (x_n) \) shown in blue, as \( x_n \) versus \( n \). If the space is complete, then the sequence has a limit.}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}{0.45\textwidth}
-        \centering
-        \includegraphics[width=0.5\textwidth]{Figs/Cauchy_sequence_illustration2.png}
-        \caption{A sequence that is not Cauchy. The elements of the sequence do not get arbitrarily close to each other as the sequence progresses.}
-    \end{subfigure}
-    \caption{Cauchy Sequence}
-\end{figure}
-
-\begin{definition}{\textbf{Complete Metric Space}} \\
-    A metric space is complete if every Cauchy sequence in the space converges to a limit in the space.
-\end{definition}
-
-\subsubsection{Hilbert Space}
-
-\begin{definition}{\textbf{Hilbert Space}} \\
-    A \emph{Hilbert space} is a complete inner product space. That is, it is an inner product space \( \mathcal{H} \) that 
-    is also a complete metric space with respect to the metric induced by its inner product. 
-    The metric is given by \( d(x,y) = \sqrt{\langle x-y, x-y \rangle} \) for all \( x, y \in \mathcal{H} \).
-\end{definition}
-    
-A Hilbert space generalizes the notion of Euclidean space to an infinite-dimensional context. 
-In a Hilbert space, one can still use concepts like angle, orthogonality, and projection, which are crucial in many areas of mathematics and physics. 
-Completeness is a key feature of Hilbert spaces, meaning that every Cauchy sequence in the space converges to a limit within the space. 
-    
-
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-
-
-\section{Topological Space}
-
-\begin{definition}{\textbf{Topology}} \\
-A topology \( \mathcal{T} \) on a set \( X \) is a collection of subsets of  \( X \) that satisfy the following properties:
-\begin{enumerate}
-    \item \( \emptyset, X \in \mathcal{T} \).
-    \item The intersection of any finite number of sets is in \( \mathcal{T} \) - \\ 
-    \( U_1, U_2, \ldots, U_n \in \mathcal{T} \) implies \( \bigcap_{i=1}^n U_i \in \mathcal{T} \).
-    \item The union of any number of sets (finite or infinite) is in \( \mathcal{T} \) - \\
-    \( U_\alpha \in \mathcal{T} \) for all \( \alpha \) in some index set \( A \) implies \( \bigcup_{\alpha \in A} U_\alpha \in \mathcal{T} \).
-\end{enumerate}
-\end{definition}
-
-\begin{definition}{\textbf{Topological Space}} \\
-A topological space is a pair \( (X, \mathcal{T}) \) consisting of a set \( X \) and a topology \( \mathcal{T} \) on \( X \).
-\end{definition}
-
-A metric space \( (X, d) \) induces a topology on \( X \) by defining the open sets to be the unions of open \( \varepsilon \)-balls centered at each point in \( X \). 
-
-\begin{example*}
-Examples of topological spaces:
-\begin{enumerate}
-    \item \( X = {1, 2, 3} \) with the topology \( T = \{\varnothing , \{1\}, \{1, 2\}, \{1, 2, 3\} \} \).
-    \item Given any set $X$, \textbf{the discrete topology} on $X$ is the power set of $X$ - $\mathcal{T} = P(X)$ and is the largest possible topology on $X$.
-    \item \textbf{The indiscrete topology} on $X$ is $\mathcal{T} = \{\emptyset, X\}$ and is the smallest possible topology on $X$ - 
-    $\forall \mathcal{T}$, $\{\emptyset, X\} \subseteq \mathcal{T} \subseteq P(X)$.
-    \item The real line \( \mathbb{R} \) with the standard topology.
-    \item The set of integers \( \mathbb{Z} \) with the discrete topology.
-    \item The set of real numbers \( \mathbb{R} \) with the lower limit topology.
-\end{enumerate}
-\end{example*}
-
-\begin{definition}{\textbf{Open Set (topological space)}} \\
-    A subset \( U \) of a topological space \( (X, \mathcal{T}) \) is open if \( U \in \mathcal{T} \).
-\end{definition}
-
-\begin{definition}{\textbf{Metrizible Space}} \\
-    A topological space \( (X, \mathcal{T}) \) is metrizable if there exists a metric \( d \) on \( X \) such that 
-    the topology induced by \( d \) is equal to \( \mathcal{T} \).
-\end{definition}
-
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-
-
-\section{Interior, exterior, boundary, and accumulation points}
-
-Let \( (X, \mathcal{T}) \) be a topological space , and \( S \subseteq X \) (it can be an open set but it not necessarily has to be).
-
-\begin{definition}{\textbf{Interior point}} \\
-    A point \( p \in S \) is an interior point of \( S \) if there exists an open set \( U \) such that \( p \in U \subseteq S \).
-\end{definition}
-
-\begin{definition}{\textbf{Exterior point}} \\
-    A point \( p \in X \) is an exterior point of \( S \) if there exists an open set \( U \) such that \( p \in U \subseteq X \setminus S \).
-\end{definition}
-
-\begin{definition}{\textbf{Boundary point}} \\
-    A point \( p \in X \) is a boundary point of \( S \) if for every open set \( U \) containing \( p \), both \( U \cap S \) and \( U \cap (X \setminus S) \) are non-empty.
-\end{definition}
-
-\begin{definition}{\textbf{Accumulation (limit) point}} \\
-    A point \( p \in X \) is an accumulation point of \( S \) if for every open set \( U \) containing \( p \), the set \( ( U \setminus \{p\} ) \cap S \) is non-empty.
-\end{definition}
-
-\begin{figure}[H]
-    \begin{subfigure}{0.24\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Figs/interior.png}
-        \caption{Interior point}
-    \end{subfigure}
-    \begin{subfigure}{0.24\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Figs/exterior.png}
-        \caption{Exterior point}
-    \end{subfigure}
-    \begin{subfigure}{0.24\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Figs/boundary.png}
-        \caption{Boundary point}
-    \end{subfigure}
-    \begin{subfigure}{0.24\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Figs/accumulation.png}
-        \caption{Accumulation point}
-    \end{subfigure}
-    \caption{Interior, exterior, and boundary points of a set}
-\end{figure}
-
-
-\begin{definition}{\textbf{Interior of a set}} \\
-    The interior of a set \( S \), denoted by \( \text{int}(S) \) or \( S^\circ \), is the set of all interior points of \( S \).
-    \begin{equation*}
-        S^\circ = \{ p \in S : p \text{ is an interior point of } S \}
-    \end{equation*}
-\end{definition}
-
-
-\begin{definition}{\textbf{Exterior of a set}} \\
-    The exterior of a set \( S \), denoted by \( \text{ext}(S) \), is the set of all exterior points of \( S \).
-    \begin{equation*}
-        \text{ext}(S) = \{ p \in X : p \text{ is an exterior point of } S \}
-    \end{equation*}
-\end{definition}
-
-\begin{definition}{\textbf{Boundary of a set}} \\
-    The boundary of a set \( S \), denoted by \( \text{bd}(S) \) or \( \partial S \), is the set of all boundary points of \( S \).
-    \begin{equation*}
-        \partial(S) = \{ p \in X : p \text{ is a boundary point of } S \}
-    \end{equation*}
-\end{definition}
-
-The boundary of a set \( S \) consists of all points that are either in the interior of \( S \) or in the exterior of \( S \).
-
-
-\begin{definition}{\textbf{Derived set} (derivative of a set)} \\
-    The derived set of a set \( S \), denoted by \( S' \), is the set of all accumulation points of \( S \).
-    \begin{equation*}
-        S' = \{ p \in X : p \text{ is an accumulation point of } S \}
-    \end{equation*}
-\end{definition}
-
-\begin{definition}{\textbf{Closure of a set}} \\
-    The closure of a set \( S \), denoted by \( \overline{S} \), is the set of all points in \( X \) that are either in \( S \) or are accumulation points of \( S \).
-    \begin{equation*}
-        \overline{S} = S \cup S'
-    \end{equation*}
-\end{definition}
-
-
-\begin{example*}
-    X = \( \mathbb{R} \) ,  \( \mathbb{T} = \{ \emptyset, \mathbb{R} \} \cup \{ ( a, \infty ) : a \in \mathbb{R} \} \) is a topology on \( \mathbb{R} \). \\
-    S = \( (0, 1) \) is not an open set, and do not have any interior points. \\
-    $ X \setminus S = (-\infty, 0] \cup [1, \infty) \Rightarrow  \text{ext}(S) = (1, \infty) \Rightarrow \partial S =  [-\infty, 1)  $.)
-    
-\end{example*}
-
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-
-\section{Hausdorff space}
-
-\begin{definition}{\textbf{Open neighbothood of a point}} \\
-    An open neighborhood of a point \( a \) in a topological space \( (X, \mathcal{T}) \) is an open set containing \( a \).
-\end{definition}
-
-\begin{definition}{ \textbf{Convergence of a sequence} } \\
-    A sequence \( (x_n) \) in a topological space \( (X, \mathcal{T}) \) is said to converge to a limit \( a \in X \) 
-    if for every open neighborhood \( U \) of \( a \), there exists a positive integer \( N \) such that for all positive integers \( n \geq N \), \( x_n \in U \).
-\end{definition}
-
-Note that there can be multiple limits of a sequence in a topological space, and the limit need not be unique.
-
-\begin{example*}
-    X = \( \mathbb{R} \) ,  \( \mathbb{T} = \{ \emptyset, \mathbb{R} \} \cup \{ ( a, \infty ) : a \in \mathbb{R} \} \) is a topology on \( \mathbb{R} \). \\
-    \( (a_n)_{n \in \mathbb{N}} = (\frac{1}{n})_{n \in \mathbb{N}} \) converges to 0, but also to any \( a \in (0, \infty) \).
-    \begin{itemize}
-        \item It converges to 0 - every open neighborhood of 0 looks like \( (a, \infty) \) for some \( a < 0 \) so \( \frac{1}{n} \in (a, \infty) \).
-        \item It converges to -1 - every open neighborhood of -1 looks like \( (a, \infty) \) for some \( a < -1 \) so \( \frac{1}{n} \in (a, \infty) \).
-        \item The same argument can be made for any \( a \in (-\infty, 0] \).
-    \end{itemize}
-\end{example*}
-
-\begin{definition}{\textbf{Hausdorff Space}} \\
-    A topological space \( (X, \mathcal{T}) \) is a Hausdorff space if for every pair of distinct points \( x, y \in X \), there exist open sets \( U \) and \( V \) such that \( x \in U \), \( y \in V \), and \( U \cap V = \emptyset \).
-\end{definition}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.3\textwidth]{Figs/hausdorff_space.png}
-    \caption{Hausdorff space}
-\end{figure}
-
-In a Hausdorff space, every pair of distinct points can be separated by disjoint open sets.
-
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-
-
-\section{Quotient space}
-
-\begin{definition}{\textbf{Projective space}} \\
-    The projective space \( \mathbf{P}^n (\mathbb{R}) \) is the set of all lines passing through the origin in \( \mathbb{R}^{n+1} \).
-    It can be thought of as the space of all one-dimensional subspaces of \( \mathbb{R}^{n+1} \).
-\end{definition}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.3\textwidth]{Figs/projective_space_2d.png}
-    \caption{The projective space \( \mathbf{P}^1 \) - all the lines passing through the origin in \( \mathbb{R}^2 \) }
-\end{figure}
-
-The directions define a set, and we want to create a topological space for this set.
-
-\begin{definition}{\textbf{Equivalence relation}} \\
-    An equivalence relation on a set \( X \) is a relation \( \sim \) that satisfies the following properties for all \( x, y, z \in X \):
-    \begin{enumerate}
-        \item Reflexivity: \( x \sim x \)
-        \item Symmetry: \( x \sim y \) implies \( y \sim x \)
-        \item Transitivity: \( x \sim y \) and \( y \sim z \) implies \( x \sim z \)
-    \end{enumerate}
-\end{definition}
-
-\begin{definition}{\textbf{Equivalence class}} \\
-    Let \( X \) be a set and \( \sim \) be an equivalence relation on \( X \). \\
-    The equivalence class of \( x \) with respect to \( \sim \) is
-    \begin{equation*}
-        [x]_\sim = \{ y \in X : y \sim x \}
-    \end{equation*}
-\end{definition}
-
-\begin{definition}{\textbf{Quotient set}} \\
-    Let \( X \) be a set and \( \sim \) be an equivalence relation on \( X \). \\
-    The quotient set \( X / \sim \) is defined as 
-    \begin{equation*}
-        X/\sim \quad = \{ [x]_\sim : x \in X \}
-    \end{equation*}
-\end{definition}
-
-\begin{definition}{\textbf{Quotient map (Canonical projection)}} \\
-    Let \( X \) be a set and \( \sim \) be an equivalence relation on \( X \). \\
-    The canonical projection is a function:
-    \begin{equation*}
-        q: X \to X/\sim \quad \text{such that} \quad q(x) = [x]_\sim
-    \end{equation*}
-\end{definition}
-
-\begin{definition}{\textbf{Quotient Topology}} \\
-    Let \( X , \mathcal{T} \) be a topological space, \( \sim \) be an equivalence relation on \( X \) and \( q: X \to X/\sim \) be the canonical projection. \\
-    The quotient topology \( \hat{\mathcal{T}} \) on \( X/\sim \) is defined as
-    \begin{equation*}
-        \hat{\mathcal{T}} = \{ U \subseteq X/\sim \quad : q^{-1}(U) \in \mathcal{T} \}
-    \end{equation*}
-\end{definition}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{Figs/quotient_topology.png}
-    \caption{Quotient Topology}
-\end{figure}
-
-\begin{example*} A classic example of a quotient space is the \textbf{mobius strip}, which is constructed by taking a rectangular strip of paper, 
-    giving one end a half-twist, and then gluing the two ends together. The mobius strip is a non-orientable surface, 
-    meaning that it does not have a consistent notion of "left" and "right" across the entire surface. 
-    The mobius strip is a quotient space of a square, where the opposite edges of the square are identified in a specific way.
-    Formally, 
-    \begin{align*}
-        X = [0, 1] \times (-1, 1) \quad \text{and} \quad &\sim \text{ is the equivalence relation that identifies the points} \\
-        (0, y) &\sim (1, -y) \quad \text{for all} \quad y \in (-1, 1).
-    \end{align*}
-\end{example*}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{Figs/mobius_strip.png}
-    \caption{Mobius Strip}
-\end{figure}
-
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-
-
-\section{Projective Space}
-
-So far we have seen the transition from topological space to quotient space:
-\begin{equation*}
-    (X, \mathcal{T}) \to (X/\sim, \hat{\mathcal{T}})
-\end{equation*}
-
-Recall that the projective space \( \mathbf{P}^n (\mathbb{R}) \) is the set of all lines passing through the origin in \( \mathbb{R}^{n+1} \).
-
-\begin{definition}{\textbf{Sphere}} \\
-    The sphere \( S^n \) is the set of all points in \( \mathbb{R}^{n+1} \) that are at a fixed distance of 1 from the origin.
-    \begin{equation*}
-        S^n = \{ x \in \mathbb{R}^{n+1} : \|x\|_2 = 1 \}
-    \end{equation*}
-\end{definition}
-
-\begin{definition}{\textbf{The Projective Space as quotient space}} \\
-    The projective space \( \mathbf{P}^n (\mathbb{R}) \) can be constructed as a quotient space of the sphere \( S^n \) by identifying antipodal points.
-    \begin{equation*}
-        \mathbf{P}^n (\mathbb{R}) = S^n / \sim
-    \end{equation*}
-    where the equivalence relation \( \sim \) is defined as
-    \begin{equation*}
-        x \sim y \quad \text{if} \quad x = y \quad \text{or} \quad x = -y
-    \end{equation*}
-\end{definition}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.3\textwidth]{Figs/projective_space.png}
-    \caption{Projective Space as a quotient space}
-\end{figure}
-
-The sphere \( S^n \) is a hausdorff space, and the projective space \( \mathbf{P}^n (\mathbb{R}) \) is also a hausdorff space.
-But in general, the quotient space of a hausdorff space is not necessarily a hausdorff space.
-Take \( [x]_\sim, [y]_\sim \in \mathbf{P}^n (\mathbb{R}) \) such that \( [x]_\sim \neq [y]_\sim \Rightarrow x \neq y \) and \( x \neq -y \) .
-
-\begin{figure}[H]
-    \begin{subfigure}{\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Figs/projective_space_is_hausdorff.png}
-    \end{subfigure}
-    \begin{subfigure}{\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Figs/projective_space_is_hausdorff2.png}
-    \end{subfigure}
-    \caption{Projective Space as a hausdorff space}
-\end{figure}
-
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-
-\section{First Countable Space}
-
-\begin{definition}{\textbf{First Countable Space}} \\
-    A topological space \( (X , \mathcal{T}) \) is said to be \emph{first countable} if at every point \( x \) in \( X \), 
-    there exists a countable basis for the neighborhoods of \( x \). That is: \\ 
-    \begin{align*}
-        &\forall x \in X, \quad \exists \{ U_i \}_{i=1}^{\infty} \quad \text{such that} \quad \forall i \in \mathbb{N} \quad x \in U_i \\
-        &\text{and} \quad \forall V \in \mathcal{T} \quad \text{such that} \quad x \in V , \quad \exists i \quad \text{such that} \quad U_i \subseteq V
-    \end{align*}
-    The countable set of open sets \( \{ U_i \}_{i=1}^{\infty} \) is called a \textbf{local basis} at \( x \).
-\end{definition}
-
-\begin{examples*} of first countable spaces:
-    \begin{itemize}
-        \item \textbf{Metric Spaces}: Every metric space is first countable. 
-        The local basis at any point \( x \) in a metric space can be chosen as the collection of open balls centered 
-        at \( x \) with radii \( 1/n \), where \( n \) is a positive integer.
-
-        \item \textbf{Subspaces of Metric Spaces}: Any subspace of a metric space inherits the first countability. 
-        If \( Y \) is a subspace of a metric space \( X \), then the local bases in \( Y \) can be constructed using 
-        the intersections of open balls in \( X \) with \( Y \).
-
-        \item \textbf{Euclidean Spaces \( \mathbb{R}^n \)}: The Euclidean space with its standard topology, 
-        which is generated by the open balls, is first countable.
-
-        \item \textbf{The Space of Rational Numbers \( \mathbb{Q} \)}: As a subspace of the real line \( \mathbb{R} \), 
-        which is a metric space, the space of rational numbers \( \mathbb{Q} \) is first countable.
-    \end{itemize}
-\end{examples*}
-
-\section{Second Countable Space}
-
-\begin{definition}{\textbf{Basis}} \\
-    A basis for a topological space \( (X, \mathcal{T}) \) is a collection \( \mathcal{B} \subseteq \mathcal{T} \) of open sets 
-    such that every open set in \( \mathcal{T} \) can be written as a union of sets in \( \mathcal{B} \).
-\end{definition}
-
-\begin{examples*} of basis:
-    \begin{itemize}
-        \item \( \mathcal{B} = \mathcal{T} \) is a basis for \( \mathcal{T} \).
-        \item If \( \mathcal{T} \) is discrete, then \( \mathcal{B} = \{ \{ x \} : x \in X \} \) is a basis for \( \mathcal{T} \).
-        \item Let \( (X, \mathcal{T}) \) be a topological space induced by a metric space \( (X, d) \). \\
-            Then \( \mathcal{B} = \{ B_\varepsilon(x) : x \in X, \varepsilon > 0 \} \) is a basis for \( \mathcal{T} \).
-        \item \( \mathbb{R}^n \) with the standard topology (defined by the Euclidean metric) has a basis of open balls.
-            Then \( \mathcal{B} = \{ B_{\varepsilon}(x) : x \in \mathbb{Q}^n, \varepsilon \in \mathbb{Q}, \varepsilon > 0 \} \) is a basis for \( \mathcal{T} \).
-            Eventhought the space is uncountable, the basis has a countable number of elements.
-    \end{itemize}
-\end{examples*}
-
-\begin{definition}{\textbf{Second Countable Space}} \\
-    A topological space \( (X, \mathcal{T}) \) is second countable if there exists a countable basis for \( \mathcal{T} \).
-\end{definition}
-
-
-\begin{examples*} of second countable spaces:
-    \begin{itemize}
-        \item Any finite or countable discrete space.
-        \item The real line \( \mathbb{R} \) with the standard topology.
-        \item The Euclidean space \( \mathbb{R}^n \) with the standard topology.
-        \item The space of continuous functions \( C([0, 1]) \) with the topology of uniform convergence.
-    \end{itemize}
-\end{examples*}
-
-\begin{definition}{\textbf{The space of continuous functions with the topology of uniform convergence}} \\
-    Let \( C([0, 1]) \) be the space of continuous functions on the interval \( [0, 1] \). \\
-    The topology of uniform convergence on \( C([0, 1]) \) is defined by the basis
-    \begin{equation*}
-        \mathcal{B} = \{ B_{\varepsilon}(f) : f \in C([0, 1]), \varepsilon > 0 \}
-    \end{equation*}
-    where \( B_{\varepsilon}(f) = \{ g \in C([0, 1]) : \| f - g \|_{\infty} < \varepsilon \} \).
-\end{definition}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\textwidth]{Figs/topological_spaces_diagram.jpeg}
-    \caption{Venn diagram of topological spaces - Metrizable, Hausdorff, First Countable, Second Countable}
-\end{figure}
-
-
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-
-\section{Continuity}
-
-Recall the definition of continuity of a function in $R^n$:
-\begin{definition*}{\textbf{Continuity of a function}} \\
-    A function \( f: \mathbb{R}^n \to \mathbb{R} \) is continuous at a point \( x \in \mathbb{R}^n \) 
-    if for every \( \varepsilon > 0 \), there exists \( \delta > 0 \) such that for all \( y \in \mathbb{R}^n \) with
-     \( \| x - y \|_2 < \delta \), we have \( \| f(x) - f(y) \|_2 < \varepsilon \).
-\end{definition*}
-
-or equivalently, in term of sequences:
-\begin{definition*}{\textbf{Continuity of a function (sequence definition)}} \\
-    A function \( f: \mathbb{R}^n \to \mathbb{R} \) is continuous at a point \( x \in \mathbb{R}^n \) 
-    if for every sequence \( (x_k) \) in \( \mathbb{R}^n \) such that \( x_k \to x \), we have \( f(x_k) \to f(x) \).
-\end{definition*}
-
-Now, we extend the definition of continuity to topological spaces.
-
-\begin{definition}{\textbf{Continuity of a function at a point (topological space)}} \\
-    Let \( (X, \mathcal{T}_X) \) and \( (Y, \mathcal{T}_Y) \) be topological spaces. \\
-    A function \( f: X \to Y \) is continuous at a point \( x \in X \) if for every neighborhood \( V \) of \( f(x) \) in \( Y \),
-    there exists a neighborhood \( U \) of \( x \) in \( X \) such that \( f(U) \subseteq V \).
-\end{definition}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.4\textwidth]{Figs/continuity_topology.png}
-    \caption{Continuity of a function at a point} 
-\end{figure}
-
-
-\begin{definition}{\textbf{Continuity of a function (topological space)}} \\
-    Let \( (X, \mathcal{T}_X) \) and \( (Y, \mathcal{T}_Y) \) be topological spaces. \\
-    A function \( f: X \to Y \) is continuous if for every open set \( U \in \mathcal{T}_Y \), \( f^{-1}(U) \in \mathcal{T}_X \) \\
-    (the preimage of an open set is open).
-\end{definition}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{Figs/continuity.png}
-    \caption{Continuity of a function}    
-\end{figure}
-
-In term of sequences:
-
-\begin{definition}{\textbf{Sequentially continuous function (topological space)}} \\
-    Let \( (X, \mathcal{T}_X) \) and \( (Y, \mathcal{T}_Y) \) be topological spaces. \\
-    A function \( f: X \to Y \) is sequentially continuous if for every \( x \in X \) and every sequence 
-    \( (x_n)_{n \in \mathbb{N}} \subseteq X \) such that \( x_n \to x \), \( (f(x_n))_{n \in \mathbb{N}} \subseteq Y \) convergent 
-    with \( (f(x_n))_{n \in \mathbb{N}} \to f(x) \).
-\end{definition}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.4\textwidth]{Figs/sequentially_continues_function.png}
-    \caption{Sequentially continuous function}
-\end{figure}
-
-\begin{theorem}{\textbf{Continuity vs Sequential Continuity}} \\
-    Let \( (X, \mathcal{T}_X) \) and \( (Y, \mathcal{T}_Y) \) be topological spaces and \( f: X \to Y \) be a function. \\
-    \begin{align*}
-        \text{f is continuous} &\Rightarrow \text{f is sequentially continuous} \\
-        \text{f is continuous} &\nLeftarrow \text{f is sequentially continuous}
-    \end{align*}
-\end{theorem}
-
-\begin{theorem}{\textbf{Continuity vs Sequential Continuity in First Countable Spaces}} \\
-    Let \( (X, d_X) \) and \( (Y, d_Y) \) be First Countable spaces and \( f: X \to Y \) be a function. Then 
-    \begin{align*}
-        \text{f is continuous} &\Leftrightarrow \text{f is sequentially continuous}
-    \end{align*}
-\end{theorem}
-
-\begin{definition}{\textbf{Homeomorphism} (NOT homomorphism)} \\ 
-    A function \( f: X \to Y \) between topological spaces \( (X, \mathcal{T}_X) \) and \( (Y, \mathcal{T}_Y) \) is a homeomorphism if
-    \begin{enumerate}
-        \item \( f \) is bijective (both injective and surjective - one-to-one and onto).
-        \item \( f : X \to Y \) is continuous.
-        \item \( f^{-1} : Y \to X \) is continuous.
-    \end{enumerate}
-\end{definition}
-
-\begin{examples*} of continuous maps
-    \begin{itemize}
-        \item The indiscrete topology on \( X \) and \( Y \) - every function is continuous. \\
-            e.g., \( \forall f: X \to Y \) , \( \mathcal{T}_X = \{ \emptyset, X \} \) and \( \mathcal{T}_Y = \{ \emptyset, Y \} \), 
-            then \( f \) is continuous since the preimage of any open set in \( Y \) is either \( \emptyset \) or \( X \).
-
-        \item The discrete topology on \( X \) and \( Y \) - every function is continuous. \\
-            e.g., \( \forall f: X \to Y \) , \( \mathcal{T}_X = P(X) \) and \( \mathcal{T}_Y = P(Y) \), 
-            then \( f \) is continuous since the preimage of any open set in \( Y \) must be a subset of \( X \).
-
-        \item The quotient map \( q: X \to X/\sim \) is continuous. \\
-            Let \( (X, \mathcal{T}) \) be a topological space and \( \sim \) be an equivalence relation on \( X \). \\
-            Then the quotient map \( q: X \to X/\sim \) is continuous.
-            \begin{proof}
-                Let \( U \in \mathcal{T}_{X/\sim} \) be an open set in \( X/\sim \). \\
-                Then \( q^{-1}(U) \in \mathcal{T}_X \) is an open set in \( X \) by definition of the quotient topology. 
-                The same argument holds for the other direction.
-            \end{proof}
-    \end{itemize}
-\end{examples*}
-
-
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-
-
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-
-
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
 
 \chapter{Convexity and Optimization}
 
@@ -1586,6 +937,1043 @@ Let $f(x) = e^x - 1 - x$. Then $f'(x) = e^x - 1$ and $f''(x) = e^x > 0$. Thus, $
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 
+
+
+\chapter{Topology and manifolds}
+
+\section{Metric space and complete metric space}
+
+\begin{definition}{\textbf{Metric Space}} \\
+    A metric space is a set \( X \) equipped with a metric, which is a function that defines a distance between each pair of elements in \( X \), satisfying the following properties for all \( x, y, z \in X \):
+    \begin{enumerate}
+        \item Non-negativity: \( d(x, y) \geq 0 \) and \( d(x, y) = 0 \) if and only if \( x = y \)
+        \item Symmetry: \( d(x, y) = d(y, x) \)
+        \item Triangle inequality: \( d(x, y) + d(y, z) \geq d(x, z) \)
+    \end{enumerate}
+\end{definition}
+
+\( \textbf{Inner Producy Space vs Metric Space} \)
+\begin{itemize}
+    \item An inner product space is a vector space equipped with an inner product, which is a function that associates each pair of vectors with a scalar.
+    \item A metric space is a set equipped with a metric, which is a function that defines a distance between each pair of elements in the set.
+    \item Every inner product space is a metric space, but not every metric space is an inner product space.
+        \begin{example*}
+            Each inner product space must satisfy the Parallelogram Law, which states that for all \( u, v \) in the space, \( 2\|u\|^2 + 2\|v\|^2 = \|u + v\|^2 + \|u - v\|^2 \).
+            A clasic example of a metric space that is not an inner product space is the space of continuous functions on the interval \([0, 1]\) with the metric \( d(f, g) = \max_{x \in [0, 1]} |f(x) - g(x)| \).
+        \end{example*}
+\end{itemize}
+
+\begin{definition}{ \textbf{Open $\epsilon$-ball} } \\
+    Let \( (X, d) \) be a metric space and \( x \in X \). \\
+    The open \(\varepsilon\)-ball centered at \( x \) is the set \(  B(x, \varepsilon) = \{ y \in X : d(x, y) < \varepsilon \} \).
+\end{definition}
+
+\begin{definition}{ \textbf{Open set} (metric space) } \\
+    A subset \( U \) of a metric space \( (X, d) \) is open if for every point \( x \in U \), 
+    there exists an open \(\varepsilon\)-ball centered at \( x \) that is contained in \( U \).
+\end{definition}
+
+\begin{definition}{\textbf{Convergence of a sequence}} \\
+    A sequence \( (x_n) \) in a metric space \( (X, d) \) is said to \emph{converge} to a limit \( a \in X \) if, for every positive real number \( \varepsilon > 0 \),
+    there exists a positive integer \( N \) such that for all positive integers \( n \geq N \), \( x_n \in B_{\varepsilon}(a) \).
+\end{definition}
+
+\begin{definition}{\textbf{Cauchy Sequence}} \\
+    In a metric space \( (X, d) \), a sequence \( \{x_1, x_2, x_3, \ldots\} \) is said to be \emph{Cauchy} if, for every positive real number \( \varepsilon > 0 \),
+     there exists a positive integer \( N \) such that for all positive integers \( m, n > N \), the distance
+    \[ d(x_m, x_n) < \varepsilon. \]
+\end{definition}
+
+\begin{figure}[H]
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \includegraphics[width=0.45\textwidth]{Figs/Cauchy_sequence_illustration.png}
+        \caption{The plot of a Cauchy sequence \( (x_n) \) shown in blue, as \( x_n \) versus \( n \). If the space is complete, then the sequence has a limit.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.5\textwidth]{Figs/Cauchy_sequence_illustration2.png}
+        \caption{A sequence that is not Cauchy. The elements of the sequence do not get arbitrarily close to each other as the sequence progresses.}
+    \end{subfigure}
+    \caption{Cauchy Sequence}
+\end{figure}
+
+\begin{definition}{\textbf{Complete Metric Space}} \\
+    A metric space is complete if every Cauchy sequence in the space converges to a limit in the space.
+\end{definition}
+
+\subsubsection{Hilbert Space}
+
+\begin{definition}{\textbf{Hilbert Space}} \\
+    A \emph{Hilbert space} is a complete inner product space. That is, it is an inner product space \( \mathcal{H} \) that 
+    is also a complete metric space with respect to the metric induced by its inner product. 
+    The metric is given by \( d(x,y) = \sqrt{\langle x-y, x-y \rangle} \) for all \( x, y \in \mathcal{H} \).
+\end{definition}
+    
+A Hilbert space generalizes the notion of Euclidean space to an infinite-dimensional context. 
+In a Hilbert space, one can still use concepts like angle, orthogonality, and projection, which are crucial in many areas of mathematics and physics. 
+Completeness is a key feature of Hilbert spaces, meaning that every Cauchy sequence in the space converges to a limit within the space. 
+    
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+\section{Topological Space}
+
+\begin{definition}{\textbf{Topology}} \\
+A topology \( \mathcal{T} \) on a set \( X \) is a collection of subsets of  \( X \) that satisfy the following properties:
+\begin{enumerate}
+    \item \( \emptyset, X \in \mathcal{T} \).
+    \item The intersection of any finite number of sets is in \( \mathcal{T} \) - \\ 
+    \( U_1, U_2, \ldots, U_n \in \mathcal{T} \) implies \( \bigcap_{i=1}^n U_i \in \mathcal{T} \).
+    \item The union of any number of sets (finite or infinite) is in \( \mathcal{T} \) - \\
+    \( U_\alpha \in \mathcal{T} \) for all \( \alpha \) in some index set \( A \) implies \( \bigcup_{\alpha \in A} U_\alpha \in \mathcal{T} \).
+\end{enumerate}
+\end{definition}
+
+\begin{definition}{\textbf{Topological Space}} \\
+A topological space is a pair \( (X, \mathcal{T}) \) consisting of a set \( X \) and a topology \( \mathcal{T} \) on \( X \).
+\end{definition}
+
+A metric space \( (X, d) \) induces a topology on \( X \) by defining the open sets to be the unions of open \( \varepsilon \)-balls centered at each point in \( X \). 
+
+\begin{example*}
+Examples of topological spaces:
+\begin{enumerate}
+    \item \( X = {1, 2, 3} \) with the topology \( T = \{\varnothing , \{1\}, \{1, 2\}, \{1, 2, 3\} \} \).
+    \item Given any set $X$, \textbf{the discrete topology} on $X$ is the power set of $X$ - $\mathcal{T} = P(X)$ and is the largest possible topology on $X$.
+    \item \textbf{The indiscrete topology} on $X$ is $\mathcal{T} = \{\emptyset, X\}$ and is the smallest possible topology on $X$ - 
+    $\forall \mathcal{T}$, $\{\emptyset, X\} \subseteq \mathcal{T} \subseteq P(X)$.
+    \item The real line \( \mathbb{R} \) with the standard topology.
+    \item The set of integers \( \mathbb{Z} \) with the discrete topology.
+    \item The set of real numbers \( \mathbb{R} \) with the lower limit topology.
+\end{enumerate}
+\end{example*}
+
+\begin{definition}{\textbf{Open Set (topological space)}} \\
+    A subset \( U \) of a topological space \( (X, \mathcal{T}) \) is open if \( U \in \mathcal{T} \).
+\end{definition}
+
+\begin{definition}{\textbf{Metrizible Space}} \\
+    A topological space \( (X, \mathcal{T}) \) is metrizable if there exists a metric \( d \) on \( X \) such that 
+    the topology induced by \( d \) is equal to \( \mathcal{T} \).
+\end{definition}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+\section{Interior, exterior, boundary, and accumulation points}
+
+Let \( (X, \mathcal{T}) \) be a topological space , and \( S \subseteq X \) (it can be an open set but it not necessarily has to be).
+
+\begin{definition}{\textbf{Interior point}} \\
+    A point \( p \in S \) is an interior point of \( S \) if there exists an open set \( U \) such that \( p \in U \subseteq S \).
+\end{definition}
+
+\begin{definition}{\textbf{Exterior point}} \\
+    A point \( p \in X \) is an exterior point of \( S \) if there exists an open set \( U \) such that \( p \in U \subseteq X \setminus S \).
+\end{definition}
+
+\begin{definition}{\textbf{Boundary point}} \\
+    A point \( p \in X \) is a boundary point of \( S \) if for every open set \( U \) containing \( p \), both \( U \cap S \) and \( U \cap (X \setminus S) \) are non-empty.
+\end{definition}
+
+\begin{definition}{\textbf{Accumulation (limit) point}} \\
+    A point \( p \in X \) is an accumulation point of \( S \) if for every open set \( U \) containing \( p \), the set \( ( U \setminus \{p\} ) \cap S \) is non-empty.
+\end{definition}
+
+\begin{figure}[H]
+    \begin{subfigure}{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figs/interior.png}
+        \caption{Interior point}
+    \end{subfigure}
+    \begin{subfigure}{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figs/exterior.png}
+        \caption{Exterior point}
+    \end{subfigure}
+    \begin{subfigure}{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figs/boundary.png}
+        \caption{Boundary point}
+    \end{subfigure}
+    \begin{subfigure}{0.24\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figs/accumulation.png}
+        \caption{Accumulation point}
+    \end{subfigure}
+    \caption{Interior, exterior, and boundary points of a set}
+\end{figure}
+
+
+\begin{definition}{\textbf{Interior of a set}} \\
+    The interior of a set \( S \), denoted by \( \text{int}(S) \) or \( S^\circ \), is the set of all interior points of \( S \).
+    \begin{equation*}
+        S^\circ = \{ p \in S : p \text{ is an interior point of } S \}
+    \end{equation*}
+\end{definition}
+
+
+\begin{definition}{\textbf{Exterior of a set}} \\
+    The exterior of a set \( S \), denoted by \( \text{ext}(S) \), is the set of all exterior points of \( S \).
+    \begin{equation*}
+        \text{ext}(S) = \{ p \in X : p \text{ is an exterior point of } S \}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}{\textbf{Boundary of a set}} \\
+    The boundary of a set \( S \), denoted by \( \text{bd}(S) \) or \( \partial S \), is the set of all boundary points of \( S \).
+    \begin{equation*}
+        \partial(S) = \{ p \in X : p \text{ is a boundary point of } S \}
+    \end{equation*}
+\end{definition}
+
+The boundary of a set \( S \) consists of all points that are either in the interior of \( S \) or in the exterior of \( S \).
+
+
+\begin{definition}{\textbf{Derived set} (derivative of a set)} \\
+    The derived set of a set \( S \), denoted by \( S' \), is the set of all accumulation points of \( S \).
+    \begin{equation*}
+        S' = \{ p \in X : p \text{ is an accumulation point of } S \}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}{\textbf{Closure of a set}} \\
+    The closure of a set \( S \), denoted by \( \overline{S} \), is the set of all points in \( X \) that are either in \( S \) or are accumulation points of \( S \).
+    \begin{equation*}
+        \overline{S} = S \cup S'
+    \end{equation*}
+\end{definition}
+
+
+\begin{example*}
+    X = \( \mathbb{R} \) ,  \( \mathbb{T} = \{ \emptyset, \mathbb{R} \} \cup \{ ( a, \infty ) : a \in \mathbb{R} \} \) is a topology on \( \mathbb{R} \). \\
+    S = \( (0, 1) \) is not an open set, and do not have any interior points. \\
+    $ X \setminus S = (-\infty, 0] \cup [1, \infty) \Rightarrow  \text{ext}(S) = (1, \infty) \Rightarrow \partial S =  [-\infty, 1)  $.)
+    
+\end{example*}
+
+\begin{definition}{\textbf{Closed set}} \\
+    Let \( (X, \mathcal{T}) \) be a topological space. A set \( S \subseteq X \) is closed if any of the following equivalent conditions hold:
+    \begin{itemize}
+        \item A set \( S \) is closed if it contains all of its boundary points.
+        \item A set \( S \) is closed if its complement \( X \setminus S \) is open.
+        \item A set \( S \) is closed if it is equal to its closure \( \overline{S} \).
+    \end{itemize}
+\end{definition}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Hausdorff space}
+
+\begin{definition}{\textbf{Open neighbothood of a point}} \\
+    An open neighborhood of a point \( a \) in a topological space \( (X, \mathcal{T}) \) is an open set containing \( a \).
+\end{definition}
+
+\begin{definition}{ \textbf{Convergence of a sequence} } \\
+    A sequence \( (x_n) \) in a topological space \( (X, \mathcal{T}) \) is said to converge to a limit \( a \in X \) 
+    if for every open neighborhood \( U \) of \( a \), there exists a positive integer \( N \) such that for all positive integers \( n \geq N \), \( x_n \in U \).
+\end{definition}
+
+Note that there can be multiple limits of a sequence in a topological space, and the limit need not be unique.
+
+\begin{example*}
+    X = \( \mathbb{R} \) ,  \( \mathbb{T} = \{ \emptyset, \mathbb{R} \} \cup \{ ( a, \infty ) : a \in \mathbb{R} \} \) is a topology on \( \mathbb{R} \). \\
+    \( (a_n)_{n \in \mathbb{N}} = (\frac{1}{n})_{n \in \mathbb{N}} \) converges to 0, but also to any \( a \in (0, \infty) \).
+    \begin{itemize}
+        \item It converges to 0 - every open neighborhood of 0 looks like \( (a, \infty) \) for some \( a < 0 \) so \( \frac{1}{n} \in (a, \infty) \).
+        \item It converges to -1 - every open neighborhood of -1 looks like \( (a, \infty) \) for some \( a < -1 \) so \( \frac{1}{n} \in (a, \infty) \).
+        \item The same argument can be made for any \( a \in (-\infty, 0] \).
+    \end{itemize}
+\end{example*}
+
+\begin{definition}{\textbf{Hausdorff Space}} \\
+    A topological space \( (X, \mathcal{T}) \) is a Hausdorff space if for every pair of distinct points \( x, y \in X \), there exist open sets \( U \) and \( V \) such that \( x \in U \), \( y \in V \), and \( U \cap V = \emptyset \).
+\end{definition}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{Figs/hausdorff_space.png}
+    \caption{Hausdorff space}
+\end{figure}
+
+In a Hausdorff space, every pair of distinct points can be separated by disjoint open sets.
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+\section{Quotient space}
+
+\begin{definition}{\textbf{Projective space}} \\
+    The projective space \( \mathbf{P}^n (\mathbb{R}) \) is the set of all lines passing through the origin in \( \mathbb{R}^{n+1} \).
+    It can be thought of as the space of all one-dimensional subspaces of \( \mathbb{R}^{n+1} \).
+\end{definition}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{Figs/projective_space_2d.png}
+    \caption{The projective space \( \mathbf{P}^1 \) - all the lines passing through the origin in \( \mathbb{R}^2 \) }
+\end{figure}
+
+The directions define a set, and we want to create a topological space for this set.
+
+\begin{definition}{\textbf{Equivalence relation}} \\
+    An equivalence relation on a set \( X \) is a relation \( \sim \) that satisfies the following properties for all \( x, y, z \in X \):
+    \begin{enumerate}
+        \item Reflexivity: \( x \sim x \)
+        \item Symmetry: \( x \sim y \) implies \( y \sim x \)
+        \item Transitivity: \( x \sim y \) and \( y \sim z \) implies \( x \sim z \)
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}{\textbf{Equivalence class}} \\
+    Let \( X \) be a set and \( \sim \) be an equivalence relation on \( X \). \\
+    The equivalence class of \( x \) with respect to \( \sim \) is
+    \begin{equation*}
+        [x]_\sim = \{ y \in X : y \sim x \}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}{\textbf{Quotient set}} \\
+    Let \( X \) be a set and \( \sim \) be an equivalence relation on \( X \). \\
+    The quotient set \( X / \sim \) is defined as 
+    \begin{equation*}
+        X/\sim \quad = \{ [x]_\sim : x \in X \}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}{\textbf{Quotient map (Canonical projection)}} \\
+    Let \( X \) be a set and \( \sim \) be an equivalence relation on \( X \). \\
+    The canonical projection is a function:
+    \begin{equation*}
+        q: X \to X/\sim \quad \text{such that} \quad q(x) = [x]_\sim
+    \end{equation*}
+\end{definition}
+
+\begin{definition}{\textbf{Quotient Topology}} \\
+    Let \( X , \mathcal{T} \) be a topological space, \( \sim \) be an equivalence relation on \( X \) and \( q: X \to X/\sim \) be the canonical projection. \\
+    The quotient topology \( \hat{\mathcal{T}} \) on \( X/\sim \) is defined as
+    \begin{equation*}
+        \hat{\mathcal{T}} = \{ U \subseteq X/\sim \quad : q^{-1}(U) \in \mathcal{T} \}
+    \end{equation*}
+\end{definition}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figs/quotient_topology.png}
+    \caption{Quotient Topology}
+\end{figure}
+
+\begin{example*} A classic example of a quotient space is the \textbf{mobius strip}, which is constructed by taking a rectangular strip of paper, 
+    giving one end a half-twist, and then gluing the two ends together. The mobius strip is a non-orientable surface, 
+    meaning that it does not have a consistent notion of "left" and "right" across the entire surface. 
+    The mobius strip is a quotient space of a square, where the opposite edges of the square are identified in a specific way.
+    Formally, 
+    \begin{align*}
+        X = [0, 1] \times (-1, 1) \quad \text{and} \quad &\sim \text{ is the equivalence relation that identifies the points} \\
+        (0, y) &\sim (1, -y) \quad \text{for all} \quad y \in (-1, 1).
+    \end{align*}
+\end{example*}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figs/mobius_strip.png}
+    \caption{Mobius Strip}
+\end{figure}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+\section{Projective Space}
+
+So far we have seen the transition from topological space to quotient space:
+\begin{equation*}
+    (X, \mathcal{T}) \to (X/\sim, \hat{\mathcal{T}})
+\end{equation*}
+
+Recall that the projective space \( \mathbf{P}^n (\mathbb{R}) \) is the set of all lines passing through the origin in \( \mathbb{R}^{n+1} \).
+
+\begin{definition}{\textbf{Sphere}} \\
+    The sphere \( S^n \) is the set of all points in \( \mathbb{R}^{n+1} \) that are at a fixed distance of 1 from the origin.
+    \begin{equation*}
+        S^n = \{ x \in \mathbb{R}^{n+1} : \|x\|_2 = 1 \}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}{\textbf{The Projective Space as quotient space}} \\
+    The projective space \( \mathbf{P}^n (\mathbb{R}) \) can be constructed as a quotient space of the sphere \( S^n \) by identifying antipodal points.
+    \begin{equation*}
+        \mathbf{P}^n (\mathbb{R}) = S^n / \sim
+    \end{equation*}
+    where the equivalence relation \( \sim \) is defined as
+    \begin{equation*}
+        x \sim y \quad \text{if} \quad x = y \quad \text{or} \quad x = -y
+    \end{equation*}
+\end{definition}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{Figs/projective_space.png}
+    \caption{Projective Space as a quotient space}
+\end{figure}
+
+The sphere \( S^n \) is a hausdorff space, and the projective space \( \mathbf{P}^n (\mathbb{R}) \) is also a hausdorff space.
+But in general, the quotient space of a hausdorff space is not necessarily a hausdorff space.
+Take \( [x]_\sim, [y]_\sim \in \mathbf{P}^n (\mathbb{R}) \) such that \( [x]_\sim \neq [y]_\sim \Rightarrow x \neq y \) and \( x \neq -y \) .
+
+\begin{figure}[H]
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figs/projective_space_is_hausdorff.png}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figs/projective_space_is_hausdorff2.png}
+    \end{subfigure}
+    \caption{Projective Space as a hausdorff space}
+\end{figure}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{First Countable Space}
+
+\begin{definition}{\textbf{First Countable Space}} \\
+    A topological space \( (X , \mathcal{T}) \) is said to be \emph{first countable} if at every point \( x \) in \( X \), 
+    there exists a countable basis for the neighborhoods of \( x \). That is: \\ 
+    \begin{align*}
+        &\forall x \in X, \quad \exists \{ U_i \}_{i=1}^{\infty} \quad \text{such that} \quad \forall i \in \mathbb{N} \quad x \in U_i \\
+        &\text{and} \quad \forall V \in \mathcal{T} \quad \text{such that} \quad x \in V , \quad \exists i \quad \text{such that} \quad U_i \subseteq V
+    \end{align*}
+    The countable set of open sets \( \{ U_i \}_{i=1}^{\infty} \) is called a \textbf{local basis} at \( x \).
+\end{definition}
+
+\begin{examples*} of first countable spaces:
+    \begin{itemize}
+        \item \textbf{Metric Spaces}: Every metric space is first countable. 
+        The local basis at any point \( x \) in a metric space can be chosen as the collection of open balls centered 
+        at \( x \) with radii \( 1/n \), where \( n \) is a positive integer.
+
+        \item \textbf{Subspaces of Metric Spaces}: Any subspace of a metric space inherits the first countability. 
+        If \( Y \) is a subspace of a metric space \( X \), then the local bases in \( Y \) can be constructed using 
+        the intersections of open balls in \( X \) with \( Y \).
+
+        \item \textbf{Euclidean Spaces \( \mathbb{R}^n \)}: The Euclidean space with its standard topology, 
+        which is generated by the open balls, is first countable.
+
+        \item \textbf{The Space of Rational Numbers \( \mathbb{Q} \)}: As a subspace of the real line \( \mathbb{R} \), 
+        which is a metric space, the space of rational numbers \( \mathbb{Q} \) is first countable.
+    \end{itemize}
+\end{examples*}
+
+\section{Second Countable Space}
+
+\begin{definition}{\textbf{Basis}} \\
+    A basis for a topological space \( (X, \mathcal{T}) \) is a collection \( \mathcal{B} \subseteq \mathcal{T} \) of open sets 
+    such that every open set in \( \mathcal{T} \) can be written as a union of sets in \( \mathcal{B} \).
+\end{definition}
+
+\begin{examples*} of basis:
+    \begin{itemize}
+        \item \( \mathcal{B} = \mathcal{T} \) is a basis for \( \mathcal{T} \).
+        \item If \( \mathcal{T} \) is discrete, then \( \mathcal{B} = \{ \{ x \} : x \in X \} \) is a basis for \( \mathcal{T} \).
+        \item Let \( (X, \mathcal{T}) \) be a topological space induced by a metric space \( (X, d) \). \\
+            Then \( \mathcal{B} = \{ B_\varepsilon(x) : x \in X, \varepsilon > 0 \} \) is a basis for \( \mathcal{T} \).
+        \item \( \mathbb{R}^n \) with the standard topology (defined by the Euclidean metric) has a basis of open balls.
+            Then \( \mathcal{B} = \{ B_{\varepsilon}(x) : x \in \mathbb{Q}^n, \varepsilon \in \mathbb{Q}, \varepsilon > 0 \} \) is a basis for \( \mathcal{T} \).
+            Eventhought the space is uncountable, the basis has a countable number of elements.
+    \end{itemize}
+\end{examples*}
+
+\begin{definition}{\textbf{Second Countable Space}} \\
+    A topological space \( (X, \mathcal{T}) \) is second countable if there exists a countable basis for \( \mathcal{T} \).
+\end{definition}
+
+
+\begin{examples*} of second countable spaces:
+    \begin{itemize}
+        \item Any finite or countable discrete space.
+        \item The real line \( \mathbb{R} \) with the standard topology.
+        \item The Euclidean space \( \mathbb{R}^n \) with the standard topology.
+        \item The space of continuous functions \( C([0, 1]) \) with the topology of uniform convergence.
+    \end{itemize}
+\end{examples*}
+
+\begin{definition}{\textbf{The space of continuous functions with the topology of uniform convergence}} \\
+    Let \( C([0, 1]) \) be the space of continuous functions on the interval \( [0, 1] \). \\
+    The topology of uniform convergence on \( C([0, 1]) \) is defined by the basis
+    \begin{equation*}
+        \mathcal{B} = \{ B_{\varepsilon}(f) : f \in C([0, 1]), \varepsilon > 0 \}
+    \end{equation*}
+    where \( B_{\varepsilon}(f) = \{ g \in C([0, 1]) : \| f - g \|_{\infty} < \varepsilon \} \).
+\end{definition}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Figs/topological_spaces_diagram.jpeg}
+    \caption{Venn diagram of topological spaces - Metrizable, Hausdorff, First Countable, Second Countable}
+\end{figure}
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Continuity}
+
+Recall the definition of continuity of a function in $R^n$:
+\begin{definition*}{\textbf{Continuity of a function}} \\
+    A function \( f: \mathbb{R}^n \to \mathbb{R} \) is continuous at a point \( x \in \mathbb{R}^n \) 
+    if for every \( \varepsilon > 0 \), there exists \( \delta > 0 \) such that for all \( y \in \mathbb{R}^n \) with
+     \( \| x - y \|_2 < \delta \), we have \( \| f(x) - f(y) \|_2 < \varepsilon \).
+\end{definition*}
+
+or equivalently, in term of sequences:
+\begin{definition*}{\textbf{Continuity of a function (sequence definition)}} \\
+    A function \( f: \mathbb{R}^n \to \mathbb{R} \) is continuous at a point \( x \in \mathbb{R}^n \) 
+    if for every sequence \( (x_k) \) in \( \mathbb{R}^n \) such that \( x_k \to x \), we have \( f(x_k) \to f(x) \).
+\end{definition*}
+
+Now, we extend the definition of continuity to topological spaces.
+
+\begin{definition}{\textbf{Continuity of a function at a point (topological space)}} \\
+    Let \( (X, \mathcal{T}_X) \) and \( (Y, \mathcal{T}_Y) \) be topological spaces. \\
+    A function \( f: X \to Y \) is continuous at a point \( x \in X \) if for every neighborhood \( V \) of \( f(x) \) in \( Y \),
+    there exists a neighborhood \( U \) of \( x \) in \( X \) such that \( f(U) \subseteq V \).
+\end{definition}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{Figs/continuity_topology.png}
+    \caption{Continuity of a function at a point} 
+\end{figure}
+
+
+\begin{definition}{\textbf{Continuity of a function (topological space)}} \\
+    Let \( (X, \mathcal{T}_X) \) and \( (Y, \mathcal{T}_Y) \) be topological spaces. \\
+    A function \( f: X \to Y \) is continuous if for every open set \( U \in \mathcal{T}_Y \), \( f^{-1}(U) \in \mathcal{T}_X \) \\
+    (the preimage of an open set is open).
+\end{definition}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Figs/continuity.png}
+    \caption{Continuity of a function}    
+\end{figure}
+
+In term of sequences:
+
+\begin{definition}{\textbf{Sequentially continuous function (topological space)}} \\
+    Let \( (X, \mathcal{T}_X) \) and \( (Y, \mathcal{T}_Y) \) be topological spaces. \\
+    A function \( f: X \to Y \) is sequentially continuous if for every \( x \in X \) and every sequence 
+    \( (x_n)_{n \in \mathbb{N}} \subseteq X \) such that \( x_n \to x \), \( (f(x_n))_{n \in \mathbb{N}} \subseteq Y \) convergent 
+    with \( (f(x_n))_{n \in \mathbb{N}} \to f(x) \).
+\end{definition}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{Figs/sequentially_continues_function.png}
+    \caption{Sequentially continuous function}
+\end{figure}
+
+\begin{theorem}{\textbf{Continuity vs Sequential Continuity}} \\
+    Let \( (X, \mathcal{T}_X) \) and \( (Y, \mathcal{T}_Y) \) be topological spaces and \( f: X \to Y \) be a function. \\
+    \begin{align*}
+        \text{f is continuous} &\Rightarrow \text{f is sequentially continuous} \\
+        \text{f is continuous} &\nLeftarrow \text{f is sequentially continuous}
+    \end{align*}
+\end{theorem}
+
+\begin{theorem}{\textbf{Continuity vs Sequential Continuity in First Countable Spaces}} \\
+    Let \( (X, \mathcal{T}_X) \) and \( (Y, \mathcal{T}_Y) \) be First Countable spaces and \( f: X \to Y \) be a function. Then 
+    \begin{align*}
+        \text{f is continuous} &\Leftrightarrow \text{f is sequentially continuous}
+    \end{align*}
+\end{theorem}
+
+\begin{definition}{\textbf{Homeomorphism} (NOT homomorphism)} \\ 
+    A function \( f: X \to Y \) between topological spaces \( (X, \mathcal{T}_X) \) and \( (Y, \mathcal{T}_Y) \) is a homeomorphism if
+    \begin{enumerate}
+        \item \( f \) is bijective (both injective and surjective - one-to-one and onto).
+        \item \( f : X \to Y \) is continuous.
+        \item \( f^{-1} : Y \to X \) is continuous.
+    \end{enumerate}
+\end{definition}
+
+\begin{examples*} of continuous maps
+    \begin{itemize}
+        \item The indiscrete topology on \( X \) and \( Y \) - every function is continuous. \\
+            e.g., \( \forall f: X \to Y \) , \( \mathcal{T}_X = \{ \emptyset, X \} \) and \( \mathcal{T}_Y = \{ \emptyset, Y \} \), 
+            then \( f \) is continuous since the preimage of any open set in \( Y \) is either \( \emptyset \) or \( X \).
+
+        \item The discrete topology on \( X \) and \( Y \) - every function is continuous. \\
+            e.g., \( \forall f: X \to Y \) , \( \mathcal{T}_X = P(X) \) and \( \mathcal{T}_Y = P(Y) \), 
+            then \( f \) is continuous since the preimage of any open set in \( Y \) must be a subset of \( X \).
+
+        \item The quotient map \( q: X \to X/\sim \) is continuous. \\
+            Let \( (X, \mathcal{T}) \) be a topological space and \( \sim \) be an equivalence relation on \( X \). \\
+            Then the quotient map \( q: X \to X/\sim \) is continuous.
+            \begin{proof}
+                Let \( U \in \mathcal{T}_{X/\sim} \) be an open set in \( X/\sim \). \\
+                Then \( q^{-1}(U) \in \mathcal{T}_X \) is an open set in \( X \) by definition of the quotient topology. 
+                The same argument holds for the other direction.
+            \end{proof}
+    \end{itemize}
+\end{examples*}
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Compactness}
+
+We know that any closed and bounded subset of \( \mathbb{R} \) is compact, for example, the closed interval \( [a, b] \in \mathbb{R} \) is compact.
+
+\begin{definition}{\textbf{Compact set}} \\
+    Let \( (X, \mathcal{T}) \) be a topological space, and \( A \subseteq X \). \\
+    \( A \) is called compact if for every open cover \( \{ U_i \}_{i \in I} \) of \( A \), there exists a finite subcover of \( A \).
+    \begin{equation*}
+        A \subseteq \bigcup_{i \in I} U_i \quad \Rightarrow \quad A \subseteq \bigcup_{i \in I_0} U_i \quad \text{for some finite} \quad I_0 \subseteq I
+    \end{equation*}
+    
+\end{definition}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{Figs/compact_set.png}
+    \caption{Compact set - every open cover has a finite subcover}
+\end{figure}
+
+We are already familiar with the Heine-Borel theorem for compact sets in \( \mathbb{R}^n \) with the standard topology.
+\begin {theorem}{\textbf{Heine-Borel Theorem}} \\
+    A subset \( A \subseteq \mathbb{R}^n \) is compact \( \Leftrightarrow A \) is closed and bounded.
+\end{theorem}
+
+We don't have this theorem for general topological spaces, simply because the term "bounded" is not defined in a general topological spaces.
+If we had a metric we could define boundedness in terms of the metric, but even then the Heine-Borel theorem would not hold in general.
+
+\begin{theorem}{\textbf{Compactness in hausdorff spaces}} \\
+    Let \( (X, \mathcal{T}) \) be a hausdorff space and \( A \subseteq X \). \\ 
+    If \( A \) is compact, then \( A \) is closed.
+\end{theorem}
+
+\begin{proof}
+    Let \( A \) be a compact set in a hausdorff space \( X \). \\
+    We want to show that \( A \) is closed. \\
+    Let \( b \in X \setminus A \). 
+    For every \( a \in A \), since \( X \) is hausdorff, there exist open sets \( U_a \) and \( V_a \) such that \( a \in U_a \), \( b \in V_a \), and \( U_a \cap V_a = \emptyset \). \\
+    Then \( \{ U_a \}_{a \in A} \) is an open cover of \( A \). \\
+    Since \( A \) is compact, there exists a finite subcover \( \{ U_{a_1}, U_{a_2}, \ldots, U_{a_n} \} \) of \( A \). \\
+    Let \( V = \bigcap_{i=1}^n V_{a_i} \). \\
+    Then \( V \) is an open set containing \( b \) and \( V \cap A = \emptyset \), which implies that \( b \) is an interior point of \( X \setminus A \). 
+    Therefore, \( A \) is closed.
+\end{proof}
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+\section{Locally Euclidean Spaces}
+
+\begin{definition}{\textbf{n-dimensional (topological) Manifold}} \\
+    A topological space \( (M , \mathcal{T}) \) is called a manifold of dimension \( n \) if it satisfies the following conditions:
+    \begin{enumerate}
+        \item \( (M , \mathcal{T}) \) is hausdorff space.
+        \item \( (M , \mathcal{T}) \) is second countable.
+        \item \( (M, \mathcal{T}) \) is locally euclidean of dimension \( n \).
+    \end{enumerate}
+\end{definition}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Figs/locally_euclidean_topological_space.png}
+    \caption{Locally Euclidean Topological Space}
+\end{figure}
+
+\begin{definition}{\textbf{Locally Euclidean Space}} \\
+    A topological space \( (M, \mathcal{T}) \) is locally euclidean of dimension \( n \) if \\ 
+    \(\forall x \in M \), there exists an open neighborhood \( U \in \mathcal{T} \) and a homeomorphism \( h: U \to V \) where \( V \) is an open subset of \( \mathbb{R}^n \). \\
+    Such an homeomorphism \( h: U \to V \) is called a \textbf{chart} of \( (M , \mathcal{T}) \) at \( x \).
+\end{definition}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Figs/chart_of_manifold.png}
+    \caption{Charts and Atlases of a Manifold}
+\end{figure}
+
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Examples of Manifolds}
+
+\begin{definition}{\textbf{Atlas}} \\
+    An atlas of a manifold \( M \) is a collection of charts that cover \( M \). \\
+    Formally, an atlas \( \mathcal{A} \) of a manifold \( M \) is a collection of charts \( \{ (U_i, h_i) \}_{i \in I} \) such that 
+    \begin{equation*}
+        M = \bigcup_{i \in I} U_i \quad \text{and} \quad \forall i, j \in I, \quad U_i \cap U_j \neq \emptyset \Rightarrow h_i \circ h_j^{-1} \quad \text{is a homeomorphism}
+    \end{equation*}
+\end{definition}
+
+\begin{examples*} of Manifolds
+    \begin{itemize}
+        \item \( M , \mathcal{T} \) a discrete topological space with countably many points. \\
+            Every point in \( M \) is a manifold of dimension 0.
+
+        \item \( M \subseteq \mathbb{R}^n \) with the standard topology, \( M , \mathcal{T} \) is a manifold of dimension \( n \). \\
+            h is the identity map and M is locally euclidean of dimension n (in fact, it is globally euclidean).
+
+        \item \( S^2 = \{ x \in \mathbb{R}^3 : \| x \|_2 = 1 \} \) is a manifold of dimension 2. \\
+            The atlas of \( S^2 \) consists of two charts: the upper hemisphere and the lower hemisphere. \\
+            The upper hemisphere is the set \( U_{3, -} = \{ x \in S^2 : x_3 > 0 \} \) and the lower hemisphere is the set \( U_{3, -}^{'}= \{ x \in S^2 : x_3 < 0 \} \). \\
+            The homeomorphism \( h_{3, -}: U_{3, -} \to \mathbb{R}^2 \) is defined as \( h_{3, -}(x_1, x_2, x_3) = (x_1, x_2) \). \\
+            The inverse homeomorphism \( h_{3, -}^{-1}: \mathbb{R}^2 \to U_1 \) is defined as \( h_{3, -}^{-1}(x_1, x_2) = (x_1, x_2, \sqrt{1 - x_1^2 - x_2^2}) \). \\
+            The same argument holds for the lower hemisphere. \\
+            So \( (U_{i, \pm }, h_{i, \pm})_{i \in \{1,2,3\}} \) is an atlas of \( S^2 \).
+    \end{itemize}
+    
+\end{examples*}
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Projective Space is a Manifold}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Smooth structures}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Examples of smooth manifolds}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Submanifolds}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Regular value theorem in \( \mathbb{R}^n \)}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Smooth maps}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Examples of smooth maps}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Regular value theorem (abstract version)}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Tangent space for submanifolds}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Tangent curves}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Tangent space (definition via tangent curves)}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Coordinate bases}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Differential (definition)}
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Differential in Local charts}
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Differential (example)}
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Ricci calculus}
+
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Alternating k-forms}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Wedge Product}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Differential forms}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Examples of differential forms}
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Orientable manifolds}
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Alternative definitions for orientation}
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Riemannian metrics}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Examples for Riemannian Manifolds}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Canonical Volume Form}
+
+
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
 
 
 \chapter{The First Miracle: Robustness}
