@@ -300,11 +300,11 @@ Let $f: \mathbb{R}^n \rightarrow \mathbb{R}$ be a function that is $C^2$ at $x_0
 \section{Algebraic Structures and Their Properties}
 
 \subsection{Properties}
-\begin{definition}{Closure } \\
+\begin{definition}{Closure (sgirot) } \\
 An operation \(*\) on a set \(G\) is said to have the property of closure if for every \(a, b \in G\), the result \(a * b\) is also in \(G\).
 \end{definition}
 
-\begin{definition}{Commutativity} \\
+\begin{definition}{Commutativity (hilofiot)} \\
 An operation \(*\) on a set \(G\) is commutative if for every \(a, b \in G\), we have \(a * b = b * a\).
 \end{definition}
 
@@ -312,18 +312,28 @@ An operation \(*\) on a set \(G\) is commutative if for every \(a, b \in G\), we
 An operation \(*\) on a set \(G\) is associative if for every \(a, b, c \in G\), we have \((a * b) * c = a * (b * c)\).
 \end{definition}
 
-\begin{definition}{Identity} \\
+\begin{definition}{Distributivity} \\
+An operation \(*\) on a set \(G\) is distributive if for every \(a, b, c \in G\), we have \(a * (b + c) = a * b + a * c\).
+\end{definition}
+
+\begin{definition}{Identity (zehot)} \\
 An operation \(*\) on a set \(G\) has an identity element if there exists an element \(e \in G\) such that for every \(a \in G\), \(a * e = e * a = a\).
 \end{definition}
 
-\begin{definition}{Inverse} \\
+\begin{definition}{Inverse (ofchiot)} \\
 An operation \(*\) on a set \(G\) has inverses if for every \(a \in G\), there exists an element \(b \in G\) such that \(a * b = b * a = e\), where \(e\) is the identity element.
 \end{definition}
 
 \subsection{Structures}
 \subsubsection{Group}
-\begin{definition}{Group} \\
-A group is a set \(G\) along with an operation \(*\) such that the following properties hold: closure, commutativity, associativity, identity, and inverse.
+\begin{definition}{\textbf{Group} (havura)} \\
+A group is a set \(G\) along with an operation \(*\) such that $\forall a, b, c \in G$ the following properties hold:
+\begin {enumerate}
+    \item \(a * b \in G\) (closure)
+    \item \((a * b) * c = a * (b * c)\) (associativity)
+    \item There exists an element \(e \in G\) such that \(a * e = e * a = a\) (identity)
+    \item For each \(a \in G\) there exists \(b \in G\) such that \(a * b = b * a = e\) (inverse)
+\end{enumerate}
 \end{definition}
 
 \begin{example*}
@@ -335,9 +345,34 @@ Examples of groups:
 \end{enumerate}
 \end{example*}
 
+\begin{definition}{\textbf{Abelian Group}} \\
+    An abelian group is a group \( (G, *) \) in which the binary operation \( * \) is commutative, 
+    meaning that for all \(a, b \in G\), \(a * b = b * a\).
+\end{definition}
+
 \subsubsection{Ring}
-\begin{definition}{Ring} \\
-A ring is a set \(R\) along with two operations (\(+\), \(\times\)) such that the following properties hold: closure, commutativity for \(+\), associativity for both, distributivity, identity for \(+\), and inverse for \(+\).
+
+\begin{definition}{\textbf{Ring} (hug)} \\
+    A ring is a set \(R\) equipped with two binary operations \(+\) (addition) and \(\times\) (multiplication) satisfying the following three sets of axioms:
+    \begin{enumerate}
+        \item \(R\) is an \textbf{abelian group} under addition, meaning that:
+        \begin{itemize}
+            \item \((a + b) + c = a + (b + c)\) for all \(a, b, c \in R\) (associativity).
+            \item \(a + b = b + a\) for all \(a, b \in R\) (commutativity).
+            \item There is an element \(0 \in R\) such that \(a + 0 = a\) for all \(a \in R\) (additive identity).
+            \item For each \(a \in R\) there exists \(-a \in R\) such that \(a + (-a) = 0\) (additive inverse).
+        \end{itemize}
+        \item \(R\) is a \textbf{monoid} under multiplication, meaning that:
+        \begin{itemize}
+            \item \((a \times b) \times c = a \times (b \times c)\) for all \(a, b, c \in R\) (associativity).
+            \item There is an element \(1 \in R\) such that \(a \times 1 = a\) and \(1 \times a = a\) for all \(a \in R\) (multiplicative identity).
+        \end{itemize}
+        \item Multiplication is distributive with respect to addition, meaning that:
+        \begin{itemize}
+            \item \(a \times (b + c) = (a \times b) + (a \times c)\) for all \(a, b, c \in R\) (left distributivity).
+            \item \((b + c) \times a = (b \times a) + (c \times a)\) for all \(a, b, c \in R\) (right distributivity).
+        \end{itemize}
+    \end{enumerate}
 \end{definition}
 
 \begin{example*}
@@ -350,8 +385,17 @@ Examples of rings:
 \end{example*}
 
 \subsubsection{Field}
-\begin{definition}{Field} \\
-A field is a set \(F\) along with two operations (\(+\), \(\times\)) such that the following properties hold: closure, commutativity, associativity, distributivity, identity for both, inverse for both, and no divisors of zero.
+\begin{definition}{\textbf{Field} (sadeh)} \\
+    A field is a set \(F\) with two operations, addition \(+\) and multiplication \(\times\), such that:
+    \begin{enumerate}
+        \item \( (F, +) \) is an \textbf{abelian group} with the identity element \(0\) (additive identity).
+        \item \( (F \setminus \{0\}, \times) \) is an \textbf{abelian group} with the identity element \(1\) (multiplicative identity).
+        \item Multiplication is distributive with respect to addition, meaning that:
+        \begin{itemize}
+            \item \(a \times (b + c) = (a \times b) + (a \times c)\) for all \(a, b, c \in R\) (left distributivity).
+            \item \((b + c) \times a = (b \times a) + (c \times a)\) for all \(a, b, c \in R\) (right distributivity).
+        \end{itemize}
+    \end{enumerate}
 \end{definition}
 
 \begin{example*}
@@ -364,9 +408,40 @@ Examples of fields:
 \end{enumerate}
 \end{example*}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{Figs/algebric_structures.png}
+    \caption{Algebraic Structures}
+\end{figure}
+
 \subsubsection{Vector Space}
-\begin{definition}{Vector Space} \\
-A vector space is a set \(V\) along with an operation \(+\) on \(V\) and a scalar multiplication \(\cdot\) on \(V\) such that the following properties hold: closure, commutativity for \(+\), associativity for both \(+\) and scalar multiplication, distributivity, identity for both, and inverse for \(+\).
+
+A major difference between a field and a vector space is that the operations on a field \( \mathbb{F} \) are
+\begin{itemize}
+    \item \( +: \mathbb{F} \times \mathbb{F} \to \mathbb{F} \)
+    \item \( \times: \mathbb{F} \times \mathbb{F} \to \mathbb{F} \)
+\end{itemize}
+
+but the operations on a vector space \( \mathbb{V} \) over a field \( \mathbb{F} \) are
+\begin{itemize}
+    \item \( +: \mathbb{V} \times \mathbb{V} \to \mathbb{V} \)
+    \item \( \cdot: \mathbb{F} \times \mathbb{V} \to \mathbb{V} \)
+\end{itemize}
+
+\bigbreak
+
+\begin{definition}{\textbf{Vector Space}} \\
+    A vector space over a field \( F \) is a non-empty set \( V \) together with two operations: vector addition \( + \) and scalar multiplication \( \cdot \), satisfying the following axioms for every \( u, v, w \in V \) and \( a, b \in F \):
+    \begin{enumerate}
+        \item Associativity of vector addition: \( u + (v + w) = (u + v) + w \)
+        \item Commutativity of vector addition: \( u + v = v + u \)
+        \item Identity element of vector addition: There exists an element \( 0 \in V \), called the \textbf{zero vector}, such that \( v + 0 = v \) for all \( v \in V \).
+        \item Inverse elements of vector addition: For every \( v \in V \), there exists an element \( -v \in V \), called the \textbf{additive inverse} of \( v \), such that \( v + (-v) = 0 \).
+        \item Compatibility of scalar multiplication with field multiplication: \( a(bv) = (ab)v \)
+        \item Identity element of scalar multiplication: \( 1v = v \), where \( 1 \) denotes the multiplicative identity in \( F \).
+        \item Distributivity of scalar multiplication with respect to vector addition: \( a(u + v) = au + av \)
+        \item Distributivity of scalar multiplication with respect to field addition: \( (a + b)v = av + bv \)
+    \end{enumerate}
 \end{definition}
 
 \begin{example*}
@@ -379,16 +454,70 @@ Examples of vector spaces:
 \end{enumerate}
 \end{example*}
 
-\subsection{Hilbert Spaces}
-
-\begin{definition}{Inner Product} \\
-An inner product on a vector space $V$ is a function $\langle \cdot, \cdot \rangle: V \times V \rightarrow \mathbb{R}$ that satisfies:
-\begin{itemize}
-    \item $\langle x, y \rangle = \langle y, x \rangle$ for all $x, y \in V$.
-    \item $\langle x, x \rangle \geq 0$ for all $x \in V$ and $\langle x, x \rangle = 0$ if and only if $x = 0$.
-    \item $\langle x, \alpha y + \beta z \rangle = \alpha \langle x, y \rangle + \beta \langle x, z \rangle$ for all $x, y, z \in V$ and $\alpha, \beta \in \mathbb{R}$.
-\end{itemize}
+\begin{definition}{\textbf{Complex conjugate}} \\
+    The complex conjugate of a complex number \( z = a + bi \) is the number \( \overline{z} = a - bi \).
 \end{definition}
+
+\begin{definition}{\textbf{Inner Product Space}} \\
+    An inner product space is a vector space \( V \) over a field \( F \) equipped with an inner product, which is a function that associates each pair of vectors \( u, v \) in \( V \) with a scalar in \( F \), denoted \( \langle u, v \rangle \), and satisfies the following properties for all \( u, v, w \in V \) and \( a \in F \):
+    \begin{enumerate}
+        \item Linearity in the first argument: \( \langle au + v, w \rangle = a \langle u, w \rangle + \langle v, w \rangle \)
+        \item Conjugate symmetry: \( \langle u, v \rangle = \overline{\langle v, u \rangle} \)
+        \item Positive-definiteness: \( \langle u, u \rangle \geq 0 \) and \( \langle u, u \rangle = 0 \) if and only if \( u = 0 \)
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}{\textbf{Hermetian adjoint}} \\
+    Let \( V \) be an inner product space over a field \( F \). 
+    The Hermetian adjoint of a linear operator \( T: V \to V \) is the unique linear operator \( T^*: V \to V \) such that for all \( u, v \in V \), we have \( \langle Tu, v \rangle = \langle u, T^*v \rangle \).
+    
+\end{definition}
+
+\begin{definition}{\textbf{Metric Space}} \\
+    A metric space is a set \( X \) equipped with a metric, which is a function that defines a distance between each pair of elements in \( X \), satisfying the following properties for all \( x, y, z \in X \):
+    \begin{enumerate}
+        \item Non-negativity: \( d(x, y) \geq 0 \) and \( d(x, y) = 0 \) if and only if \( x = y \)
+        \item Symmetry: \( d(x, y) = d(y, x) \)
+        \item Triangle inequality: \( d(x, y) + d(y, z) \geq d(x, z) \)
+    \end{enumerate}
+    
+\end{definition}
+
+\( \textbf{Inner Producy Space vs Metric Space} \)
+\begin{itemize}
+    \item An inner product space is a vector space equipped with an inner product, which is a function that associates each pair of vectors with a scalar.
+    \item A metric space is a set equipped with a metric, which is a function that defines a distance between each pair of elements in the set.
+    \item Every inner product space is a metric space, but not every metric space is an inner product space.
+        \begin{example*}
+            Each inner product space must satisfy the Parallelogram Law, which states that for all \( u, v \) in the space, \( 2\|u\|^2 + 2\|v\|^2 = \|u + v\|^2 + \|u - v\|^2 \).
+            A clasic example of a metric space that is not an inner product space is the space of continuous functions on the interval \([0, 1]\) with the metric \( d(f, g) = \max_{x \in [0, 1]} |f(x) - g(x)| \).
+        \end{example*}
+\end{itemize}
+
+\begin{definition}{\textbf{Cauchy Sequence}} \\
+    In a metric space \( (X, d) \), a sequence \( \{x_1, x_2, x_3, \ldots\} \) is said to be \emph{Cauchy} if, for every positive real number \( \varepsilon > 0 \), there exists a positive integer \( N \) such that for all positive integers \( m, n > N \), the distance
+    \[ d(x_m, x_n) < \varepsilon. \]
+\end{definition}
+
+\begin{figure}[H]
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \includegraphics[width=0.45\textwidth]{Figs/Cauchy_sequence_illustration.png}
+        \caption{The plot of a Cauchy sequence \( (x_n) \) shown in blue, as \( x_n \) versus \( n \). If the space is complete, then the sequence has a limit.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.5\textwidth]{Figs/Cauchy_sequence_illustration2.png}
+        \caption{A sequence that is not Cauchy. The elements of the sequence do not get arbitrarily close to each other as the sequence progresses.}
+    \end{subfigure}
+    \caption{Cauchy Sequence}
+\end{figure}
+
+\begin{definition}{\textbf{Complete Metric Space}} \\
+    A metric space is complete if every Cauchy sequence in the space converges to a limit in the space.
+\end{definition}
+
 
 
 \bigbreak
