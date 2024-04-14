@@ -754,13 +754,92 @@ Note that there can be multiple limits of a sequence in a topological space, and
     A topological space \( (X, \mathcal{T}) \) is a Hausdorff space if for every pair of distinct points \( x, y \in X \), there exist open sets \( U \) and \( V \) such that \( x \in U \), \( y \in V \), and \( U \cap V = \emptyset \).
 \end{definition}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{Figs/hausdorff_space.png}
+    \caption{Hausdorff space}
+\end{figure}
+
 In a Hausdorff space, every pair of distinct points can be separated by disjoint open sets.
 
 \section{Quotient space}
 
+\begin{definition}{\textbf{Projective space}} \\
+    The projective space \( \mathbf{P}^n (\mathbb{R}) \) is the set of all lines passing through the origin in \( \mathbb{R}^{n+1} \).
+    It can be thought of as the space of all one-dimensional subspaces of \( \mathbb{R}^{n+1} \).
+\end{definition}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{Figs/projective_space_2d.png}
+    \caption{Projective space in 2D}
+\end{figure}
 
+The directions define a set, and we want to create a topological space for this set.
 
+\begin{definition}{\textbf{Equivalence relation}} \\
+    An equivalence relation on a set \( X \) is a relation \( \sim \) that satisfies the following properties for all \( x, y, z \in X \):
+    \begin{enumerate}
+        \item Reflexivity: \( x \sim x \)
+        \item Symmetry: \( x \sim y \) implies \( y \sim x \)
+        \item Transitivity: \( x \sim y \) and \( y \sim z \) implies \( x \sim z \)
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}{\textbf{Equivalence class}} \\
+    Let \( X \) be a set and \( \sim \) be an equivalence relation on \( X \). \\
+    The equivalence class of \( x \) with respect to \( \sim \) is
+    \begin{equation*}
+        [x]_\sim = \{ y \in X : y \sim x \}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}{\textbf{Quotient set}} \\
+    Let \( X \) be a set and \( \sim \) be an equivalence relation on \( X \). \\
+    The quotient set \( X / \sim \) is defined as 
+    \begin{equation*}
+        X/\sim \quad = \{ [x]_\sim : x \in X \}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}{\textbf{Quotient map (Canonical projection)}} \\
+    Let \( X \) be a set and \( \sim \) be an equivalence relation on \( X \). \\
+    The canonical projection is a function:
+    \begin{equation*}
+        q: X \to X/\sim \quad \text{such that} \quad q(x) = [x]_\sim
+    \end{equation*}
+\end{definition}
+
+\begin{definition}{\textbf{Quotient Topology}} \\
+    Let \( X , \mathcal{T} \) be a topological space, \( \sim \) be an equivalence relation on \( X \) and \( q: X \to X/\sim \) be the canonical projection. \\
+    The quotient topology \( \hat{\mathcal{T}} \) on \( X/\sim \) is defined as
+    \begin{equation*}
+        \hat{\mathcal{T}} = \{ U \subseteq X/\sim \quad : q^{-1}(U) \in \mathcal{T} \}
+    \end{equation*}
+\end{definition}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figs/quotient_topology.png}
+    \caption{Quotient Topology}
+\end{figure}
+
+\begin{example*} A classic example of a quotient space is the \textbf{mobius strip}, which is constructed by taking a rectangular strip of paper, 
+    giving one end a half-twist, and then gluing the two ends together. The mobius strip is a non-orientable surface, 
+    meaning that it does not have a consistent notion of "left" and "right" across the entire surface. 
+    The mobius strip is a quotient space of a square, where the opposite edges of the square are identified in a specific way.
+    Formally, 
+    \begin{align*}
+        X = [0, 1] \times (-1, 1) \quad \text{and} \quad &\sim \text{ is the equivalence relation that identifies the points} \\
+        (0, y) &\sim (1, -y) \quad \text{for all} \quad y \in (-1, 1).
+    \end{align*}
+\end{example*}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figs/mobius_strip.png}
+    \caption{Mobius Strip}
+\end{figure}
 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
