@@ -599,6 +599,16 @@ A Hilbert space generalizes the notion of Euclidean space to an infinite-dimensi
 In a Hilbert space, one can still use concepts like angle, orthogonality, and projection, which are crucial in many areas of mathematics and physics. 
 Completeness is a key feature of Hilbert spaces, meaning that every Cauchy sequence in the space converges to a limit within the space. 
     
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+
 \section{Topological Space}
 
 \begin{definition}{\textbf{Topology}} \\
@@ -632,6 +642,15 @@ Examples of topological spaces:
 \begin{definition}{\textbf{Open Set (topological space)}} \\
     A subset \( U \) of a topological space \( (X, \mathcal{T}) \) is open if \( U \in \mathcal{T} \).
 \end{definition}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
 
 \section{Interior, exterior, boundary, and accumulation points}
 
@@ -725,6 +744,13 @@ The boundary of a set \( S \) consists of all points that are either in the inte
     
 \end{example*}
 
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
 
 \section{Hausdorff space}
 
@@ -762,6 +788,15 @@ Note that there can be multiple limits of a sequence in a topological space, and
 
 In a Hausdorff space, every pair of distinct points can be separated by disjoint open sets.
 
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+
 \section{Quotient space}
 
 \begin{definition}{\textbf{Projective space}} \\
@@ -772,7 +807,7 @@ In a Hausdorff space, every pair of distinct points can be separated by disjoint
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.3\textwidth]{Figs/projective_space_2d.png}
-    \caption{Projective space in 2D}
+    \caption{The projective space \( \mathbf{P}^1 \) - all the lines passing through the origin in \( \mathbb{R}^2 \) }
 \end{figure}
 
 The directions define a set, and we want to create a topological space for this set.
@@ -840,6 +875,100 @@ The directions define a set, and we want to create a topological space for this 
     \includegraphics[width=0.8\textwidth]{Figs/mobius_strip.png}
     \caption{Mobius Strip}
 \end{figure}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+\section{Projective Space}
+
+So far we have seen the transition from topological space to quotient space:
+\begin{equation*}
+    (X, \mathcal{T}) \to (X/\sim, \hat{\mathcal{T}})
+\end{equation*}
+
+Recall that the projective space \( \mathbf{P}^n (\mathbb{R}) \) is the set of all lines passing through the origin in \( \mathbb{R}^{n+1} \).
+
+\begin{definition}{\textbf{Sphere}} \\
+    The sphere \( S^n \) is the set of all points in \( \mathbb{R}^{n+1} \) that are at a fixed distance of 1 from the origin.
+    \begin{equation*}
+        S^n = \{ x \in \mathbb{R}^{n+1} : \|x\|_2 = 1 \}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}{\textbf{The Projective Space as quotient space}} \\
+    The projective space \( \mathbf{P}^n (\mathbb{R}) \) can be constructed as a quotient space of the sphere \( S^n \) by identifying antipodal points.
+    \begin{equation*}
+        \mathbf{P}^n (\mathbb{R}) = S^n / \sim
+    \end{equation*}
+    where the equivalence relation \( \sim \) is defined as
+    \begin{equation*}
+        x \sim y \quad \text{if} \quad x = y \quad \text{or} \quad x = -y
+    \end{equation*}
+\end{definition}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{Figs/projective_space.png}
+    \caption{Projective Space as a quotient space}
+\end{figure}
+
+The sphere \( S^n \) is a hausdorff space, and the projective space \( \mathbf{P}^n (\mathbb{R}) \) is also a hausdorff space.
+But in general, the quotient space of a hausdorff space is not necessarily a hausdorff space.
+Take \( [x]_\sim, [y]_\sim \in \mathbf{P}^n (\mathbb{R}) \) such that \( [x]_\sim \neq [y]_\sim \Rightarrow x \neq y \) and \( x \neq -y \) .
+
+\begin{figure}[H]
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figs/projective_space_is_hausdorff.png}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figs/projective_space_is_hausdorff2.png}
+    \end{subfigure}
+    \caption{Projective Space as a hausdorff space}
+\end{figure}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
