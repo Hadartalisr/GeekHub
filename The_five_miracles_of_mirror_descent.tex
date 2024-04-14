@@ -21,8 +21,6 @@
 
 
 
-\setcounter{chapter}{-1}
-
 \setlength{\parindent}{0pt}
 
 
@@ -64,7 +62,14 @@
      hadar.tal@mail.huji.ac.il\\[14pt]
       % ----------------------------------------------------------------
      \vspace{2cm}
-     {This paper is a summary of the educational materials and lectures from Professor Sebastian Bubeck, enhanced by Claire Boyer's comprehensive notes, and structured according to Tomer Koren's course on Optimization for Computer Science.} \\[2cm]
+     {This paper is a summary of the educational materials and lectures from 
+     \begin{itemize}
+        \item \textbf{The Five Miracles of Mirror Descent} by Professor Sebastien Bubeck (Claire Boyer's notes)
+        \item \textbf{Optimization for Computer Science} by Professor Tomer Koren
+        \item \textbf{Manifolds 1} by "The Bright Side of Mathematics" youtube channel
+        \item \textbf{Wikipedia}
+     \end{itemize}
+     }
 
      \vfill
     {Winter 2024}
@@ -96,13 +101,8 @@
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 
 \mainmatter
-\chapter{Mathematical Background}
+\chapter{Multivariable Calculus}
 
-% שלום
-
-
-
-\section{Multivariable Calculus}
 \begin{definition}{Diffrentiability, single variable} \\
 Let $f: (a,b) \rightarrow \mathbb{R}$ be a function. We say that $f$ is differentiable at $x_0 \in (a,b)$ if
 \begin{equation}
@@ -296,8 +296,27 @@ Let $f: \mathbb{R}^n \rightarrow \mathbb{R}$ be a function that is $C^2$ at $x_0
 \end{equation}
 \end{definition}
 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
 
-\section{Algebraic Structures and Their Properties}
+\chapter{Algebraic Structures}
 
 \subsection{Properties}
 \begin{definition}{Closure (sgirot) } \\
@@ -414,6 +433,8 @@ Examples of fields:
     \caption{Algebraic Structures}
 \end{figure}
 
+\subsection{Spaces}
+
 \subsubsection{Vector Space}
 
 A major difference between a field and a vector space is that the operations on a field \( \mathbb{F} \) are
@@ -458,6 +479,8 @@ Examples of vector spaces:
     The complex conjugate of a complex number \( z = a + bi \) is the number \( \overline{z} = a - bi \).
 \end{definition}
 
+\subsubsection{Inner Product Space}
+
 \begin{definition}{\textbf{Inner Product Space}} \\
     An inner product space is a vector space \( V \) over a field \( F \) equipped with an inner product, which is a function that associates each pair of vectors \( u, v \) in \( V \) with a scalar in \( F \), denoted \( \langle u, v \rangle \), and satisfies the following properties for all \( u, v, w \in V \) and \( a \in F \):
     \begin{enumerate}
@@ -470,8 +493,15 @@ Examples of vector spaces:
 \begin{definition}{\textbf{Hermetian adjoint}} \\
     Let \( V \) be an inner product space over a field \( F \). 
     The Hermetian adjoint of a linear operator \( T: V \to V \) is the unique linear operator \( T^*: V \to V \) such that for all \( u, v \in V \), we have \( \langle Tu, v \rangle = \langle u, T^*v \rangle \).
-    
 \end{definition}
+
+A classic exmaple of an inner product space is the \textbf{Euclidean space} \( \mathbb{E}^n \), which is a vector space equipped with 
+the inner product \( \langle u, v \rangle = u^T v \).
+The geometry of Euclidean space follows the familiar rules of Euclidean geometry, which include notions such as angles, lengths, and the Pythagorean theorem.
+It is always complete, meaning that every Cauchy sequence in Euclidean space converges to a point within the space.
+Euclidean space can be thought of as the "standard" \( n \)-dimensional space that conforms to our intuitive geometric concepts.
+
+\subsubsection{Metric and complete metric spaces}
 
 \begin{definition}{\textbf{Metric Space}} \\
     A metric space is a set \( X \) equipped with a metric, which is a function that defines a distance between each pair of elements in \( X \), satisfying the following properties for all \( x, y, z \in X \):
@@ -518,17 +548,74 @@ Examples of vector spaces:
     A metric space is complete if every Cauchy sequence in the space converges to a limit in the space.
 \end{definition}
 
+\subsubsection{Hilbert Space}
+
+\begin{definition}{\textbf{Hilbert Space}} \\
+    A \emph{Hilbert space} is a complete inner product space. That is, it is an inner product space \( \mathcal{H} \) that 
+    is also a complete metric space with respect to the metric induced by its inner product. 
+    The metric is given by \( d(x,y) = \sqrt{\langle x-y, x-y \rangle} \) for all \( x, y \in \mathcal{H} \).
+\end{definition}
+    
+A Hilbert space generalizes the notion of Euclidean space to an infinite-dimensional context. 
+In a Hilbert space, one can still use concepts like angle, orthogonality, and projection, which are crucial in many areas of mathematics and physics. 
+Completeness is a key feature of Hilbert spaces, meaning that every Cauchy sequence in the space converges to a limit within the space. 
+    
+
+\subsection{Topological Spaces}
+
+\begin{definition}{\textbf{Topological Space}} \\
+A topological space is a set \( X \) equipped with a collection of open sets \( \mathcal{T} \) that satisfy the following properties:
+\begin{enumerate}
+    \item The empty set and the entire space are open: \( \emptyset, X \in \mathcal{T} \).
+    \item The intersection of any finite number of open sets is open.
+    \item The union of any number of open sets is open.
+\end{enumerate}
+\end{definition}
+
+\begin{example*}
+Examples of topological spaces:
+\begin{enumerate}
+    \item \( X = {1, 2, 3} \) with the topology \( T = \{\varnothing , {1}, {1, 2}, {1, 2, 3} \} \).
+    \item Given any set $X$, the discrete topology on $X$ is the power set of $X$ - $\mathcal{T} = P(X)$ and is the largest possible topology on $X$.
+    \item The indiscrete topology on $X$ is $\mathcal{T} = \{\emptyset, X\}$ and is the smallest possible topology on $X$ - 
+    $\forall \mathcal{T}$, $\{\emptyset, X\} \subseteq \mathcal{T} \subseteq P(X)$.
+    \item The real line \( \mathbb{R} \) with the standard topology.
+    \item The set of integers \( \mathbb{Z} \) with the discrete topology.
+    \item The set of real numbers \( \mathbb{R} \) with the lower limit topology.
+\end{enumerate}
+\end{example*}
+
+
+
+
+
 
 
 \bigbreak
 
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+
+\chapter{Convexity and Optimization}
 
 \section{Important subsets of $\mathbb{R}^n$}
 
@@ -646,6 +733,7 @@ The normal cone to a polyhedron $S = \{x \in \mathbb{R}^n : \forall j \in [m] \q
     
 \end{theorem}
 
+
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -654,9 +742,8 @@ The normal cone to a polyhedron $S = \{x \in \mathbb{R}^n : \forall j \in [m] \q
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-\section{Convexity}
 
-\subsection{Definitions and Fundamental Theorems}
+\section{Definitions and Fundamental Theorems}
 
 
 
@@ -683,7 +770,7 @@ The normal cone to a polyhedron $S = \{x \in \mathbb{R}^n : \forall j \in [m] \q
 \begin{claim} (Convexity of sublevel sets): If $f : S \to \mathbb{R}$ is convex, then the sublevel set $S_t = \{ x \in S : f(x) \leq t\}$ is convex for any $t \in \mathbb{R}$.
 \end{claim}
 
-\subsection{Inequalities and Characterizations}
+\section{Inequalities and Characterizations}
 
 \begin{theorem}(Jensen's inequality): If $f$ is a convex function, then for any $x_1, x_2, \ldots, x_n \in S$ and any non-negative weights $\alpha_i$ such that $\sum_{i=1}^n \alpha_i = 1$,
 \[ f\left(\sum_{i=1}^n \alpha_i x_i\right) \leq \sum_{i=1}^n \alpha_i f(x_i). \]
@@ -716,7 +803,7 @@ The Bergman divergence between two points $x, y \in \mathbb{R}^n$ is defined as
 \begin{theorem} (Second-order characterization of convexity): A twice differentiable function $f$ is convex on an open set $S$ if and only if the Hessian matrix of $f$ is positive semidefinite at every point in $S$.
 \end{theorem}
 
-\subsection{Optimization and Projection}
+\section{Optimization and Projection}
 
 \begin{definition} (Convex optimization): The problem of minimizing a convex function over a convex set.
 \end{definition}
