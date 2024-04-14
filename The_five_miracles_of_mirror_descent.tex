@@ -1,5 +1,4 @@
 \documentclass[11pt]{book} % or report
-\usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
@@ -17,7 +16,8 @@
 \usepackage{graphicx}
 \usepackage{mathdesign}
 \usepackage{float}
-\usepackage{todonotes} % Add the necessary package
+\usepackage{todonotes} 
+
 
 
 
@@ -37,11 +37,16 @@
 \newtheorem{definition}{Definition}[section]
 \newtheorem{corollary}{Corollary}[section]
 \newtheorem{claim}{claim}[section]
+\newtheorem{example}{Example}[section]
+
 
 \newtheorem*{claim*}{Claim}
 \newtheorem*{lemma*}{Lemma}
 \newtheorem*{corollary*}{Corollary}
 \newtheorem*{remark*}{Remark}
+\newtheorem*{example*}{Example}
+
+
 \setcounter{tocdepth}{3}
 
 
@@ -92,6 +97,10 @@
 
 \mainmatter
 \chapter{Mathematical Background}
+
+% שלום
+
+
 
 \section{Multivariable Calculus}
 \begin{definition}{Diffrentiability, single variable} \\
@@ -286,6 +295,101 @@ Let $f: \mathbb{R}^n \rightarrow \mathbb{R}$ be a function that is $C^2$ at $x_0
     f(x_0 + h) = f(x_0) + \nabla f(x_0) \cdot h + \frac{1}{2} h^T \nabla^2 f(x_0 + \theta h) h
 \end{equation}
 \end{definition}
+
+
+\section{Algebraic Structures and Their Properties}
+
+\subsection{Properties}
+\begin{definition}{Closure } \\
+An operation \(*\) on a set \(G\) is said to have the property of closure if for every \(a, b \in G\), the result \(a * b\) is also in \(G\).
+\end{definition}
+
+\begin{definition}{Commutativity} \\
+An operation \(*\) on a set \(G\) is commutative if for every \(a, b \in G\), we have \(a * b = b * a\).
+\end{definition}
+
+\begin{definition}{Associativity} \\
+An operation \(*\) on a set \(G\) is associative if for every \(a, b, c \in G\), we have \((a * b) * c = a * (b * c)\).
+\end{definition}
+
+\begin{definition}{Identity} \\
+An operation \(*\) on a set \(G\) has an identity element if there exists an element \(e \in G\) such that for every \(a \in G\), \(a * e = e * a = a\).
+\end{definition}
+
+\begin{definition}{Inverse} \\
+An operation \(*\) on a set \(G\) has inverses if for every \(a \in G\), there exists an element \(b \in G\) such that \(a * b = b * a = e\), where \(e\) is the identity element.
+\end{definition}
+
+\subsection{Structures}
+\subsubsection{Group}
+\begin{definition}{Group} \\
+A group is a set \(G\) along with an operation \(*\) such that the following properties hold: closure, commutativity, associativity, identity, and inverse.
+\end{definition}
+
+\begin{example*}
+Examples of groups:
+\begin{enumerate}
+\item \( (\mathbb{R}, +) \) is a group.
+\item \( (\mathbb{Z}, +) \) is a group.
+\item Non-zero reals, complex, and rational numbers are groups under multiplication.
+\end{enumerate}
+\end{example*}
+
+\subsubsection{Ring}
+\begin{definition}{Ring} \\
+A ring is a set \(R\) along with two operations (\(+\), \(\times\)) such that the following properties hold: closure, commutativity for \(+\), associativity for both, distributivity, identity for \(+\), and inverse for \(+\).
+\end{definition}
+
+\begin{example*}
+Examples of rings:
+\begin{enumerate}
+\item \( (\mathbb{Z}, +, \times) \) is a ring.
+\item \( (\mathbb{R}, +, \times) \) is a ring.
+\item The set of odd integers is not a ring because it is not closed under addition.
+\end{enumerate}
+\end{example*}
+
+\subsubsection{Field}
+\begin{definition}{Field} \\
+A field is a set \(F\) along with two operations (\(+\), \(\times\)) such that the following properties hold: closure, commutativity, associativity, distributivity, identity for both, inverse for both, and no divisors of zero.
+\end{definition}
+
+\begin{example*}
+Examples of fields:
+\begin{enumerate}
+\item \( (\mathbb{R}, +, \times) \) is a field.
+\item \( (\mathbb{Q}, +, \times) \) is a field.
+\item \( (\mathbb{C}, +, \times) \) is a field.
+\item \( (\mathbb{Z}_p, +, \times) \) for a prime \(p\) is a field.
+\end{enumerate}
+\end{example*}
+
+\subsubsection{Vector Space}
+\begin{definition}{Vector Space} \\
+A vector space is a set \(V\) along with an operation \(+\) on \(V\) and a scalar multiplication \(\cdot\) on \(V\) such that the following properties hold: closure, commutativity for \(+\), associativity for both \(+\) and scalar multiplication, distributivity, identity for both, and inverse for \(+\).
+\end{definition}
+
+\begin{example*}
+Examples of vector spaces:
+\begin{enumerate}
+\item \( \mathbb{R}^n \) is a vector space.
+\item The space \( M_{m \times n}(\mathbb{F}) \) of \( m \times n \) matrices over a field \(\mathbb{F}\) is a vector space.
+\item The set of all continuous functions over some interval is a vector space.
+\item The space of all differentiable functions over a certain interval is a vector space.
+\end{enumerate}
+\end{example*}
+
+\subsection{Hilbert Spaces}
+
+\begin{definition}{Inner Product} \\
+An inner product on a vector space $V$ is a function $\langle \cdot, \cdot \rangle: V \times V \rightarrow \mathbb{R}$ that satisfies:
+\begin{itemize}
+    \item $\langle x, y \rangle = \langle y, x \rangle$ for all $x, y \in V$.
+    \item $\langle x, x \rangle \geq 0$ for all $x \in V$ and $\langle x, x \rangle = 0$ if and only if $x = 0$.
+    \item $\langle x, \alpha y + \beta z \rangle = \alpha \langle x, y \rangle + \beta \langle x, z \rangle$ for all $x, y, z \in V$ and $\alpha, \beta \in \mathbb{R}$.
+\end{itemize}
+\end{definition}
+
 
 \bigbreak
 
@@ -821,8 +925,17 @@ we can see that in this case, the rate of convergence DO depend on the dimension
 The fact that the rate of convergence DO NOT depend on the dimension of the problem in GD is one of the reasons why GD is so useful in practice.
 
 
+\subsubsection{Approach 2: Multiplicative Weights Update (MWU)}
+\todo {Approach 2: M} % Use the \todo command
 
 
+\section{Mirror Descent}
+
+Endow K with a Riemannian structure: $<\cdot, \cdot>_x$ for each $x \in K$. 
+Before: 
+\begin{equation}
+    x_{t+1} = x_t - \eta \nabla f(x_t) \rightarrow f(x + dx) \approx f(x) + \nabla f(x) \cdot dx
+\end{equation}
 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
