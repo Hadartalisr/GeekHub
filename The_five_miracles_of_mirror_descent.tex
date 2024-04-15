@@ -248,7 +248,7 @@ If i = j we denote $\frac{\partial^2 f}{\partial x_i^2}$ or $(\partial_i^2 f$
 
 \bigbreak
 
-\begin{definition}{The $C^2$ class} \\
+\begin{definition}\label{def:C^2_class}{The $C^2$ class} \\
 We say that $f$ is of class $C^2$ if all second-order partial derivatives of $f$ exist and are continuous.
 \end{definition}
 
@@ -282,6 +282,28 @@ Let $u \in \mathbb{R}^n$ be a unit vector. then
 \end{corollary*}
 
 \bigbreak
+
+\begin{definition}{The Jacobian matrix} \\
+The Jacobian matrix of $f: \mathbb{R}^n \rightarrow \mathbb{R}^m$ at $x$ is the matrix of partial derivatives of $f$ at $x$:
+\begin{equation}
+    J_f(x) = \begin{bmatrix}
+    \frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2} & \ldots & \frac{\partial f_1}{\partial x_n} \\
+    \frac{\partial f_2}{\partial x_1} & \frac{\partial f_2}{\partial x_2} & \ldots & \frac{\partial f_2}{\partial x_n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    \frac{\partial f_m}{\partial x_1} & \frac{\partial f_m}{\partial x_2} & \ldots & \frac{\partial f_m}{\partial x_n}
+    \end{bmatrix}
+\end{equation}
+\end{definition}
+
+\begin{example*}
+Let $f: \mathbb{R}^2 \rightarrow \mathbb{R}^2$ be a function defined by $f(x,y) = (x^2, y^2)$. Then the Jacobian matrix of $f$ is:
+\begin{equation}
+    J_f(x,y) = \begin{bmatrix}
+    2x & 0 \\
+    0 & 2y
+    \end{bmatrix}
+\end{equation}
+\end{example*}
 
 \section{Taylor series}
 \begin{definition}{Taylor Series} \\
@@ -1532,7 +1554,7 @@ In term of sequences:
     \end{align*}
 \end{theorem}
 
-\begin{definition}{\textbf{Homeomorphism} (NOT homomorphism)} \\ 
+\begin{definition}{\textbf{Homeomorphism} (NOT homomorphism)}\label{def:homeomorphism} \\ 
     A function \( f: X \to Y \) between topological spaces \( (X, \mathcal{T}_X) \) and \( (Y, \mathcal{T}_Y) \) is a homeomorphism if
     \begin{enumerate}
         \item \( f \) is bijective (both injective and surjective - one-to-one and onto).
@@ -1754,6 +1776,7 @@ We can define \( h_i: V_i \to V_i' \) as \( h_i([x]_\sim) = \frac{1}{x_i} (x_1, 
 In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 
 
+
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1762,7 +1785,63 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-\section{Smooth structures}
+\section{Smooth structures (differential structures)}
+
+\begin{definition}{\textbf{Transition map}} \\
+    Let \( (M, \mathcal{T}) \) be a manifold and \( (U, h) \) and \( (V, k) \) be two charts of \( M \). \\
+    The transition map \( \omega : h(U \cap V) \to k(U \cap V) \) is called the transition map between the charts \( (U, h) \) and \( (V, k) \).
+\end{definition}
+
+We have seen in definition~\ref{def:C^2_class} that a function \( f: \mathbb{R}^n \to \mathbb{R} \) is of class \( C^2 \) 
+if all partial derivatives of \( f \) up to order 2 exist and are continuous. We can extend this definition to manifolds.
+
+\begin{definition}{\textbf{$C^k$-Diffeomorphism (Vector Space)}} \\
+    A function \( \omega : \mathbb{R}^n \to \mathbb{R}^n \) $C^k$-diffeomorphism ($ k \in \{0, 1, \cdots\} \cup \{ \infty \} $) if the following conditions hold:
+    \begin{enumerate}
+        \item \( \omega \) is k times continuously differentiable (partial derivatives up to order k exist and are continuous).
+        \item \( \omega \) is bijective (both injective and surjective - one-to-one and onto).
+        \item The inverse function \( \omega^{-1} \in C^k \).
+    \end{enumerate}
+\end{definition}
+
+If $k = \infty$, then \( \omega \) is called a smooth diffeomorphism (or simply a diffeomorphism) - all partial derivatives of \( \omega \) exist and are continuous. \\
+If $k = 0$, then \( \omega \) is called a homeomorphism - \( \omega \) is continuous, bijactive, 
+and the inverse function \( \omega^{-1} \) is continuous (see definition~\ref{def:homeomorphism}). By the composition of charts, the transition map is a always a homeomorphism.
+
+\begin{definition}{\textbf{$C^k$-smoothly compatible charts}} \\
+    Two charts \( (U, h) \) and \( (V, k) \) of a manifold \( M \) are called \( C^k \)-smoothly compatible 
+    if the transition map \( \omega: h(U \cap V) \to k(U \cap V) \) is a \( C^k \)-diffeomorphism.
+\end{definition}
+
+(If $k = \infty$, then the charts are called smoothly compatible.)
+
+What happens if any two charts of a manifold are $C^k$-smoothly compatible?
+
+\begin{definition}{\textbf{$C^k$-atlas}} \\
+    An atlas \( \mathcal{A} = \{ (U_i, h_i) \}_{i \in I} \) of a manifold \( M \) is called a \( C^k \)-atlas 
+    if every pair of charts in \( \mathcal{A} \) are \( C^k \)-smoothly compatible.
+\end{definition}
+
+
+\begin{definition}{\textbf{Maximal $C^k$-atlas ($C^k$-smooth structure)}} \\
+    A maximal \( C^k \)-atlas of a manifold \( M \) is \( \mathcal{A} \) is:
+    \begin{enumerate}
+        \item A is a \( C^k \)-atlas of \( M \).
+        \item For any other \( C^k \)-atlas \( \mathcal{B} \) of \( M \), \( \mathcal{A} \nsubseteq \mathcal{B} \).
+    \end{enumerate}
+\end{definition}
+
+
+\begin{definition}{\textbf{n-dimensional $C^k$-smooth manifold}} \\
+    A manifold \( M \) is called a \( C^k \)-smooth manifold if: 
+    \begin{enumerate}
+        \item \( M \) is n-dimensional topological manifold.
+        \item There exists a maximal \( C^k \)-atlas of \( M \).
+    \end{enumerate}
+\end{definition}
+
+
+
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1774,6 +1853,33 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 
 \section{Examples of smooth manifolds}
 
+\begin{example*}{\textbf{The n-dimensional Euclidean space \( S^n \subseteq \mathbb{R}^{n+1} \)}} \\
+    We have seen that the sphere \( S^n = \{ x \in \mathbb{R}^{n+1} : \| x \|_2 = 1 \} \), 
+    is an n-dimensional manifold with atlas \( (U_{i, \pm}, h_{i, \pm})_{i \in \{1, \dots ,n+1\}} \) 
+    where \( U_{i, \pm} = \{ x \in \mathbb{R}^{n+1} : \pm x_i > 0 \} \) and \( h_{i, \pm}(x_1, \ldots, x_{n+1}) = (x_1, \ldots, x_{i-1}, x_{i+1}, \ldots, x_{n+1}) \).
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{Figs/sphere_is_C^k_smooth.png}
+        \caption{Sphere \( S^n \) is an n-dimensional $C^{\infty}$ smooth manifold}
+    \end{figure}
+    
+\end{example*}
+
+\begin{example*}{\textbf{$\mathbb{R}^n$ is a $C^{\infty}$ smooth manifold}} \\
+    The Euclidean space \( \mathbb{R}^n \) is a \( C^{\infty} \) smooth manifold with the atlas \( \{ (\mathbb{R}^n, id) \} \).
+    The is the standard smooth structure of \( \mathbb{R}^n \).
+\end{example*}
+
+\begin{example*}{\textbf{Consider $f \in C^1$}} \\
+    Let \( f: \mathbb{R} \to \mathbb{R} \) be a function of class \( C^1 \). \\
+    Let $ G_f = \{ (x, f(x)) \in \mathbb{R}^2 : x \in \mathbb{R} \} $ be the graph of \( f \). \\
+    Then \( G_f \) is a \( C^1 \) smooth manifold with one chart: \( h : G_f \to \mathbb{R} \) defined as \( h(x, f(x)) = x \).
+\end{example*}
+
+In fact any graph of a function of class \( C^k \) is a \( C^k \) smooth manifold.
+We can also observe that $G_f$ is a 1-dimensional $C^1$-smooth manifold that is embedded in another smooth manifold, \( \mathbb{R}^2 \).
+
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1783,6 +1889,16 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
 \section{Submanifolds}
+
+\begin{definition}{\textbf{Submanifold}} \\
+    Let \( M \) be a an n-dimensional smooth manifold. 
+    \( M_0 \subseteq M \) is called a k-dimensional submanifold of \( M \) if for every \( p \in M_0 \), there exists a chart \( (U, h) \) of \( M \) 
+    such that \( h(U \cap M_0) = h(U) \cap (\mathbb{R}^k \times \{ 0 \}^{n-k}) \).
+    \(U, h\) is called a \textbf{submanifold chart} for \( M_0 \).
+\end{definition}
+
+Note: \( M_0 \) is also a manifold: 
+\( (U, h) submanifold chart \to (\hat{U}, \hat{h}) \) chart, \( \hat{U} = U \cap M_0 \), \( \hat{h} = h|_{\hat{U}} \).
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1794,6 +1910,21 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 
 \section{Regular value theorem in \( \mathbb{R}^n \)}
 
+\begin{definition}{\textbf{Critical point}} \\
+    Let \( f: U \to \mathbb{R}^m \), \( U \subseteq \mathbb{R}^n \) open, \( C^1 \)-function. \\
+    A point \( x \in U \) is called a critical point of f if the Jacobian matrix of f at x has rank less than m.
+\end{definition}
+
+\begin{definition}{\textbf{Regular value}} \\
+    Let \( f: U \to \mathbb{R}^m \), \( U \subseteq \mathbb{R}^n \) open, \( C^1 \)-function. \\
+    A point \( y \in f[U] \) is called a regular value of f if for every \( x \in f^{-1}(y) \), x is not a critical point of f.
+\end{definition}
+
+\begin{theorem}{\textbf{Regular value theorem in \( \mathbb{R}^n \)}} \\
+    Let \( f: U \to \mathbb{R}^m \), \( U \subseteq \mathbb{R}^n \) open, \( C^\infty \)-function. \\
+    If c is a regular value of f, then \( f^{-1}[\{c\}] \) is a submanifold of \( \mathbb{R}^n \) of dimension \( n - m \).
+\end{theorem}
+
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1804,15 +1935,10 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 
 \section{Smooth maps}
 
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-
-\section{Examples of smooth maps}
+\begin{definition}{\textbf{Smooth map}} \\
+    Let \( f: M \to N \) be a map between two smooth manifolds. \\
+    f is called smooth if for every chart \( (U, h) \) of M and every chart \( (V, k) \) of N, the map \( k \circ f \circ h^{-1} \) is smooth.
+\end{definition}
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1822,7 +1948,7 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-\section{Regular value theorem (abstract version)}
+% \section{Examples of smooth maps}
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1832,7 +1958,7 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-\section{Tangent space for submanifolds}
+% \section{Regular value theorem (abstract version)}
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1842,7 +1968,7 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-\section{Tangent curves}
+% \section{Tangent space for submanifolds}
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1852,7 +1978,7 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-\section{Tangent space (definition via tangent curves)}
+% \section{Tangent curves}
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1862,7 +1988,7 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-\section{Coordinate bases}
+% \section{Tangent space (definition via tangent curves)}
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1872,9 +1998,8 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-\section{Differential (definition)}
+% \section{Coordinate bases}
 
-
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1883,7 +2008,7 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-\section{Differential in Local charts}
+% \section{Differential (definition)}
 
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1894,7 +2019,7 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-\section{Differential (example)}
+% \section{Differential in Local charts}
 
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1905,7 +2030,18 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-\section{Ricci calculus}
+% \section{Differential (example)}
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+% \section{Ricci calculus}
 
 
 
@@ -1917,7 +2053,7 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-\section{Alternating k-forms}
+% \section{Alternating k-forms}
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1927,7 +2063,7 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-\section{Wedge Product}
+% \section{Wedge Product}
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1937,7 +2073,7 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-\section{Differential forms}
+% \section{Differential forms}
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1947,18 +2083,7 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-\section{Examples of differential forms}
-
-
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-
-\section{Orientable manifolds}
+% \section{Examples of differential forms}
 
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1969,7 +2094,7 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-\section{Alternative definitions for orientation}
+% \section{Orientable manifolds}
 
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1980,7 +2105,8 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-\section{Riemannian metrics}
+% \section{Alternative definitions for orientation}
+
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1990,7 +2116,7 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-\section{Examples for Riemannian Manifolds}
+% \section{Riemannian metrics}
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -2000,7 +2126,17 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-\section{Canonical Volume Form}
+% \section{Examples for Riemannian Manifolds}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+% \section{Canonical Volume Form}
 
 
 
