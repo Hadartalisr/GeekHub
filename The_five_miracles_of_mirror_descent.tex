@@ -1670,7 +1670,7 @@ If we had a metric we could define boundedness in terms of the metric, but even 
     An atlas of a manifold \( M \) is a collection of charts that cover \( M \). \\
     Formally, an atlas \( \mathcal{A} \) of a manifold \( M \) is a collection of charts \( \{ (U_i, h_i) \}_{i \in I} \) such that 
     \begin{equation*}
-        M = \bigcup_{i \in I} U_i \quad \text{and} \quad \forall i, j \in I, \quad U_i \cap U_j \neq \emptyset \Rightarrow h_i \circ h_j^{-1} \quad \text{is a homeomorphism}
+        M = \bigcup_{i \in I} U_i
     \end{equation*}
 \end{definition}
 
@@ -1679,10 +1679,11 @@ If we had a metric we could define boundedness in terms of the metric, but even 
         \item \( M , \mathcal{T} \) a discrete topological space with countably many points. \\
             Every point in \( M \) is a manifold of dimension 0.
 
-        \item \( M \subseteq \mathbb{R}^n \) with the standard topology, \( M , \mathcal{T} \) is a manifold of dimension \( n \). \\
+        \item \( M \subseteq \mathbb{R}^n \) with the standard topology, \( (M , \mathcal{T}) \) is a manifold of dimension \( n \). \\
             h is the identity map and M is locally euclidean of dimension n (in fact, it is globally euclidean).
 
         \item \( S^2 = \{ x \in \mathbb{R}^3 : \| x \|_2 = 1 \} \) is a manifold of dimension 2. \\
+            We have seen that \( S^2 \) is a hausdorff space. \\ 
             The atlas of \( S^2 \) consists of two charts: the upper hemisphere and the lower hemisphere. \\
             The upper hemisphere is the set \( U_{3, -} = \{ x \in S^2 : x_3 > 0 \} \) and the lower hemisphere is the set \( U_{3, -}^{'}= \{ x \in S^2 : x_3 < 0 \} \). \\
             The homeomorphism \( h_{3, -}: U_{3, -} \to \mathbb{R}^2 \) is defined as \( h_{3, -}(x_1, x_2, x_3) = (x_1, x_2) \). \\
@@ -1703,6 +1704,55 @@ If we had a metric we could define boundedness in terms of the metric, but even 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
 \section{Projective Space is a Manifold}
+
+As we have seen that the sphere \( S^n = \{ x \in \mathbb{R}^{n+1} : \| x \|_2 = 1 \} \), 
+is an n-dimensional manifold with atlas \( (U_{i, \pm}, h_{i, \pm})_{i \in \{1, \dots ,n+1\}} \) 
+where \( U_{i, \pm} = \{ x \in \mathbb{R}^{n+1} : \pm x_i > 0 \} \) and \( h_{i, \pm}(x_1, \ldots, x_{n+1}) = (x_1, \ldots, x_{i-1}, x_{i+1}, \ldots, x_{n+1}) \).
+We have also seen that the projective space \( \mathbf{P}^n (\mathbb{R}) = S^n / \sim \) with quotient topology and equivalence 
+relation \( x \sim y \Leftrightarrow x = y \) or \( x = -y \). \\
+We will show that the projective space \( \mathbf{P}^n (\mathbb{R}) \) is a manifold of dimension \( n \).
+
+\medbreak
+
+We will define \( V_i = \{ [x]_\sim \in \mathbf{P}^n : x_i \neq 0 \} \). 
+Note that every equivilance class \( [x]_\sim \) contains exactly 2 points from the sphere \( S^n \).
+\( q^{-1}[V_i] = U_{i, +} \cup U_{i, -} \) is an open set in the sphere \( S^n \) and \( q: S^n \to \mathbf{P}^n \) is a quotient map,
+so \( V_i \) is an open set in the projective space \( \mathbf{P}^n \).
+
+\medbreak
+
+In order to show that \( \mathbf{P}^n (\mathbb{R}) \) is a manifold of dimension \( n \), 
+we will present homeomorphisms \( h_i: V_i \to \mathbb{R}^n \) for each \( i \in \{1, \ldots, n+1\} \) such that \( (V_i, h_i) \) is a chart of \( \mathbf{P}^n (\mathbb{R}) \).
+
+\begin{figure}[H]
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \includegraphics[width=0.5\textwidth]{Figs/projective_space_P1.png}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \includegraphics[width=0.5\textwidth]{Figs/projective_space_P1_2.png}
+    \end{subfigure}
+    \caption{Projective Space of dimension 1 as a quotient space of the circle}
+\end{figure}
+
+For n = 1: \\
+\( V_1 = \{ [x]_\sim \in \mathbf{P}^1 : x_1 \neq 0 \} \) is an open set in \( \mathbf{P}^1 \). \\
+\( q^{-1}[V_1] = U_{1, +} \cup U_{1, -} \) \\
+We need homeomorphisms \( h_1: V_1 \to V_1' \) where \( V_1' \) is an open subset of \( \mathbb{R} \). \\
+We can define \( h_1: V_1 \to V_1' \) as \( h_1([x]_\sim) = \frac{x_2}{x_1} \) (the slope) for \( x_1 \neq 0 \). \\
+The invese homeomorphism \( h_1^{-1}: V_1' \to V_1 \) is defined as \( h_1^{-1}(x1) = [ \binom{1}{x1'} \cdot \frac{1}{\sqrt{1^2 + ({x1'})^2}} ]_\sim \). \\
+\( V_2 = \{ [x]_\sim \in \mathbf{P}^1 : x_2 \neq 0 \} \) and we will do the same with the change of coordinates.
+
+\medbreak
+
+For $n \in \mathbb{N}$: \\
+\( V_i = \{ [x]_\sim \in \mathbf{P}^n : x_i \neq 0 \} \) is an open set in \( \mathbf{P}^n \). \\
+\( q^{-1}[V_i] = U_{i, +} \cup U_{i, -} \) \\
+We need homeomorphisms \( h_i: V_i \to V_i' \) where \( V_i' \) is an open subset of \( \mathbb{R}^n \). \\
+We can define \( h_i: V_i \to V_i' \) as \( h_i([x]_\sim) = \frac{1}{x_i} (x_1, \ldots, x_{i-1}, x_{i+1}, \ldots, x_{n+1}) \) for \( x_i \neq 0 \). \\
+In the inverse we apply 1 to the i-th coordinate and normalize the vector.
+
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
