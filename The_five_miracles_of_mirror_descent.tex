@@ -128,16 +128,6 @@ If $f$ is differentiable at $x_0$, then $f'(x_0) = m$ is the derivative of $f$ a
 
 \bigbreak
 
-\begin{definition}{Diffrentiability, multivariable} \\
-Let $f: \mathbb{R}^n \rightarrow \mathbb{R}$ be a function. We say that $f$ is differentiable at $x_0$ if there exists a vector m $\in \mathbb{R}^n$ such that:
-\begin{equation}
-    \lim_{h \rightarrow 0} \frac{f(x_0 + h) - f(x_0) - m \cdot h}{||h||} = 0
-\end{equation}
-If $f$ is differentiable at $x_0$, then $m$ is the gradient of $f$ at $x_0$, denoted $\nabla f(x_0)$.
-\end{definition}
-
-\bigbreak
-
 Suppose the $S \subseteq \mathbb{R}^n$ and $f: S \rightarrow \mathbb{R}$ is a function. 
 
 \bigbreak
@@ -146,6 +136,16 @@ Suppose the $S \subseteq \mathbb{R}^n$ and $f: S \rightarrow \mathbb{R}$ is a fu
 We say that the limit of $f$ at $x_0$ is $L$ if for all $\epsilon > 0$, there exists $\delta > 0$ such that 
 for all $x$ such that $||x - x_0|| < \delta$, we have $|f(x) - L| < \epsilon$.
 \end{definition}
+
+\begin{definition}{Diffrentiability, multivariable} \\
+    Let $f: \mathbb{R}^n \rightarrow \mathbb{R}$ be a function. We say that $f$ is differentiable at $x_0$ if there exists a vector m $\in \mathbb{R}^n$ such that:
+    \begin{equation}
+        \lim_{h \rightarrow 0} \frac{f(x_0 + h) - f(x_0) - m \cdot h}{||h||} = 0
+    \end{equation}
+    If $f$ is differentiable at $x_0$, then $m$ is the gradient of $f$ at $x_0$, denoted $\nabla f(x_0)$.
+\end{definition}
+    
+\bigbreak
 
 \begin{definition}{Diffrentiability, multivariable (alternative)} \\
 We say that $f$ is differentiable at $x_0$ if there exists a vector m $\in \mathbb{R}^n$ such that:
@@ -156,6 +156,39 @@ If $f$ is differentiable at $x_0$, then $m$ is the gradient of $f$ at $x_0$, den
 \end{definition}
 
 \bigbreak
+
+\begin{definition}{\textbf{Differentiability of a function $f: \mathbb{R}^n \rightarrow \mathbb{R}^m$}} \\
+    Let $f: \mathbb{R}^n \rightarrow \mathbb{R}^m$ be a function. We say that $f$ is differentiable at $x_0$ 
+    if there exists a matrix $A \in \mathbb{R}^{m \times n}$ such that:
+    \begin{equation}
+        \lim_{h \rightarrow 0} \frac{||f(x_0 + h) - f(x_0) - A \cdot h||}{||h||} = 0
+    \end{equation}
+    If $f$ is differentiable at $x_0$, then $A$ is the Jacobian matrix of $f$ at $x_0$, denoted $J_f(x_0)$.
+\end{definition}
+
+
+\begin{definition}{The Jacobian matrix} \\
+    The Jacobian matrix of $f: \mathbb{R}^n \rightarrow \mathbb{R}^m$ at $x$ is the matrix of partial derivatives of $f$ at $x$:
+    \begin{equation}
+        J_f(x) = \begin{bmatrix}
+        \frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2} & \ldots & \frac{\partial f_1}{\partial x_n} \\
+        \frac{\partial f_2}{\partial x_1} & \frac{\partial f_2}{\partial x_2} & \ldots & \frac{\partial f_2}{\partial x_n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        \frac{\partial f_m}{\partial x_1} & \frac{\partial f_m}{\partial x_2} & \ldots & \frac{\partial f_m}{\partial x_n}
+        \end{bmatrix}
+    \end{equation}
+    \end{definition}
+    
+    \begin{example*}
+    Let $f: \mathbb{R}^2 \rightarrow \mathbb{R}^2$ be a function defined by $f(x,y) = (x^2, y^2)$. Then the Jacobian matrix of $f$ is:
+    \begin{equation}
+        J_f(x,y) = \begin{bmatrix}
+        2x & 0 \\
+        0 & 2y
+        \end{bmatrix}
+    \end{equation}
+\end{example*}
+    
 
 \begin{definition}{Partial Derivative} \\
 The partial derivative of $f$ with respect to the $i$-th variable at $x$ is:
@@ -283,27 +316,18 @@ Let $u \in \mathbb{R}^n$ be a unit vector. then
 
 \bigbreak
 
-\begin{definition}{The Jacobian matrix} \\
-The Jacobian matrix of $f: \mathbb{R}^n \rightarrow \mathbb{R}^m$ at $x$ is the matrix of partial derivatives of $f$ at $x$:
-\begin{equation}
-    J_f(x) = \begin{bmatrix}
-    \frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2} & \ldots & \frac{\partial f_1}{\partial x_n} \\
-    \frac{\partial f_2}{\partial x_1} & \frac{\partial f_2}{\partial x_2} & \ldots & \frac{\partial f_2}{\partial x_n} \\
-    \vdots & \vdots & \ddots & \vdots \\
-    \frac{\partial f_m}{\partial x_1} & \frac{\partial f_m}{\partial x_2} & \ldots & \frac{\partial f_m}{\partial x_n}
-    \end{bmatrix}
-\end{equation}
+We can generalize the Hessian matrix to functions $f: \mathbb{R}^n \rightarrow \mathbb{R}^m$ by defining the Hessian tensor.
+\begin{definition}{\textbf{Hessian Tensor}} \\
+    The Hessian tensor of $f: \mathbb{R}^n \rightarrow \mathbb{R}^m$ at $x$ is the tensor of second-order partial derivatives of $f$ at $x$:
+    \begin{equation}
+        \mathbf{H}(x) = \begin{bmatrix}
+        \nabla^2 f_1(x), &\nabla^2 f_2(x), &\ldots, &\nabla^2 f_m(x)
+        \end{bmatrix}
+    \end{equation}
+    where $\nabla^2 f_i(x)$ is the Hessian matrix of $f_i$ at $x$.
 \end{definition}
 
-\begin{example*}
-Let $f: \mathbb{R}^2 \rightarrow \mathbb{R}^2$ be a function defined by $f(x,y) = (x^2, y^2)$. Then the Jacobian matrix of $f$ is:
-\begin{equation}
-    J_f(x,y) = \begin{bmatrix}
-    2x & 0 \\
-    0 & 2y
-    \end{bmatrix}
-\end{equation}
-\end{example*}
+
 
 \section{Taylor series}
 \begin{definition}{Taylor Series} \\
@@ -974,7 +998,7 @@ Let $f(x) = e^x - 1 - x$. Then $f'(x) = e^x - 1$ and $f''(x) = e^x > 0$. Thus, $
     \end{enumerate}
 \end{definition}
 
-\( \textbf{Inner Producy Space vs Metric Space} \)
+\( \textbf{Inner Product Space vs Metric Space} \)
 \begin{itemize}
     \item An inner product space is a vector space equipped with an inner product, which is a function that associates each pair of vectors with a scalar.
     \item A metric space is a set equipped with a metric, which is a function that defines a distance between each pair of elements in the set.
@@ -1458,6 +1482,16 @@ Take \( [x]_\sim, [y]_\sim \in \mathbf{P}^n (\mathbb{R}) \) such that \( [x]_\si
     \end{itemize}
 \end{examples*}
 
+\begin{examples*} of spaces that are not second countable:
+    \begin{itemize}
+        \item Consider an uncountable set (like \( \mathbb{R} \)) with the discrete metric (the distance between each pair of distinct
+         points is 1, and the distance between a point and itself is 0). 
+         In this metric space, every singleton set is open, therefore to have a base for the topology, we need to include every singleton,
+         which is an uncountable number.
+    \end{itemize}
+    
+\end{examples*}
+
 \begin{definition}{\textbf{The space of continuous functions with the topology of uniform convergence}} \\
     Let \( C([0, 1]) \) be the space of continuous functions on the interval \( [0, 1] \). \\
     The topology of uniform convergence on \( C([0, 1]) \) is defined by the basis
@@ -1554,15 +1588,6 @@ In term of sequences:
     \end{align*}
 \end{theorem}
 
-\begin{definition}{\textbf{Homeomorphism} (NOT homomorphism)}\label{def:homeomorphism} \\ 
-    A function \( f: X \to Y \) between topological spaces \( (X, \mathcal{T}_X) \) and \( (Y, \mathcal{T}_Y) \) is a homeomorphism if
-    \begin{enumerate}
-        \item \( f \) is bijective (both injective and surjective - one-to-one and onto).
-        \item \( f : X \to Y \) is continuous.
-        \item \( f^{-1} : Y \to X \) is continuous.
-    \end{enumerate}
-\end{definition}
-
 \begin{examples*} of continuous maps
     \begin{itemize}
         \item The indiscrete topology on \( X \) and \( Y \) - every function is continuous. \\
@@ -1583,6 +1608,19 @@ In term of sequences:
             \end{proof}
     \end{itemize}
 \end{examples*}
+
+\begin{definition}{\textbf{Homeomorphism} (NOT homomorphism)}\label{def:homeomorphism} \\ 
+    A function \( f: X \to Y \) between topological spaces \( (X, \mathcal{T}_X) \) and \( (Y, \mathcal{T}_Y) \) is a homeomorphism if
+    \begin{enumerate}
+        \item \( f \) is bijective (both injective and surjective - one-to-one and onto).
+        \item \( f : X \to Y \) is continuous.
+        \item \( f^{-1} : Y \to X \) is continuous.
+    \end{enumerate}
+\end{definition}
+
+Not all continuous functions are homeomorphisms.
+For example, a quotient map is continuous but not necessarily a homeomorphism, if more than one point is mapped 
+to the same equivalence class.
 
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1788,9 +1826,11 @@ In the inverse we apply 1 to the i-th coordinate and normalize the vector.
 \section{Smooth structures (differential structures)}
 
 \begin{definition}{\textbf{Transition map}} \\
-    Let \( (M, \mathcal{T}) \) be a manifold and \( (U, h) \) and \( (V, k) \) be two charts of \( M \). \\
+    Let \( (M, \mathcal{T}) \) be an n-manifold and \( (U, h) \) and \( (V, k) \) be two charts of \( M \). \\
     The transition map \( \omega : h(U \cap V) \to k(U \cap V) \) is called the transition map between the charts \( (U, h) \) and \( (V, k) \).
 \end{definition}
+
+Note that the transition map is a transoformation of subset of the $R^n$ space, it does not have to be a linear transformation.
 
 We have seen in definition~\ref{def:C^2_class} that a function \( f: \mathbb{R}^n \to \mathbb{R} \) is of class \( C^2 \) 
 if all partial derivatives of \( f \) up to order 2 exist and are continuous. We can extend this definition to manifolds.
@@ -1826,7 +1866,7 @@ What happens if any two charts of a manifold are $C^k$-smoothly compatible?
 \begin{definition}{\textbf{Maximal $C^k$-atlas ($C^k$-smooth structure)}} \\
     A maximal \( C^k \)-atlas of a manifold \( M \) is \( \mathcal{A} \) is:
     \begin{enumerate}
-        \item A is a \( C^k \)-atlas of \( M \).
+        \item \( \mathcal{A} \) is a \( C^k \)-atlas of \( M \).
         \item For any other \( C^k \)-atlas \( \mathcal{B} \) of \( M \), \( \mathcal{A} \nsubseteq \mathcal{B} \).
     \end{enumerate}
 \end{definition}
@@ -1853,7 +1893,7 @@ What happens if any two charts of a manifold are $C^k$-smoothly compatible?
 
 \section{Examples of smooth manifolds}
 
-\begin{example*}{\textbf{The n-dimensional Euclidean space \( S^n \subseteq \mathbb{R}^{n+1} \)}} \\
+\begin{example*}{\textbf{The n-dimensional Euclidean sphere \( S^n \subseteq \mathbb{R}^{n+1} \)}} \\
     We have seen that the sphere \( S^n = \{ x \in \mathbb{R}^{n+1} : \| x \|_2 = 1 \} \), 
     is an n-dimensional manifold with atlas \( (U_{i, \pm}, h_{i, \pm})_{i \in \{1, \dots ,n+1\}} \) 
     where \( U_{i, \pm} = \{ x \in \mathbb{R}^{n+1} : \pm x_i > 0 \} \) and \( h_{i, \pm}(x_1, \ldots, x_{n+1}) = (x_1, \ldots, x_{i-1}, x_{i+1}, \ldots, x_{n+1}) \).
@@ -1925,6 +1965,11 @@ Note: \( M_0 \) is also a manifold:
     If c is a regular value of f, then \( f^{-1}[\{c\}] \) is a submanifold of \( \mathbb{R}^n \) of dimension \( n - m \).
 \end{theorem}
 
+For example if \( f: \mathbb{R}^n \to \mathbb{R} \), \( f(x_1, \dots, x_n) = x_1^2 + \dots + x_n^2 \), then 0 is a regular value of f. \\
+let \( 0 \neq r \in \mathbb{R} \), then r is a regular value of f, for example \( r = 1 \).
+Then the sphere \( S^{n-1} \) is a submanifold of \( \mathbb{R}^n \) of dimension \( n - 1 \).
+
+
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -1934,6 +1979,16 @@ Note: \( M_0 \) is also a manifold:
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
 \section{Smooth maps}
+
+Until now we have defined smooth manifolds (and \( C^k \)-smooth manifolds). \\
+Recall that 
+\begin{itemize}
+    \item an n-dimensional manifold is a topological space that is locally euclidean of dimension n and hausdorff and second countable.
+    \item a smooth manifold is a topological manifold with a maximal \( C^{\infty} \)-atlas.
+    \item a \( C^{\infty} \)-atlas is a collection of charts that cover the manifold and the transition 
+    maps between any two charts are \( C^{\infty} \)-diffeomorphisms.
+    \item \( C^k \)-diffeomorphism is a function that is k times continuously differentiable, bijective, and the inverse function is also \( C^k \).
+\end{itemize}
 
 \begin{definition}{\textbf{Smooth map}} \\
     Let \( f: M \to N \) be a map between two smooth manifolds. \\
