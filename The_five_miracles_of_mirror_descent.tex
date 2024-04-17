@@ -169,14 +169,27 @@ If $f$ is differentiable at $x_0$, then $m$ is the gradient of $f$ at $x_0$, den
 
 \begin{definition}{The Jacobian matrix} \\
     The Jacobian matrix of $f: \mathbb{R}^n \rightarrow \mathbb{R}^m$ at $x$ is the matrix of partial derivatives of $f$ at $x$:
-    \begin{equation}
-        J_f(x) = \begin{bmatrix}
-        \frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2} & \ldots & \frac{\partial f_1}{\partial x_n} \\
-        \frac{\partial f_2}{\partial x_1} & \frac{\partial f_2}{\partial x_2} & \ldots & \frac{\partial f_2}{\partial x_n} \\
-        \vdots & \vdots & \ddots & \vdots \\
-        \frac{\partial f_m}{\partial x_1} & \frac{\partial f_m}{\partial x_2} & \ldots & \frac{\partial f_m}{\partial x_n}
-        \end{bmatrix}
-    \end{equation}
+    \[
+        J = \left[
+        \begin{array}{ccc}
+        \frac{\partial f}{\partial x_1} & \cdots & \frac{\partial f}{\partial x_n}
+        \end{array}
+        \right]
+        = \left[
+        \begin{array}{c}
+        \nabla^T f_1 \\
+        \vdots \\
+        \nabla^T f_m
+        \end{array}
+        \right]
+        = \left[
+        \begin{array}{ccc}
+        \frac{\partial f_1}{\partial x_1} & \cdots & \frac{\partial f_1}{\partial x_n} \\
+        \vdots & \ddots & \vdots \\
+        \frac{\partial f_m}{\partial x_1} & \cdots & \frac{\partial f_m}{\partial x_n}
+        \end{array}
+        \right]
+    \]
     \end{definition}
     
     \begin{example*}
@@ -217,6 +230,13 @@ If $f$ is differentiable at $x$, then all partial derivatives of $f$ exist at $x
 
 \bigbreak
 
+\begin{definition}
+    The partial derivative of the function \( f_i \) with respect to the variable \( x_j \), denoted by \( \frac{\partial f_i}{\partial x_j} \), is defined as the limit
+    \[
+    \frac{\partial f_i}{\partial x_j} = \lim_{h \to 0} \frac{f_i(x_1, \ldots, x_j + h, \ldots, x_n) - f_i(x_1, \ldots, x_j, \ldots, x_n)}{h}
+    \]
+\end{definition}
+
 \begin{definition}{Continuously Differentiable} \\
 We say that $f$ is continuously differentiable or of class $C^1$  if all partial derivatives of $f$ exist and are continuous at every point in $S$.
 \end{definition}
@@ -251,6 +271,33 @@ If $f$ is differentiable at $x$, then for all $u \in \mathbb{R}^n$, the directio
 \begin{theorem}{Fermat's Theorem} \\
 If $f$ is differentiable at $x$ and $x$ is a local minimum of $f$, then $\nabla f(x) = 0$.
 \end{theorem}
+
+\bigbreak
+
+\begin{definition}{\textbf{Differential of a function at a point} (in $\mathbb{R}^n$)} \\
+    Let \( f: \mathbb{R}^n \to \mathbb{R} \) be a function of class \( C^1 \). \\
+    The differential of f at a point \( p \in \mathbb{R}^n \) is the linear map \( df_p : \mathbb{R}^n \to \mathbb{R} \) defined as
+    \begin{equation*}
+        df_p(v) = \sum_{i=1}^{n} \frac{\partial f}{\partial x_i}(p) \cdot v_i
+    \end{equation*}
+    for every \( v = (v_1, \ldots, v_n) \in \mathbb{R}^n \).
+\end{definition}
+
+\bigbreak
+
+The relation between the differential and the gradient: \\  
+\begin{equation}
+    df_p(v) = \nabla f(p) \cdot v
+\end{equation}
+
+Recall that the gradient is the Jacobian matrix of the function \( f: \mathbb{R}^n \to \mathbb{R} \), 
+So in general the relation between the differential and the Jacobian matrix is:
+\begin{equation}
+    df_p(v) = J_f(p) \cdot v
+\end{equation}
+
+The range of the differential is the set of all linear functions of the form \( df_p(v) = J_f(p) \cdot v \) for \( v \in \mathbb{R}^n \),
+and is called the tangent space to the point \( p \) of the graph of the function \( f \).
 
 \bigbreak
 
@@ -1934,7 +1981,7 @@ We can also observe that $G_f$ is a 1-dimensional $C^1$-smooth manifold that is 
     Let \( M \) be a an n-dimensional smooth manifold. 
     \( M_0 \subseteq M \) is called a k-dimensional submanifold of \( M \) if for every \( p \in M_0 \), there exists a chart \( (U, h) \) of \( M \) 
     such that \( h(U \cap M_0) = h(U) \cap (\mathbb{R}^k \times \{ 0 \}^{n-k}) \).
-    \(U, h\) is called a \textbf{submanifold chart} for \( M_0 \).
+    \((U, h)\) is called a \textbf{submanifold chart} for \( M_0 \).
 \end{definition}
 
 Note: \( M_0 \) is also a manifold: 
@@ -1990,20 +2037,24 @@ Recall that
     \item \( C^k \)-diffeomorphism is a function that is k times continuously differentiable, bijective, and the inverse function is also \( C^k \).
 \end{itemize}
 
-\begin{definition}{\textbf{Smooth map}} \\
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Figs/smooth_maps.png}
+    \caption{Smooth map between two manifolds}
+\end{figure}
+
+\begin{definition}{\textbf{k-times differentiable map at a point}} \\
     Let \( f: M \to N \) be a map between two smooth manifolds. \\
-    f is called smooth if for every chart \( (U, h) \) of M and every chart \( (V, k) \) of N, the map \( k \circ f \circ h^{-1} \) is smooth.
+    f is called k-times differentiable at a point \( p \in M \) if for every chart \( (U, h) \) of M and every chart \( (W, k) \) of N, 
+    with \( p \in U \) and \( f(p) \in V \), the map \( k \circ f \circ h^{-1} \) is k-times differentiable at \( h(p) \).
 \end{definition}
 
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
+\begin{definition}{\textbf{(\(C^\infty\)) Smooth map}} \\
+    Let \( f: M \to N \) be a map between two smooth manifolds. \\
+    f is called smooth if f is k-times differentiable at every point \( p \in M \) for every \( k \in \mathbb{N} \).
+\end{definition}
 
-% \section{Examples of smooth maps}
+We often denote the set of smooth maps between two smooth manifolds M and N as \( C^\infty(M, N) \).
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -2013,7 +2064,13 @@ Recall that
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-% \section{Regular value theorem (abstract version)}
+\section{Examples of smooth maps}
+
+\begin{itemize}
+    \item \( S^2 \rightarrow \mathbb{R}^3\) where i is the identity matrix.
+    \item the quotient map \( q : S^2 \rightarrow P^2(\mathbb{R}) = S^2 / \sim \)
+\end{itemize}
+
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -2023,7 +2080,23 @@ Recall that
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-% \section{Tangent space for submanifolds}
+\section{Regular value theorem (abstract version)}
+
+\begin{definition}{\textbf{Critical point}} \\
+    Let \( f: M \to N \) be a smooth map between two smooth manifolds of dimensions m and n ($m \geq n$). \\
+    Let \( p \in M \), \( (U, h) \) a chart of M at p and \((V, k)\) be a chart of N at \(f(p)\). \\
+    A point \( p \in M \) is called a critical point of f if 
+    \begin{equation*}
+        rank(f_p) := rank(J_{k \circ f \circ h^{-1}}(h(p))) < n
+    \end{equation*}
+\end{definition}
+    
+
+\begin{theorem}{\textbf{Regular value theorem (abstract version)}} \\
+    Let \( f: M \to N \) be a smooth map between two smooth manifolds of dimensions n and m ($m \geq n$).
+    Let \( q \in N \) be a regular value of f. \\
+    Then \( f^{-1}[\{q\}] \) is a submanifold of M of dimension \( m - n \).
+\end{theorem}
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -2033,7 +2106,71 @@ Recall that
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-% \section{Tangent curves}
+\section{Tangent space for submanifolds}
+
+\begin{definition}{\textbf{Local parametrization of a submanifold}} \\
+    Let \( M \) be an n-dimensional smooth manifold and \( M_0 \subseteq M \) be a k-dimensional submanifold of \( M \). \\
+    Let \( p \in M_0 \) and \( (U, h) \) be a submanifold chart for \( M_0 \) at p, where \( h: U \to U', \quad U' \subseteq \mathbb{R}^k \) is a homeomorphism. \\
+    The function \( \varphi : \mathbb{R}^k \cap U' \to M \cap U \) is called a local parametrization of \( M_0 \) at p.
+\end{definition}
+
+\begin{example*}The circle
+    Let \( S^1 = \{ x \in \mathbb{R}^2 : \| x \|_2 = 1 \} \) be the unit circle in \( \mathbb{R}^2 \). \\
+    Let \( M_0 = \{ x \in S^1 : x_1 > 0 \} \) be the right half of the circle. \\
+    Let \( p = (1, 0) \in M_0 \) and \( (U, h) \) be a submanifold chart for \( M_0 \) at p, where \( h: U \to U' \) is a homeomorphism. \\
+    The function \( \varphi : (0, 2\pi) \to M \cap U \) defined as \( \varphi(t) = (\cos(t), \sin(t)) \) is a local parametrization of \( M_0 \) at p.    
+\end{example*}
+
+\begin{definition}{\textbf{The Tangent Space of a submanifold}} \\
+    Let \( (M \subseteq \mathbb{R}^n) \) be a k-dimensional submanifold of \( \mathbb{R}^n \). \\
+    Let \( p \in M \) and \( \varphi : U' \to U \) be a local parametrization of \( M \) at p. \\
+    Let \( \tilde{p} = \varphi^{-1}(p) \). \\
+    The tangent space of \( M \) at p is defined as 
+    \begin{equation*}
+        T_p^{sub} M = d\varphi_{\tilde{p}}[\mathbb{R}^k] = \{ J_{\varphi}(\varphi^{-1}(p)) \cdot v : v \in \mathbb{R}^k \}
+    \end{equation*}
+\end{definition}
+
+Note thet \( T_p^{sub} M \subseteq \mathbb{R}^n \) is a k-dimensional subspace.
+If \( M = \mathbb{R}^n \), then $\phi = \phi^{-1}=id$ , $J_{\phi}(\phi^{-1}(p)) = I$ and $T_p^{sub} \mathbb{R}^n = \mathbb{R}^n$.
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Tangent curves}
+
+\begin{definition}{\textbf{Smooth curve}} \\
+    Let \( M \) be an n-dimensional smooth manifold. \\
+    A smooth curve in M is a smooth map \( \gamma: I \to M \) where I is an open interval in \( \mathbb{R} \).
+\end{definition}
+
+\begin{definition}{\textbf{Tangent curve}} \\
+    Let \( M \) be an n-dimensional smooth manifold and \( \gamma: I \to M \) be a smooth curve in M. \\
+    Let \( p = \gamma(t_0) \) for some \( t_0 \in I \). \\
+    The tangent curve of \( \gamma \) at \( t_0 \) is defined as 
+    \begin{equation*}
+        \gamma'(t_0) = d\gamma_{t_0}[\mathbb{R}]
+    \end{equation*}
+\end{definition}
+
+\begin{definition}{\textbf{The Tangent Space of a submanifold}} \\
+    Let \( M \) be a k dimensional submanifold and \( p \in M \). 
+    The tangent space of \( M \) at \( p \) is given by:
+    \begin{equation*}
+        T_p^{sub}M = \{ \gamma'(0) \quad | \quad \gamma : (-\epsilon, \epsilon) \to M \quad \text{differentiable and} \quad \gamma(0) = p \}        
+    \end{equation*}
+\end{definition}
+
+
+
+
+
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
