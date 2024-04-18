@@ -17,7 +17,8 @@
 \usepackage{mathdesign}
 \usepackage{float}
 \usepackage{todonotes} 
-
+\usepackage{empheq}
+\usepackage{array}
 
 
 
@@ -622,6 +623,11 @@ If \(V\) and \(W\) are isomorphic, we write \(V \cong W\).
 
 \begin{definition}{\textbf{Complex conjugate}} \\
     The complex conjugate of a complex number \( z = a + bi \) is the number \( \overline{z} = a - bi \).
+\end{definition}
+
+\begin{definition}{\textbf{The Dual Space}} \\
+    Let \( V \) be a vector space over a field \( F \). The dual space of \( V \), denoted \( V^* \), is the set of all linear functionals on \( V \), 
+    which are linear maps from \( V \) to \( F \). The dual space is itself a vector space over \( F \) with the operations of addition and scalar multiplication defined pointwise.
 \end{definition}
 
 \subsubsection{Inner Product Space}
@@ -2398,7 +2404,34 @@ and we get that it's exactly the directional derivative of $f$ at $p$ along $[\g
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-% \section{Differential in Local charts}
+\section{Differential in Local charts}
+
+Let \( f: M \to N \) be a smooth map from n-dimensional smooth manifold \( M \) to m-dimensional smooth manifold \( N \). \\
+Let $p \in M$ and $(U, h)$ be a chart of $M$ at $p$ and $(V, k)$ be a chart of $N$ at $f(p)$. \\
+\( \tilde{f} := k \circ f \circ h^{-1} : h(U) \to k(V) \) is a smooth map between open sets in \( \mathbb{R}^n \) and \( \mathbb{R}^m \). \\
+\( k \circ f = \tilde{f} \circ h \). \\
+Let $[\gamma] \in T_pM$ and $\gamma : (-\epsilon, \epsilon) \to M$ be a smooth curve with $\gamma(0) = p$. Then\\
+ \begin{align*}
+    dk_{f(p)}(df_p([\gamma])) &= dk_{f(p)}([f \circ \gamma]_{\sim}) \\
+    &= [k \circ f \circ \gamma]_{\sim} \\&= (k \circ f \circ \gamma)'(0) \\
+    &= (\tilde{f} \circ h \circ \gamma)'(0) \\&\stackrel{\tilde{f} : \mathbb{R}^n \to \mathbb{R}^m}{=} J_{\tilde{f}}(h(p)) \cdot (h \circ \gamma)'(0) \\
+    &= J_{\tilde{f}}(h(p)) \cdot [\gamma \circ h]_\sim \\&= J_{\tilde{f}}(h(p)) \cdot dh_p([\gamma]_\sim)
+ \end{align*}
+
+Then after multipling by $k^{-1}$ we get that \\
+\begin{empheq}[box=\fbox]{align*}
+    f &= k^{-1} \circ \tilde{f} \circ h \\
+    df &= dk^{-1} \circ J_{\tilde{f}} \circ dh 
+\end{empheq}
+   
+The differential of the abstract smooth map $f$ is given as the Jacobian matrix in local charts.
+The definitions with the the abstract tangent vectors were the correct way to generalize a differential.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figs/differential_in_local_charts.jpeg}
+    \caption{Differential in local charts}
+\end{figure}
 
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -2409,9 +2442,28 @@ and we get that it's exactly the directional derivative of $f$ at $p$ along $[\g
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-% \section{Differential (example)}
+\section{Differential (example)}
+
+We have previously defined the map $h_* : T_pM \to \mathbb{R}^n$ as $h_*([\gamma]_{\sim}) = (h \circ \gamma)'(0)$. \\
+We have seen that $df_p([\gamma]_{\sim}) = [f \circ \gamma]_{\sim}$, and if the range of $f$ is a submanifold, then $df_p([\gamma]_{\sim}) = (f \circ \gamma)'(0)$. \\
 
 
+Recall: for \( p \in M \) and $(U, h)$ the coordinate basis $\{ \partial_1, \ldots, \partial_n \}$ of $T_pM$ with respect to $(U, h)$
+is given by $(\partial_1, \ldots, \partial_n)$ where $\partial_j := \varphi_*(e_j) = d\varphi_{h(p)}(e_j)$. \\ 
+
+Directional derivative: \\
+Let $f : M \to \mathbb{R}$ be a smooth map and $p \in M$. \\
+In general, $df_p([\gamma]_{\sim})$ gives us a directional derivative. Then for partial derivatives $\partial_j f(p)$ we have $\tilde{\gamma}(t) = h(p) + t * e_j$ and \\
+\begin{align*}
+    \partial_j f(p) &:= df_p(\partial_j) \\
+    &= df_p(d\varphi_{h(p)}(e_j)) \\
+    &= [f \circ \varphi \circ \tilde{\gamma}]_{\sim} \\
+    &= (f \circ \varphi \circ \tilde{\gamma})'(0) \\
+    &= J_{f \circ \varphi}(h(p)) \cdot \tilde{\gamma}'(0) = \frac{\partial (f \circ \varphi)}{\partial x_j}(h(p))
+\end{align*}
+
+
+
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -2420,7 +2472,51 @@ and we get that it's exactly the directional derivative of $f$ at $p$ along $[\g
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-% \section{Ricci calculus}
+\section{Ricci calculus / Tensor calculus}
+
+\begin{center} % To center the table
+\begin{tabular}{|m{0.5\textwidth}|m{0.5\textwidth}|}
+    \hline
+    \multicolumn{1}{|c|}{\textbf{Our Language}} & \multicolumn{1}{c|}{\textbf{Ricci Calculus}} \\ 
+    \hline
+    components of a given chart $(U, h), h : U \to \mathbb{R}^n$ 
+    & $h^j : U \to \mathbb{R}$ coordinates, or simply: $x^1, \ldots, x^n$ 
+    \\ 
+    \hline
+    coordinate basis of $T_pM$: $\partial_j := \varphi_*(e_j)$
+    & $\frac{\partial}{\partial x^1}, \ldots, \frac{\partial}{\partial x^n}$ 
+    \\
+    \hline
+    tangent vector $[\gamma]_{\sim} \in T_pM$: $v_1 \partial_1 + \ldots + v_n \partial_n$
+    & $v^1 \frac{\partial}{\partial x^1} + \ldots + v^n \frac{\partial}{\partial x^n} := v^j \frac{\partial}{\partial x^j}$ \\ &
+    (Einsteins summation convention) ($\sum_{j=1}^{n} v^j \frac{\partial}{\partial x^j}$)
+     \\
+    \hline
+    Inner product on $T_pM$: $\langle v, w\rangle \in \mathbb{R}$
+    & $v^j g_{jk} w^k \in \mathbb{R}$ (metric tensor $g_{jk}$)
+    \\
+    \hline
+\end{tabular}
+\end{center}
+
+
+\begin{definition}{\textbf{Contravariant vector}} \\
+    A contravariant vector is a vector that transforms according to the rule: \\
+    \begin{equation*}
+        v^j \frac{\partial}{\partial x^j} \quad \text{where} \quad v^j \in \mathbb{R}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}{\textbf{Covariant vector}} \\
+    A covariant vector is a vector that transforms according to the rule: \\
+    \begin{equation*}
+        v_j dx^j \quad \text{where} \quad v_j \in \mathbb{R}
+    \end{equation*}
+\end{definition}
+
+Dual to a contravariant vector $v^j \frac{\partial}{\partial x^j}$: $v_j dx^j$\\
+In our language, $dx_j(\partial_k) = \delta_{jk}$, where $\delta_{jk}$ is the Kronecker delta.\\
+In Ricci calculus, $dx^j(\frac{\partial}{\partial x^k}) = \delta^j_k$.
 
 
 
@@ -2432,7 +2528,24 @@ and we get that it's exactly the directional derivative of $f$ at $p$ along $[\g
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-% \section{Alternating k-forms}
+\section{Alternating k-forms}
+
+\begin{definition}{\textbf{Dual Space (of a tangent space)}} \\
+    Let \( M \) be an n-dimensional smooth manifold. \\
+    The dual space of the tangent space of \( M \) at \( p \) is defined as
+    \begin{equation*}
+        T_p^*M := (T_pM)^* = \{ \alpha : T_pM \to \mathbb{R} \quad | \quad \alpha \quad \text{is linear} \}
+    \end{equation*}
+\end{definition}
+
+For example, the one-form $dx_{j,p} : T_pM \to \mathbb{R}$ is defined as $dx_{j,p}(\partial_k) = \delta_{jk}$.
+
+\begin{definition}{\textbf{Differential form}} \\
+    A differential form on a smooth manifold \( M \) is a map $\omega$ defined on $M$ such that for each $p \in M$,
+    $\omega(p)$ is a linear map $\omega_p : T_pM \to \mathbb{R}$.
+\end{definition}
+
+An example of a one-form is $dx_j : p \mapsto dx_{j,p} \in T_p^*M$.
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
