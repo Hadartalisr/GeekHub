@@ -63,7 +63,7 @@
 \begin{titlepage}
     \begin{center}
      {\huge\bfseries 
-     Convex optimization 1\\
+     Convex optimization \\
      Topology and Manifolds \\
      The Five Miracles of Mirror Descent \\}
      % ----------------------------------------------------------------
@@ -78,6 +78,7 @@
         \item \textbf{Manifolds 1} by Dr. Julian P. Grossmann, "The Bright Side of Mathematics" 
         \item \textbf{The Five Miracles of Mirror Descent} by Professor Sebastien Bubeck, Microsoft Research (Claire Boyer's notes)
         \item \textbf{Wikipedia}
+        \item \textbf{3Blue1Brown} YouTube channel
      \end{itemize}
      }
 
@@ -361,6 +362,7 @@ If \(V\) and \(W\) are isomorphic, we write \(V \cong W\).
     A square matrix \( A \) is invertible if there exists a matrix \( A^{-1} \) such that \( A A^{-1} = A^{-1} A = I \), where \( I \) is the identity matrix.
 \end{definition}
 
+\subsubsection{Cross Product and The determinant}
 
 \begin{definition}{\textbf{Determinant}} \\
     The determinant of a square matrix \( A \) is a scalar value that is computed from the elements of \( A \) and provides significant information about the matrix.     
@@ -382,7 +384,62 @@ If \(V\) and \(W\) are isomorphic, we write \(V \cong W\).
 \end{definition}
 
 \paragraph{Intuition for the Determinant} : \\
-The determinant of a matrix can be thought of as a measure of the volume scaling factor by which a linear transformation affects a given volume when applied to a space. If the determinant is zero, the transformation compresses the space into a lower dimension, leading to a loss in volume. If the determinant is positive, the orientation of the space is preserved after transformation; if negative, the orientation is reversed.
+The determinant of a matrix can be thought of as a measure of the volume scaling factor by which a linear transformation affects a given volume when applied to a space. 
+If the determinant is zero, the transformation compresses the space into a lower dimension, leading to a loss in volume. 
+If the determinant is positive, the orientation of the space is preserved after transformation; if negative, the orientation is reversed.
+
+
+\begin{figure}[H]
+    \begin{subfigure}{0.4\textwidth}
+        \centering
+        \includegraphics[width=0.8\textwidth]{Figs/area_parallellogram_as_determinant.png}
+        \caption{The area of the parallelogram is the absolute value of the determinant of the matrix formed by the vectors representing the parallelogram's sides.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.4\textwidth}
+        \centering
+        \includegraphics[width=0.8\textwidth]{Figs/determinant_parallelepiped.png}
+        \caption{The volume of this parallelepiped is the absolute value of the determinant of the matrix formed by the columns constructed from the vectors r1, r2, and r3.}
+    \end{subfigure}
+\end{figure}
+
+\begin{definition}{\textbf{Cross Product (in $\mathbb{R}^3$)}} \\
+    The cross product of two vectors \( u = (u_1, u_2, u_3) \) and \( v = (v_1, v_2, v_3) \) in \( \mathbb{R}^3 \) is a vector \( u \times v \) defined as:
+    \[
+    u \times v = \begin{bmatrix} i & j & k \\ u_1 & u_2 & u_3 \\ v_1 & v_2 & v_3 \end{bmatrix} = (u_2 v_3 - u_3 v_2) i - (u_1 v_3 - u_3 v_1) j + (u_1 v_2 - u_2 v_1) k
+    \]
+\end{definition}
+
+Let \( u = (x_1, y_1, z_1) \) and \( v = (x_2, y_2, z_2) \) be two vectors in \( \mathbb{R}^3 \). 
+The cross product of \( u \) and \( v \) is orthogonal to both \( u \) and \( v \), and its magnitude is equal to the area of the parallelogram spanned by \( u \) and \( v \).
+\begin{proof}
+    We will define new axis: 
+    \begin{itemize}
+        \item i-axis: will be the span of \( u \)
+        \item j-axis: will be orthogonal to the x-axis such that \( y \in span({u, v}) \)
+        \item k-axis: will be orthogonal to the x and y axes
+    \end{itemize}
+    Then, we can write \( u \) and \( v \) as:
+    \begin{align*}
+        u &= \begin{pmatrix}x1 \\ 0 \\ 0\end{pmatrix} \quad v = \begin{pmatrix}x2 \\ y2 \\ 0\end{pmatrix} \\
+        u \times v &= det\begin{pmatrix}i & j & k \\ x1 & 0 & 0 \\ x2 & y2 & 0\end{pmatrix} = 
+         0 i - 0 j + x1 \cdot y2 \cdot k = \begin{pmatrix}0 \\ 0 \\ x1 \cdot y2\end{pmatrix} \\
+         | \vec{w} | &= | \vec{u} | \times | \vec{v} | = | x1 \cdot y2 | = | x1 | \times | y2 | = \text{area of the parallelogram}
+    \end{align*}
+\end{proof}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Figs/determinant_in_R2.png}
+    \caption{The determinant of a \( 2 \times 2 \) matrix is the area of the parallelogram spanned by the column vectors.}
+\end{figure}
+
+\begin{definition}{\textbf{Cross Product (in $\mathbb{R}^n$)}} \\
+    The cross product of two vectors \( u \) and \( v \) in \( \mathbb{R}^n \) is a vector \( u \times v \) defined as:
+    \[
+    u \times v = \text{det} \begin{bmatrix} e_1 & e_2 & \dots & e_n \\ u_1 & u_2 & \dots & u_n \\ v_1 & v_2 & \dots & v_n \end{bmatrix}
+    \]
+\end{definition}
 
 \begin{theorem}
 Let \( A \) be an \( n \times n \) matrix. The following statements are equivalent:
@@ -405,6 +462,17 @@ The equivalence of these conditions results from fundamental principles in linea
 \end{itemize}
 \end{proof}
 
+\todo[inline]{Add stuff about Leibniz formula for determinant}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\subsubsection{Eigenvalues and Eigenvectors}
 
 
 \begin{definition}{\textbf{Conjugate transpose}} \\
@@ -473,7 +541,13 @@ The equivalence of these conditions results from fundamental principles in linea
     \end{enumerate}
 \end{theorem} 
 
-
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
 
 
 \subsubsection{Quadradic and Bilinear Forms}
@@ -558,7 +632,13 @@ While both congruence and similarity involve transformations of matrices via inv
 
 \end{itemize}
 
-
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
 
 \subsubsection{Inner Product Space}
 
@@ -2980,9 +3060,72 @@ Examples:
 
 \section{Wedge Product}
 
+\begin{definition}{\textbf{Wedge product}} \\
+    Let \( V \) be a vector space and \( \alpha \in Alt^k(V) \) and \( \beta \in Alt^s(V) \). \\
+    The wedge product \( \wedge : Alt^k(V) \times Alt^s(V) \to Alt^{k+s}(V) \) is defined as
+    \begin{align*}
+        \wedge(\alpha, \beta) &\to \alpha \wedge \beta : V^{k+l} \to \mathbb{R} \quad \text{defined as} \\
+        \alpha \wedge \beta(v_1, \ldots, v_{k+s}) &= \frac{1}{k! \cdot s!} \sum_{\sigma \in S_{k+s}} \text{sgn}(\sigma) \cdot \alpha(v_{\sigma(1)}, \ldots, v_{\sigma(k)}) \cdot \beta(v_{\sigma(k+1)}, \ldots, v_{\sigma(k+s)})
+    \end{align*}
+\end{definition}
+
+Examples: 
+\begin{itemize}
+    \item $\alpha, \beta \in Alt^1(V) = V^*$. Then $\alpha \wedge \beta \in Alt^2(V)$, is a 2-form on \( V \) that is defined 
+    as $\alpha \wedge \beta(v_1, v_2) = \alpha(v_1) \cdot \beta(v_2) - \alpha(v_2) \cdot \beta(v_1)$.
+    
+    
+    \item $\alpha , \beta \in Alt^1(\mathbb{R}^3), \quad 
+    \alpha ( \begin{pmatrix}
+        x1 \\ x2 \\ x3
+    \end{pmatrix}) = x1, \quad
+    \beta ( \begin{pmatrix}
+        x1 \\ x2 \\ x3
+    \end{pmatrix}) = x2$. \\
+    Then $\alpha \wedge \beta \in Alt^2(\mathbb{R}^3)$ is defined as
+    \begin{align*}
+        \alpha \wedge \beta ( \begin{pmatrix}
+            x1 \\ x2 \\ x3
+        \end{pmatrix}, \begin{pmatrix}
+            y1 \\ y2 \\ y3
+        \end{pmatrix}) &=  x1 \cdot y2 - y1 \cdot x2 = 
+        \langle 
+        \begin{pmatrix}
+            x1 \\ x2 \\ x3
+        \end{pmatrix}
+        ,
+        \begin{pmatrix}
+            0 & 1 & 0 \\
+            -1 & 0 & 0 \\
+            0 & 0 & 0 \\
+        \end{pmatrix}
+        \begin{pmatrix}
+            y1 \\ y2 \\ y3
+        \end{pmatrix}
+        \rangle
+    \end{align*}
+
+    and the matrix $\begin{pmatrix}
+        0 & 1 & 0 \\
+        -1 & 0 & 0 \\
+        0 & 0 & 0 \\
+    \end{pmatrix}$ is the matrix identified with the 2-form $\alpha \wedge \beta$.
+\end{itemize}
+
+\paragraph{Properties of the wedge product:}
+\begin{enumerate}
+    \item Anticommutative: $\alpha \wedge \beta = (-1)^{k \cdot s} \cdot \beta \wedge \alpha$.
+    \item Bilinear:
+        \begin{itemize}
+            \item $(\alpha + \beta) \wedge \gamma = \alpha \wedge \gamma + \beta \wedge \gamma$.
+            \item $\lambda (\cdot \alpha) \wedge \beta = \lambda \cdot (\alpha \wedge \beta)$.
+        \end{itemize}
+    \item Associative: $(\alpha \wedge \beta) \wedge \gamma = \alpha \wedge (\beta \wedge \gamma)$.
+    \item Pullback: for a linear map $f : W \to V$, and $\alpha \in Alt^k(V)$, $(f^* \alpha)(w_1, \ldots, w_k) = \alpha(f(w_1), \ldots, f(w_k))$. \\
+        $f^*(\alpha \wedge \beta) = f^* \alpha \wedge f^* \beta$.
+\end{enumerate}
 
 
-
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -2991,7 +3134,9 @@ Examples:
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-% \section{Differential forms}
+\section{Differential forms}
+
+
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
