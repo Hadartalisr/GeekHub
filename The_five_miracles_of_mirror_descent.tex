@@ -3126,6 +3126,29 @@ Examples:
 \end{enumerate}
 
 
+The wedge product of two vectors, \(\mathbf{u}\) and \(\mathbf{v}\), represented as \(\mathbf{u} \wedge \mathbf{v}\), 
+can be interpreted geometrically as the oriented area of the parallelogram spanned by these two vectors. 
+The orientation is significant because swapping the vectors reverses the sign of the resulting area.
+
+Mathematically, if \(\mathbf{u} = ai + bj\) and \(\mathbf{v} = ci + dj\), where i and j are basis vectors, then the wedge product is defined as:
+
+\begin{align*}
+    i \wedge i = 0, \quad j \wedge j = 0
+\end{align*}
+
+\begin{align*}
+    0 = (i + j) \wedge (i + j) = i \wedge i + i \wedge j + j \wedge i + j \wedge j = i \wedge j + j \wedge i \Rightarrow i \wedge j = -j \wedge i
+\end{align*}
+
+\begin{align*}
+\mathbf{u} \wedge \mathbf{v} &= (ai + bj) \wedge (ci + dj) \\
+&= ai \wedge ci + ai \wedge dj + bj \wedge ci + bj \wedge dj \\
+&= ac i \wedge i + ad i \wedge j + bc j \wedge i + bd j \wedge j \\
+&= (ad - bc) i \wedge j
+\end{align*}
+
+
+
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -3136,18 +3159,52 @@ Examples:
 
 \section{Differential forms}
 
+\begin{definition}{\textbf{k-form on the manifold}} \\
+    A k-form on a smooth manifold \( M \) is a map 
+    \begin{align*}
+        \omega &: M \to \cup_{p \in M} Alt^k(T_pM) \\
+        p &\mapsto \omega_p = w(p) \in Alt^k(T_pM)
+    \end{align*}
+\end{definition}
+
+\bigbreak
+
+We also define: $\omega \wedge \eta : M \to \cup_{p \in M} Alt^{k+s}(T_pM)$ as $(\omega \wedge \eta)_p := \omega_p \wedge \eta_p$. 
+\medbreak
+For any smooth map $f : M \to N$, we define $f^* \omega : M \to \cup_{p \in M} Alt^k(T_pM)$ as \\
+$(f^* \omega)(p) := (df_p)^* \omega_{p}$.
+
+\paragraph{Basis elements}: \\
+Recall, For a chart $(U, h)$ of $M$ at $p$, the coordinate basis of $T_pM$ is $( \partial_1, \ldots, \partial_n )$, with $\partial_j = \varphi_*(e_j) = d\varphi_{h(p)}(e_j)$. \\
+Then, the dual basis of $(T_pM)* = Alt^1(T_pM)$ is $( dx_p^1, \ldots, dx_p^n )$ where $dx_p^j(\partial_k) = \delta_k^j$.
+
+\begin{definition}\textbf{Basis elements of k-forms} \\
+    Let $dx_p^1, \ldots, dx_p^n$ be the dual basis of $T_pM$ at $p$. \\
+    The basis elements of $Alt^k(T_pM)$ are defined as
+    \begin{align*}
+        &(dx_p^{\mu_1} \wedge \ldots \wedge dx_p^{\mu_k})_{\mu_1 < \mu_2 < \ldots < \mu_k} : T_pM^k \to \mathbb{R} 
+    \end{align*}
+\end{definition}
+
+Example: $dim(M) = 3$, then the basis elements of $Alt^2(T_pM)$ are $(dx_p^1 \wedge dx_p^2, dx_p^1 \wedge dx_p^3, dx_p^2 \wedge dx_p^3)$.
+
+\bigbreak
+
+Conclusion: \\
+Each k-form on a manifold M can locally be written as a linear combination of the basis elements of $Alt^k(T_pM)$:
+\begin{equation*}
+    \omega(p) = \sum_{\mu_1 < \ldots < \mu_k} \omega_{\mu_1, \ldots, \mu_k}(p) \cdot dx_p^{\mu_1} \wedge \ldots \wedge dx_p^{\mu_k}
+\end{equation*}
+Each $\omega_{\mu_1, \ldots, \mu_k} : U \to \mathbb{R}$ is called a component function of $\omega$ in the chart $(U, h)$.
+
+\begin{definition}{\textbf{Differentible k-form on M}} \\
+    A k-form $\omega$ on a smooth manifold \( M \) is called differentiable if for each chart $(U, h)$ of \( M \), 
+    the component functions $\omega_{\mu_1, \ldots, \mu_k}$ are differentiable. \\
+    We denote the set of all differentiable k-forms on \( M \) as \( \Omega^k(M) \).
+    We define \( \Omega^0(M) = C^{\infty}(M) \).
+\end{definition}
 
 
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-
-% \section{Examples of differential forms}
-
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -3157,7 +3214,37 @@ Examples:
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-% \section{Orientable manifolds}
+\section{Examples of differential forms}
+
+M = $\mathbb{R}^2$ , $\partial_1 = \frac{\partial}{\partial x} = \begin{pmatrix} 1 \\ 0 \end{pmatrix}$, $\partial_2 = \frac{\partial}{\partial y} = \begin{pmatrix} 0 \\ 1 \end{pmatrix}$, 
+$dx_p^1 = \begin{pmatrix} 1 & 0 \end{pmatrix}$, $dx_p^2 = \begin{pmatrix} 0 & 1 \end{pmatrix}$ \\
+\begin{align*}
+    dx_p^1 \wedge dx_p^2 ( \begin{pmatrix} a_{1,1} \\ a_{2,1} \end{pmatrix}, \begin{pmatrix} a_{1,2} \\ a_{2,2} \end{pmatrix}) &=  
+    \sum_{\sigma \in S_2} \text{sgn}(\sigma) \cdot dx_p^1(\begin{pmatrix} a_{1, \sigma(1)} \\ a_{2, \sigma(1)} \end{pmatrix}) \cdot dx_p^2(\begin{pmatrix} a_{1, \sigma(2)} \\ a_{2, \sigma(2)} \end{pmatrix}) 
+    \\&= \sum_{\sigma \in S_2} \text{sgn}(\sigma) \cdot a_{1, \sigma(1)} \cdot a_{2, \sigma(2)} 
+    \\&= det \begin{pmatrix} a_{1,1} & a_{1,2} \\ a_{2,1} & a_{2,2} \end{pmatrix}
+\end{align*}
+
+In general for $\mathbb{R}^n$, $dx_p^{\mu_1} \wedge \ldots \wedge dx_p^{\mu_k} ( \begin{pmatrix} a_{1,1} \\ \vdots \\ a_{n,1} \end{pmatrix}, \ldots, \begin{pmatrix} a_{1,k} \\ \vdots \\ a_{n,k} \end{pmatrix}) = det \begin{pmatrix} a_{1,1} & \ldots & a_{1,k} \\ \vdots & \ddots & \vdots \\ a_{n,1} & \ldots & a_{n,k} \end{pmatrix}$
+
+\bigbreak
+
+M = $\mathbb{R}^2$, $\varphi : (r, \theta) \to \mathbb{R}^2$, $\varphi(r, \theta) = \begin{pmatrix} r \cdot cos(\theta) \\ r \cdot sin(\theta) \end{pmatrix}$ \\
+$\partial_1(r, \theta) = \frac{\partial \varphi }{\partial r}(r, \theta) = \begin{pmatrix} cos(\theta) \\  sin(\theta) \end{pmatrix}$, 
+$\partial_2(r, \theta) = \frac{\partial  \varphi}{\partial \theta}(r, \theta) = \begin{pmatrix} -r \cdot sin(\theta) \\ r \cdot cos(\theta) \end{pmatrix}$ \\
+The corresponding dual basis is $dr_p = \begin{pmatrix} cos(\theta) & sin(\theta) \end{pmatrix}$, $d\theta_p = \frac{1}{r} \begin{pmatrix} - \cdot sin(\theta) & \cdot cos(\theta) \end{pmatrix}$ \\
+for $p = (x, y)$, $dr_p = \begin{pmatrix} \frac{x}{\sqrt{x^2 + y^2}} & \frac{y}{\sqrt{x^2 + y^2}} \end{pmatrix}$, $d\theta_p = \begin{pmatrix} - \frac{y}{x^2 + y^2} & \frac{x}{x^2 + y^2} \end{pmatrix}$ \\
+Then $(dr_p \wedge d\theta_p) (e_1, e_2) = dr_p(e_1) \cdot d\theta_p(e_2) - dr_p(e_2) \cdot d\theta_p(e_1) = \frac{1}{r} (\cos^2(\theta) + \sin^2(\theta)) = \frac{1}{r}$
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Orientable manifolds}
 
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
