@@ -3246,6 +3246,24 @@ Then $(dr_p \wedge d\theta_p) (e_1, e_2) = dr_p(e_1) \cdot d\theta_p(e_2) - dr_p
 
 \section{Orientable manifolds}
 
+For example. $\mathbb{R}^n$ with basis $(e_1, \ldots, e_n)$ is oriented by the basis $(e_1, \ldots, e_n)$. \\
+For change of basis matrix $T_{C \leftarrow B}$, 
+$det(T_{C \leftarrow B}) > 0$ means that the basis $C$ is positively oriented with respect to the basis $B$, 
+and $det(T_{C \leftarrow B}) < 0$ means that the basis $C$ is negatively oriented with respect to the basis $B$. \\
+\medbreak
+Thus, there are two equivalence classes of bases: positively and negatively oriented bases with respect to the standard basis. \\
+
+\begin{definition}{\textbf{Orientation in vector spaces}} \\
+    An orientation $(V, or)$ is a tuple of V finite-dimensional vector space and a choice of an equivalence class of bases. \\
+\end{definition}
+
+Let M be an n-dimensional smooth manifold, and $p \in M$. \\
+Let \(U, h\) be a chart of \(M\) at \(p\), and $\varphi_* : \mathbb{R}^n \to T_pM$ be the differential of the chart map, $e_j \to \partial_j^{h}(p)$. \\
+
+\begin{definition}{\textbf{Orientable manifold}} \\
+    A smooth manifold \( M \) is called orientable if there is a family of orientations for the tangent spaces $\{(T_pM, or_p)\}_{p \in M}$ such that
+    $\forall p \in M, \exists (U,h) \quad \text{chart of} \quad M \quad \text{at} \quad p$ such that $\forall x \in U$: $(\partial_1^h(x), \ldots, \partial_n^h(x)) \in or x$.
+\end{definition}
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
@@ -3255,6 +3273,7 @@ Then $(dr_p \wedge d\theta_p) (e_1, e_2) = dr_p(e_1) \cdot d\theta_p(e_2) - dr_p
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
+\todo[inline]{complete the orientation section}
 % \section{Alternative definitions for orientation}
 
 
@@ -3266,7 +3285,7 @@ Then $(dr_p \wedge d\theta_p) (e_1, e_2) = dr_p(e_1) \cdot d\theta_p(e_2) - dr_p
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
-% \section{Riemannian metrics}
+\section{Riemannian metrics}
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
