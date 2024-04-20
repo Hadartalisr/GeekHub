@@ -2898,7 +2898,8 @@ We will deep dive later to the meaning of contravariant and covariant vectors, b
     \end{equation*}
 \end{definition}
 
-Dual to a contravariant vector $v^j \frac{\partial}{\partial x^j}$: $v_j dx^j$\\
+Dual to a contravariant vector: $v_j dx^j$\\
+For exmaple, the one-form for a vector in the tangent space: \\
 In our language, $dx_j(\partial_k) = \delta_{jk}$, where $\delta_{jk}$ is the Kronecker delta.\\
 In Ricci calculus, $dx^j(\frac{\partial}{\partial x^k}) = \delta^j_k$.
 
@@ -2929,20 +2930,58 @@ For example, the one-form $dx_{j,p} : T_pM \to \mathbb{R}$ is defined as $dx_{j,
     $\omega(p)$ is a linear map $\omega_p : T_pM \to \mathbb{R}$.
 \end{definition}
 
-An example of a one-form is $dx_j : p \mapsto dx_{j,p} \in T_p^*M$.
+An example for a differential form is the one-form: $dx_j : p \mapsto dx_{j,p} \in T_p^*M$.
+
+\begin{definition}{\textbf{k-linear (multilinear) map}} \\
+    A map $f : V_1 \times \ldots \times V_k \to W$ is called k-linear if it is linear in each argument. \\ 
+    That is, for each $i \in \{1, \ldots, k\}$, \\
+    $f(v_1, \ldots, v_{i-1}, \lambda v_i + \mu v_i', v_{i+1}, \ldots, v_k) = \lambda f(v_1, \ldots, v_{i-1}, v_i, v_{i+1}, \ldots, v_k) + \mu f(v_1, \ldots, v_{i-1}, v_i', v_{i+1}, \ldots, v_k)$.
+\end{definition}
+
+\begin{definition}{\textbf{k-form}} \\
+    Let \(V \) be a vector space. 
+    A k-form on \( V \) is a k-linear map $\omega : V^k \to \mathbb{R}$.
+\end{definition}
+
+For exmaple, any inner product on a vector space \( V \) is a 2-form on \( V \) (bilinear form).
+
+\begin{definition}{\textbf{Alternating k-form on $V$}} \\
+    A k-form $\omega$ on \( V \) is called alternating if one of those conditions hold:
+    \begin{itemize}
+        \item $\omega(v_1, \ldots, v_k) = 0$ if $v_i = v_j$ for some $i \neq j$.
+        \item $\omega(v_{\sigma(1)}, \ldots, v_{\sigma(k)}) = \text{sgn}(\sigma) \cdot \omega(v_1, \ldots, v_k)$ for each permutation $\sigma$ of $\{1, \ldots, k\}$. \\
+            For example, $\omega(v_2, v_1, v_3) = -\omega(v_1, v_2, v_3)$.
+        \item $\omega(v_1, \ldots, v_k) = 0$ if $v_i = \sum_{j=1}^{k} \lambda_j v_j$ for some $\lambda_j \in \mathbb{R}$ (linearly dependent vectors).
+    \end{itemize}
+\end{definition}
+
+\begin{definition}{\textbf{$Alt^k(V)$}} \\
+    Let \( V \) be a vector space. \\ 
+    \begin{align*}
+        Alt^k(V) &:= \{ \alpha : V^k \to \mathbb{R} \quad | \quad \omega \quad \text{is k-linear and alternating} \}
+    \end{align*}
+\end{definition}
+
+Examples: 
+\begin{itemize}
+    \item $det \in Alt^n(\mathbb{R}^n)$ is an alternating n-form on $\mathbb{R}^n$.
+    \item $Alt^1(V) = { \alpha : V \to \mathbb{R} \quad | \quad \alpha \quad \text{is linear} } = V^*$ is the dual space of \( V \).
+    \item $Alt^0(V) = \mathbb{R}$.
+\end{itemize}
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+\section{Wedge Product}
 
 
 
-
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-% * * * * * * * * * * * * * * * * * * * * * * * *
-
-% \section{Wedge Product}
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 % * * * * * * * * * * * * * * * * * * * * * * * *
