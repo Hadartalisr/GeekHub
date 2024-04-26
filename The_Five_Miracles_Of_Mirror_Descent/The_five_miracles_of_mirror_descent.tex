@@ -3693,6 +3693,40 @@ Mirror Descent fixes this issue - it first map the primal point to the dual spac
 
 \chapter{The Third Miracle: }
 
+\section{Coupon Collector Phenomenon}
+
+The coupon collector's problem is a classic example of a problem in probability theory that has applications in various fields such as computer science, 
+combinatorics, and stochastic processes. 
+The problem describes a scenario where a collector wishes to gather one of each type of coupon, 
+and each coupon type is equally likely to be obtained at each trial.
+
+\begin{definition}{\textbf{Coupon Collector Problem}} \\
+The \emph{Coupon Collector Problem} considers a scenario with \( n \) different types of coupons.  \\
+Each time a coupon is collected, it is of a type chosen uniformly at random from the \( n \) types. \\
+The problem is to determine the expected number of coupons that must be collected before having at least one of each type.
+\end{definition}
+
+\begin{theorem}{\textbf{Expected Number of Trials for Coupon Collection}} \\
+Let \( T \) be the random variable representing the number of trials needed to collect all \( n \) types of coupons. \\ 
+Then the expected value of \( T \) is \( E[T] = n \cdot H_n \), where \( H_n \) is the \( n \)-th harmonic number defined as \( H_n = \sum_{k=1}^{n} \frac{1}{k} \).
+\end{theorem}
+
+\begin{proof}
+The collection process can be broken into \( n \) stages, where stage \( i \) represents the collection of the \( i \)-th new coupon after already
+having \( i-1 \) different types. The expected number of trials to collect a new coupon during stage \( i \) is \( \frac{n}{n - (i - 1)} \), 
+since there are \( n - (i - 1) \) types not yet collected (geometric distribution). \\ 
+Therefore, the expected total number of trials to collect all \( n \) coupons is:
+
+\[
+E[T] = \sum_{i=1}^{n} \frac{n}{n - (i - 1)} = n \cdot \sum_{i=1}^{n} \frac{1}{i} = n \cdot H_n.
+\]
+
+Hence, the expected number of trials needed to collect all \( n \) types of coupons is \( n \) times the \( n \)-th harmonic number (and is O(n log n)).
+\end{proof}
+
+
+\section{Metrical Task Systems (MTS)}
+
 \begin{definition}{\textbf{MTS (Metrical Task System)} [Borodin, Linial, Saks, '92]} \\
     Let $X$ be a finite metric space. \\
     The player maintains a state $\rho _t \in X$. 
