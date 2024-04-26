@@ -366,6 +366,8 @@ so we added primal and dual points, which was ok just in finite dimensions. \\
 Mirror Descent fixes this issue - it first map the primal point to the dual space, then do the update in the dual space, and then map back to the primal space.
 
 
+
+
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
@@ -501,7 +503,57 @@ ALG's cost over n time is 1 in expectation (expectation of geometric distributio
 but it takes $O(n log n)$ to cover $X$ (to hit all the states (the coupon collector problem)).
 So the competitive ratio is $\Omega(\log n)$.
 
+\bigbreak
+
 Open question: "weighted coupon collector problem" - the cost of collecting a coupon is not 1, but a given weight (the cost function is not uniform).
+
+
+\section{Beyond Uniform Spaces: weighted stars} 
+
+Continues time problem: instead of $c_t, \quad t \in \mathbb{N}$, we have $c_t,\quad t \in \mathbb{R}_+$. 
+
+\begin{lemma}{\textbf{Continues time guarantees transfer to discrete time guarantees}} \end{lemma}
+
+\begin{proof}
+    $c_t \to c(t)$ is a water filling process. \\
+    from $\rho_t \to \rho(t)$, which is the smallest cost state visited by the continuous time algorithm. \\
+    SC-DC $\leq$ SC-CS \\
+    MC-DC $\leq$ MC-CS \\
+    in general OPT-CT $\leq$ OPT-DC but by the two inequalities above, we get that OPT-CT $\leq$ OPT-CS.
+\end{proof}
+
+
+\subsection{Wasserstein Distance}
+
+The Wasserstein distance is a measure of the distance between two probability distributions that has gained popularity in various fields, 
+particularly in machine learning for its application in generative models.
+
+\begin{definition}{\textbf{Wasserstein Distance}} \\
+    Given two probability measures \( \mu \) and \( \nu \) on a metric space \( (M, d) \), the Wasserstein distance of order \( p \) between \( \mu \) and \( \nu \) is defined as:
+    \[
+    W_p(\mu, \nu) = \left( \inf_{\gamma \in \Gamma(\mu, \nu)} \int_{M \times M} d(x,y)^p \, d\gamma(x,y) \right)^{\frac{1}{p}},
+    \]
+    where \( \Gamma(\mu, \nu) \) denotes the collection of all measures on \( M \times M \) with marginals \( \mu \) and \( \nu \) on the first and second factors, respectively.
+\end{definition}
+
+\textbf{Intuition:} The Wasserstein distance can be thought of as the minimum "cost" required to transform one distribution into another, 
+where the cost is measured by the amount of "mass" that must be moved times the distance it has to be moved.
+
+\textbf{Example:} Consider two one-dimensional distributions, \( \mu \) which is a delta function at 0, 
+and \( \nu \) which is a delta function at 1. The Wasserstein distance of order 1 between \( \mu \) and \( \nu \) is simply the distance between the two points, which is 1.
+
+This metric is particularly useful when comparing probability distributions that might not have the same support or when the cost of transportation is significant.
+
+
+\subsection{Continues space problem}
+
+
+Instead of $\rho_t \in X$, we maintain $x_t \in \bigtriangleup_n$ (simplex). \\
+$dist(\rho_t, \rho_{t+1}) \rightsquigarrow w_1(x_t, x_{t+1}) := \inf_{(X, Y) : X \sim x_t, Y \sim x_{t+1}} \mathbb{E} dist(X, Y)$.
+
+
+
+
 
 
 
