@@ -3606,11 +3606,69 @@ Miracle: the potential is the Bregman divergence of $\phi$ ($D_{\phi}(x, y) = \p
 
     This is the same as the following: 
     \begin{align*}
-        x(t + dt) = \argmin_{x \in \mathcal{K}} \left\{ \eta g(t) \cdot x + \frac{1}{2} \| x - x(t) \|^2_{\nabla^2 \phi(x_t)} \right\}
+        x(t + dt) = \argmin_{x \in \mathcal{K}} \left\{ \eta g(t) \cdot x + \frac{1}{2} \| x - x(t) \|^2_{x(t)} \right\}
     \end{align*}
+    where $\| h \|^2_x = \nabla^2 \phi(x) [h, h]$ is the norm induced by the Riemannian metric. \\
 \end{algorithm}
 
+It is the same as the proximal view of GD, except that the proximal operator is with respect to the Riemannian metric.
+Recall that in the proximal view of GD, we have:
 
+\begin{algorithm}[H]
+    \caption{Proximal Point method} \label{alg:proximal_point_method}
+    Given a function \( f \colon \mathbb{R}^d \to \mathbb{R} \) and step size \( \eta > 0 \), compute:
+    \[ x_{t+1} = \text{prox}_{h_t,\eta}(x_t), \quad t = 1, 2, \ldots \]
+    where \( h_t \colon \mathbb{R}^d \to \mathbb{R} \) are convex functions such that
+    \[ \forall x \in \mathbb{R}^d \colon h_t(x) \leq f(x) \leq h_t(x) + \frac{\beta}{2} \| x - x_t \|^2. \]    
+\end{algorithm}
+That is: \[ x_{t+1} = \argmin_{x \in \mathbb{R}^d} \left\{ f(x_t) + \nabla f(x_t) \cdot (x - x_t) + \frac{1}{2\eta} \| x - x_t \|^2 \right\} \] 
+and in MD instead of $\eta$ as a denominator of the distance, we control the ratio by a coefficient $\eta$ of the gradient.
+
+\bigbreak
+
+\begin{theorem}{\textbf{$x(t)$ exists and is unique}} \\
+    The solution to the Mirror Descent algorithm exists and is unique.
+\end{theorem}
+
+\begin{proof}{\textbf{$x(t)$ exists and is unique}} \\
+    \begin{align*}
+        D_{\phi}(y, x(t)) &= \phi(y) - \phi(x(t)) - \nabla \phi(x(t)) \cdot (y - x(t)) \\
+        \frac{d}{dt}D_{\phi}(y, x(t)) &=  - \nabla \phi(x(t)) \cdot \frac{d}{dt} x(t)  - \nabla^2 \phi(x(t)) \frac{d}{dt} x(t) \cdot (y - x(t)) - \nabla \phi(x(t)) \cdot (- \frac{d}{dt} x(t)) \\
+        &= - \nabla^2 \phi(x(t)) \cdot \frac{d}{dt} x(t) \cdot (y - x(t)) \quad (- [\nabla^2 \phi(x(t))] \cdot \frac{d}{dt} x(t) = (\eta g(t) + \lambda(t))) \\
+        &= (\eta g(t) + \lambda(t)) \cdot (y - x(t)) \quad (y \in \mathcal{K} \text{ and } \lambda(t) \in N_{\mathcal{K}}(x(t)) \Rightarrow \lambda(t) \cdot (y - x(t)) \leq 0) \\
+        &\leq \eta g(t) \cdot (y - x(t)) 
+    \end{align*}
+\end{proof}
+
+We can think that $g(t) \cdot y $ is what OPT would have pay at time $t$, and $g(t) \cdot x(t)$ is what we pay.
+If we pay more than OPT, then the Bregman divergence will decrease and we will move towards OPT.
+We get that for any $y \in \mathcal{K}$:
+\begin{align*}
+    \int_0^T g(t) \cdot (x(t) - y) dt &\leq \frac{D_{\phi} (y, x(0))}{\eta}
+\end{align*}
+
+\begin{itemize}
+    \item Previously we had 2 terms in the RHS - one for the range and one for the variance, 
+    now we have only one term for the range, because we are in a continuous time setting).
+    \item By itself, this theorem is meaningless, we can always speed up the time by making $\phi$ smaller (and the Bregman divergence smaller).
+\end{itemize}
+
+Discrete time version: \\
+\begin{align*}
+    \text{discretize } \frac{d}{dt} x(t) &= -[\nabla^2 \phi(x(t))]^{-1} \cdot g(t) \iff \nabla^2 \phi(x(t)) \frac{d}{dt} x(t) = -g(t) \\
+    \iff \frac{d}{dt} \nabla \phi(x(t)) &= -g(t)
+\end{align*}
+
+Then we get that:
+\begin{align*}
+    \nabla \phi(x(t+1)) = \nabla \phi(x(t)) - \eta g(t)
+\end{align*}
+
+In GD, we have that $x_{t+1} = x_t - \eta \nabla f(x_t)$, and in MD we have that $\nabla \phi(x_{t+1}) = \nabla \phi(x_t) - \eta g(t)$.
+We can think of it as - instead of doing an update in the primal space, we do an update in the dual space. \\
+Moreover, GD didn't really make sense since $x_t$ was a primal point and $\nabla f(x_t)$ was a dual point (it was a linear functional) - 
+so we added primal and dual points, which was ok just in finite dimensions. \\
+Mirror Descent fixes this issue - it first map the primal point to the dual space, and then do the update in the dual space, and then map back to the primal space.
 
 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
