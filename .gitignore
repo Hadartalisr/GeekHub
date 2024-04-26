@@ -11,3 +11,4 @@
 *.run.xml
 *.xdv
 *.lof
+.DS_Store
