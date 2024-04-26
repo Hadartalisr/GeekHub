@@ -19,6 +19,7 @@
 \usepackage{todonotes} 
 \usepackage{empheq}
 \usepackage{array}
+\usepackage[ruled,vlined]{algorithm2e} 
 
 
 
@@ -204,6 +205,7 @@ Examples of groups:
             \item \((b + c) \times a = (b \times a) + (c \times a)\) for all \(a, b, c \in R\) (right distributivity).
         \end{itemize}
     \end{enumerate}
+
 \end{definition}
 
 \begin{example*}
@@ -3443,7 +3445,7 @@ The player incurs loss $l_t(I_t)$ and the goal is to minimize the regret:
 
 We consider the case where in each time step the player chooses an action from a distribution $\vec{p}$ over the $n$ experts (a vector from the simplex):
 \begin{equation*}
-    \vec{p} \in \bigtriangleup_n = \{ \vec{p} \in \mathbb{R}_+^n : p_i \geq 0, \sum_{i=1}^n p_i = 1 \}
+    \vec{p} \in \mathcal{K} := \bigtriangleup_n = \{ \vec{p} \in \mathbb{R}_+^n : p_i \geq 0, \sum_{i=1}^n p_i = 1 \}
 \end{equation*}
 
 \subsubsection{Approach 1: Gradient Descent}
@@ -3475,16 +3477,60 @@ The fact that the rate of convergence DO NOT depend on the dimension of the prob
 
 
 \subsubsection{Approach 2: Multiplicative Weights Update (MWU)}
+
+The optimal convergence rate for the experts problem is $\sqrt{T \log n}$, which is achieved by the MWU algorithm.
+It is achieved by considering the sparsity of the OPT strategy (which is just a point mass on the best expert). 
+We will modify GD such that it will move faster when far from a sparse point.
+
+\medbreak
+
 \todo[inline] {Approach 2: M}
 
 
 \section{Mirror Descent}
 
-Endow K with a Riemannian structure: $<\cdot, \cdot>_x$ for each $x \in K$. 
-Before: 
-\begin{equation}
-    x_{t+1} = x_t - \eta \nabla f(x_t) \rightarrow f(x + dx) \approx f(x) + \nabla f(x) \cdot dx
-\end{equation}
+Endow $\mathcal{K}$ with a Riemannian structure: \\
+$<\cdot, \cdot>_x$ for each $x \in \mathcal{K}$, the tangent space will be $\mathbb{R}^n$. \\
+\begin{align*}
+    \text{Before:}\\
+    x_{t+1} = x_t - \eta \nabla f(x_t) \rightarrow f(x + dx) &\approx f(x) + \langle \nabla f(x) , dx \rangle \\
+    \text{Now:}\\
+   f(x + dx) &\approx f(x) + \langle grad_M f(x) , dx \rangle_x
+\end{align*}
+
+We will consider $M$ such that $\langle \cdot, \cdot \rangle_x = \nabla^2 \phi [\cdot, \cdot]$, where $\phi$ is a fixed convex function. 
+The function $\phi$ encodes the geometry of the space, and this is where the prior information is encoded. We get that:
+\begin{align*}
+    (dx)^T  \nabla f(x) = \langle grad_M f(x) , dx \rangle_x &= dx^T \nabla^2 \phi(x) grad_M f(x) \Rightarrow \\
+    grad_M f(x) &= [\nabla^2 \phi(x)]^{-1} \nabla f(x)
+\end{align*}
+
+Idea: $x_{t+1} = x_t - \eta [\nabla^2 \phi(x_t)]^{-1} \nabla g_t $ \\
+Question: what is the potential? (how do we analyze this algorithm?) \\
+Miracle: the potential is the Bregman divergence of $\phi$ ($D_{\phi}(x, y) = \phi(x) - \phi(y) - \langle \nabla \phi(y), x-y \rangle_x$) [Nemiroski, 1979] 
+
+\bigbreak
+
+\begin{algorithm}[H]
+    \SetNoFillComment
+    \SetAlgoLined
+    % \KwIn{} 
+    % \KwOut{}
+    $g : \mathbb{R}_+ \to \mathbb{R}^n$ is a smooth vector field \\
+    \begin{align*}
+        \frac{d}{dt} x_t &= -[\nabla^2 \phi(x_t)]^{-1} (\eta g(t) + \lambda (t))
+    \end{align*}
+    Where $\lambda(t) \in N_{\mathcal{K}}(x_t), x(t) \in \mathcal{K}$ is a lagrange multiplier - it is an element of the normal cone of $\mathcal{K}$ at $x_t$. \\
+    \caption{Continues time Mirror Descent} \label{Continues time Mirror Descent}
+
+    This is the same as the following: 
+    \begin{align*}
+        x(t + dt) = \argmin_{x \in \mathcal{K}} \left\{ \eta g(t) \cdot x + \frac{1}{2} \| x - x(t) \|^2_{\nabla^2 \phi(x_t)} \right\}
+    \end{align*}
+\end{algorithm}
+
+
+
 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
