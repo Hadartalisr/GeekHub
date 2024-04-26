@@ -497,7 +497,12 @@ Thus, the expected movements decrease logarithmically with the number of unmarke
 
 What about the lower bound? \\
 $c_{t+1}(\rho) = +\infty$ at a random location.
-ALG cost over n time is 1 in expectation. 
+ALG's cost over n time is 1 in expectation (expectation of geometric distribution with parameter $\frac{1}{n}$), 
+but it takes $O(n log n)$ to cover $X$ (to hit all the states (the coupon collector problem)).
+So the competitive ratio is $\Omega(\log n)$.
+
+Open question: "weighted coupon collector problem" - the cost of collecting a coupon is not 1, but a given weight (the cost function is not uniform).
+
 
 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
