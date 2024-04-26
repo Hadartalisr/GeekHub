@@ -1397,7 +1397,8 @@ If $f$ is differentiable and $C$ is a convex set, then $x^*$ is a local minimum 
 % * * * * * * * * * * * * * * * * * * * * * * * *
 
 
-\section{Properties of Convex Functions}
+\section{Smooth Optimization}
+\todo[inline]{Add the definitions and remove unrelated content.}
 
 \begin{definition}{L - Lipschitz continuous} \\
 A function $f: S \rightarrow \mathbb{R}$ is L-Lipschitz continuous if for all $x, y \in S$,
@@ -1454,6 +1455,75 @@ Let \( f : \mathbb{R}^d \rightarrow \mathbb{R} \) be \(\beta\)-smooth, and let \
     \item A convex combination of \(\beta\)-smooth functions is \(\beta\)-smooth.
 \end{itemize}
 
+\subsubsection{"Proximal" view of smooth optimization}
+
+Our initial motivation for introducing smoothness was for ensuring that the gradient $\nabla f(x_t)$ 
+(used in the optimization step) is indeed a faithful representative of the local behavior of the objective $f$ around $x_t$.
+
+We formalized this by a requirement that the linear approximation of $f$ at $x_t$ is not too far from $f$ close to $x_t$: 
+\[
+f(x) \leq f(x_t) + \nabla f(x_t) \cdot (x - x_t) + \frac{\beta}{2} \|x - x_t\|^2.
+\]
+(We ignore the symmetric lower bound since we are still focusing on convex $f$.)
+
+Revisiting this approach, a tempting idea is to use this approximation of $f$ for algorithm design: since it is easy to minimize a quadratic, we can try to construct $x_{t+1}$ by minimizing the RHS of the upper bound above.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{Figs/proximal_view_of_smooth_optimization.png}
+    \caption{Proximal view of smooth optimization}
+\end{figure}
+
+To solve this, let's take the gradient with respect to \( y \) and equate to zero:
+\[
+\nabla f(x_t) + \beta (x_{t+1} - x_t) = 0 \Rightarrow x_{t+1} = x_t - \frac{1}{\beta} \nabla f(x_t).
+\]
+This precisely gives gradient descent with \( \eta = \frac{1}{\beta} \)!
+
+\begin{remark*}{\textbf{Gradient Descent as Proximal Operator}} \\
+    Given a convex and \(\beta\)-smooth \( f \colon \mathbb{R}^d \rightarrow \mathbb{R} \) and starting from \( x_1 \in \mathbb{R}^d \), compute for \( t = 1, 2, \dots \):
+    \[
+    x_{t+1} = \arg\min_{x \in \mathbb{R}^d} \left\{ f(x_t) + \nabla f(x_t) \cdot (x - x_t) + \frac{\beta}{2} \| x - x_t \|^2 \right\}.
+     \]
+\end{remark*}
+
+\medbreak
+
+This motivates the following definition, central to convex optimization:
+
+\begin{definition}{\textbf{Proximal operator (``prox'')}} \\
+    The proximal operator associated with a convex function \( h \colon \mathbb{R}^d \rightarrow \mathbb{R} \) is:
+    \[
+    \text{prox}_{h,\eta}(x) = \arg\min_{y \in \mathbb{R}^d} \left\{ h(y) + \frac{1}{2\eta} \| y - x \|^2 \right\}
+    \]
+\end{definition}
+
+Thus, a step of (unconstrained) gradient descent can be viewed as a proximal operator
+\[
+x_{t+1} = \text{prox}_{h_t, 1/\beta}(x_t),
+\]
+applied to a linearization \( h_t \) of \( f \) at \( x_t \):
+\[
+h_t(x) = f(x_t) + \nabla f(x_t) \cdot (x - x_t).
+\]
+
+A similar equivalence also holds in the constrained case.
+
+
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+\section{Strong Convexity}
+\todo[inline]{Add the definitions and remove unrelated content.}
+
 
 \begin{definition} {Strong convexity} \\
 A function \( f \) is \(\alpha\)-strongly convex (for \(\alpha \geq 0\)) over a convex and closed set \( S \subseteq \text{dom} f \) if for any \( x \in S \), there exists \( g_x \in \partial f(x) \) such that:
@@ -1487,6 +1557,17 @@ If a differentiable \( f \) is \(\alpha\)-strongly convex over a convex and clos
 \]
 In particular, the minimum of a strongly convex function is unique.
 \end{theorem}
+
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+\section{}
 
 
 % * * * * * * * * * * * * * * * * * * * * * * * *
