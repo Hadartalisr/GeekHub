@@ -3668,7 +3668,7 @@ In GD, we have that $x_{t+1} = x_t - \eta \nabla f(x_t)$, and in MD we have that
 We can think of it as - instead of doing an update in the primal space, we do an update in the dual space. \\
 Moreover, GD didn't really make sense since $x_t$ was a primal point and $\nabla f(x_t)$ was a dual point (it was a linear functional) - 
 so we added primal and dual points, which was ok just in finite dimensions. \\
-Mirror Descent fixes this issue - it first map the primal point to the dual space, and then do the update in the dual space, and then map back to the primal space.
+Mirror Descent fixes this issue - it first map the primal point to the dual space, then do the update in the dual space, and then map back to the primal space.
 
 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
@@ -3692,6 +3692,92 @@ Mirror Descent fixes this issue - it first map the primal point to the dual spac
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 
 \chapter{The Third Miracle: }
+
+\begin{definition}{\textbf{MTS (Metrical Task System)} [Borodin, Linial, Saks, '92]} \\
+    Let $X$ be a finite metric space. \\
+    The player maintains a state $\rho _t \in X$. 
+    At time $t+1$ the player receives a task $c_{t+1} : X \to \mathbb{R}_+$ (a cost function) and move to a new state $\rho_{t+1} \in X$. \\
+    The movement cost = $dist(\rho_t, \rho_{t+1})$. \\
+    The service cost = $c_{t+1}(\rho_{t+1})$.
+\end{definition}
+
+Some applications:
+\begin{itemize}
+    \item \textbf{Self adjusting data structures} - the state is the data structure, the task is the query, the cost is the time to answer the query. \\
+    For example: $X = S^n$ set of permutations of $n$ elements, \\
+    cost function: $c_{t+1}(\sigma) = \sum_{i=1}^{n'} \mathds{1} (\sigma(i) \neq j)$ and $\sigma(n') = j$ 
+
+    \item \textbf{Power management} - the states are On $/$ Off $/$ Sleep. \\
+            $dist(\text{On}, \text{Off}) > dist(\text{On}, \text{Sleep})$. \\
+            $c_1(\text{On}) = 0, c_1(\text{Sleep}) = c_1(\text{Off}) = \infty$. \\
+            $c_2(\text{On}) = 1, c_2(\text{Sleep}) = \epsilon, c_2(\text{Off}) = 0$. 
+
+    \item Strictly more general than \textbf{prediction with expert advice} - \\
+        Imagine that the metric space is trivial (i.e. $dist(x, y) = 0$ for all $x, y$ such that $x \neq y$). \\
+        If I don't move, than being evaluated at the next cost function or the current function is the same. 
+        The cost that I get when I'm evaluated at the next cost function is upper bounded by the cost that I'm evaluated at the current cost function 
+        $+$ the distance that I moved.
+\end{itemize}
+
+
+The type of guarantees:
+\begin{itemize}
+    \item \textbf{Competitive ratio $\equiv \frac{ALG}{OPT}$} - the ratio between the cost of the algorithm and the cost of the best fixed states in hindsight. 
+    \item \textbf{Conjecture in online algorithms} - for any metric space $|X| = n, \quad \exists \quad \mathcal{A} \text{ in } O(\log n)$-competitive algorithm.
+        Where the $\log n$ comes from? We have seen that in the experts problem, the optimal rate is $\sqrt{T \log n}$ (also exists in matrix concentration results).
+\end{itemize}
+
+Today's Theorem [Bubeck, Cohen, J.Lee, YT.Lee, '18] - $O(\log^2 n)$-competitive algorithm for MTS.
+Remember that in some example it is $O(\log n)$ where $n$ is really the parameter of interest, 
+but in other examples n is exponential is the parameter of interest (and then we get $O(\log^2 n)$).
+$\forall X$ metric space, $\Omega(\frac{\log n}{\log \log n})$ is necessary.
+
+\subsection{Deterministic Strategies on uniform metric}
+
+By "uniform metric" we mean that the distance between any two points is 1. \\
+For any deterministic algorithm, it is at least in order of n since the adversary can choose the highest cost function for the algorithm.
+
+Algorithm in $O(n)$-competitive: \\
+Stay in state until it accumulates a cost of 1. 
+Then mark the state and move to an unmarked state. 
+Once everything is marked, I paid $\leq$ 2n and OPT pays at least 1 (since every state is evaluated at least once). So I'm 2n-competitive.
+
+Why is it $\Omega(n)$-competitive? \\
+$c_{t+1}(\rho) = +\infty \mathds{1}_{\rho = \rho_t}$.
+Over n time steps, the algorithm pays $n$ and OPT pays less than $1$, so the competitive ratio is at least $n$.
+
+
+\subsection{Randomized Strategies for uniform metric}
+Randomized algorithms are a cornerstone in algorithm design, particularly useful in adversarial models where the sequence of events is unpredictable or even hostile. 
+The core principle of a randomized algorithm is to introduce uncertainty from the perspective of an adversary. 
+By obfuscating the algorithm's state with randomness, it becomes infeasible for an adversary to target the algorithm's weaknesses with precision.
+In an adversarial model, considering the algorithm's cost sequence as being determined by an adversary implies that the adversary lacks knowledge 
+of the algorithm's current state. The algorithm, by being in a random location, is shielded from being exploited with surgical precision. 
+In this scenario, the best the adversary can do is to guess or "hit" a random location, without any concrete knowledge of the algorithm's whereabouts.
+
+If the adversary chooses to target a random location, then the sequence of costs becomes inherently hard to predict. 
+The impact of this randomness is quantifiable -- if a cost sequence is determined at a random location, then, under certain conditions, 
+the accumulated cost over \( n \) iterations is bounded.
+
+A randomized strategy in a uniform metric space can be articulated as follows: \\
+an algorithm remains in a given state until it accumulates a certain level of cost, after which it transitions to a random unmarked state.
+Formally, we define the expected movement function \( f(n) \) for an algorithm where \( n \) states remain unmarked:
+
+\begin{align*}
+f(n) &= \text{the expected number of moves when \( n \) states are unmarked}, \\
+f(n) &= \frac{1}{n} + f(n-1), \\
+f(n) &= 1 + \frac{1}{2} + \ldots + \frac{1}{n}, \\
+f(n) &= \log n + O(1), \\
+f(n) &= O(\log n).
+\end{align*}
+
+This expression suggests that as the number of unmarked states decreases, 
+the expected number of movements, and hence the cost, follows a logarithmic pattern relative to the number of unmarked states, up to a constant factor.
+
+What about the lower bound? \\
+$c_{t+1}(\rho) = +\infty$ at a random location.
+ALG cost over n time is 1 in expectation. 
+
 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
