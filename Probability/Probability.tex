@@ -1,0 +1,245 @@
+\documentclass[11pt]{book}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{amsthm}
+\usepackage{tikz}
+\usepackage{subcaption}
+\usetikzlibrary{positioning}
+\usepackage{pgfplots} 
+\usepackage[ruled,vlined]{algorithm2e} 
+\usepackage{dsfont}
+\usepackage{graphicx}
+\usepackage{mathdesign}
+\usepackage{float}
+\usepackage{todonotes} 
+\usepackage{empheq}
+\usepackage{array}
+\usepackage[ruled,vlined]{algorithm2e} 
+
+
+
+\setlength{\parindent}{0pt}
+
+
+\newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
+\newcommand\defeq{\stackrel{\mathclap{\normalfont\mbox{def}}}{=}}
+\SetCommentSty{mycommfont}
+
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{claim}{claim}[section]
+\newtheorem{example}{Example}[section]
+
+
+\newtheorem*{claim*}{Claim}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem*{corollary*}{Corollary}
+\newtheorem*{remark*}{Remark}
+\newtheorem*{example*}{Example}
+\newtheorem*{examples*}{Examples}
+\newtheorem*{definition*}{Definition}
+
+
+
+\setcounter{tocdepth}{3}
+
+
+
+
+
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+     {\huge\bfseries 
+     Probability \\
+     }
+     % ----------------------------------------------------------------
+     \vspace{1.5cm}
+     {\Large\bfseries Hadar Tal}\\[5pt]
+     hadar.tal@mail.huji.ac.il\\[14pt]
+      % ----------------------------------------------------------------
+     \vspace{2cm}
+     {This paper is a summary of the educational materials and lectures from 
+     \begin{itemize}
+        \item \textbf{Optimization for Computer Science} by Professor Tomer Koren, Tel Aviv University
+        \item \textbf{Wikipedia}
+        \item \textbf{3Blue1Brown} YouTube channel
+        \item Introduction to the Wasserstein distance by "Applied Algebraic Topology Network" YouTube channel
+     \end{itemize}
+     }
+
+     \vfill
+    {Winter 2024}
+    \end{center}
+\end{titlepage}
+
+
+\frontmatter
+\tableofcontents
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+
+\mainmatter
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+ 
+\chapter{Probability Measures}
+
+\section{Probability Spaces}
+
+\begin{definition}{\textbf{Probability Space}} \\
+    A probability space is a triple \( (\Omega, \mathcal{F}, P) \) where:
+    \begin{itemize}
+        \item \( \Omega \) is a set of outcomes.
+        \item \( \mathcal{F} \) is a sigma-algebra of events.
+        \item \( P \) is a probability measure.
+    \end{itemize}
+\end{definition}
+
+\begin{definition}{\textbf{Sigma-Algebra}} \\
+    A sigma-algebra is a collection of subsets of a set \( \Omega \) that contains the empty set, is closed under complements, and is closed under countable unions.
+\end{definition}
+
+\begin{definition}{\textbf{Probability Measure}} \\
+    A probability measure is a function \( P: \mathcal{F} \rightarrow [0,1] \) that satisfies:
+    \begin{itemize}
+        \item \( P(\Omega) = 1 \).
+        \item For any countable collection of disjoint sets \( A_1, A_2, \ldots \in \mathcal{F} \), 
+        \[
+        P\left( \bigcup_{i=1}^{\infty} A_i \right) = \sum_{i=1}^{\infty} P(A_i).
+        \]
+    \end{itemize}
+\end{definition}
+
+
+\chapter{Distances and Metrics}
+
+\section{Wasserstein Distance}
+
+The Wasserstein distance (also called the $\textbf{kanterovich-rubinstein distance}$, \\
+$\textbf{optimal transport distance}$, or $\textbf{earth mover's distance}$) 
+is a measure of the distance between two probability distributions that has gained popularity in various fields, 
+particularly in machine learning for its application in generative models.
+
+\medbreak
+
+While using function distance $\| f - g \|_\infty$ is a common way to measure the difference between two functions,
+it is not always the most appropriate. 
+
+\medbreak
+
+\textbf{Intuition:} 
+\begin{itemize}
+    \item The Wasserstein distance can be thought of as the minimum "cost" required to transform one distribution into another, 
+    where the cost is measured by the amount of "mass" that must be moved times the distance it has to be moved.
+    \item Amount of work needed to transform one distribution into another.
+    \item Area between cumulative distribution functions (CDFs).
+    \item Sensitive to outliers.
+\end{itemize}
+
+We will begin by looking at the discrete case of a Transport Plan. 
+
+Lets consider two discrete probability distributions \( X = \{x_1, x_2, x_3, x_4\} \) and \( Y = \{y_1, y_2, y_3\} \)
+with the probability mass functions:
+\[
+    P(X) = \{0.4, 0.1, 0.3, 0.2\} \quad \text{and} \quad P(Y) = \{0.3, 0.4, 0.3\}.
+\]
+
+We can define a transport plan as a matrix \( \pi \) where \( \pi_{ij} \) represents the amount of mass that is transported from \( x_i \) to \( y_j \).
+
+
+\[
+\begin{array}{c|cccc}
+  & x_1 & x_2 & x_3 & x_4 \\
+\hline
+y_1 & 0.3 & 0.3 & 0   & 0   \\
+y_2 & 0.4 & 0.1 & 0.2 & 0   \\
+y_3 & 0.3 & 0   & 0.1 & 0.2 \\
+\end{array}
+\]
+
+\[
+d_{W_1} \left( \sum_{i} \alpha_i \delta_{x_i}, \sum_{j} \beta_j \delta_{y_j} \right) = 
+\min \{ \sum_{i,j} \pi_{ij} d(x_i, y_j) : \pi_{ij} \geq 0, 
+\sum_{i} \pi_{ij} = \beta_j, \sum_{j} \pi_{ij} = \alpha_i \}
+\]
+
+
+\begin{definition}{\textbf{Wasserstein Distance}} \\
+    Given two probability measures \( \mu \) and \( \nu \) on a metric space \( (M, d) \), the Wasserstein distance of order \( p \) between \( \mu \) and \( \nu \) is defined as:
+    \[
+    W_p(\mu, \nu) = \left( \inf_{\gamma \in \Gamma(\mu, \nu)} \int_{M \times M} d(x,y)^p \, d\gamma(x,y) \right)^{\frac{1}{p}},
+    \]
+    where \( \Gamma(\mu, \nu) \) denotes the collection of all measures on \( M \times M \) with marginals \( \mu \) and \( \nu \) on the first and second factors, respectively.
+\end{definition}
+
+And for $W_1$:
+\[
+    W_1(\mu, \nu) = \inf_{\gamma \in \Gamma(\mu, \nu)} \int_{M \times M} d(x,y) \, d\gamma(x,y).
+\]
+
+
+\textbf{Example:} Consider two one-dimensional distributions, \( \mu \) which is a delta function at 0, 
+and \( \nu \) which is a delta function at 1. The Wasserstein distance of order 1 between \( \mu \) and \( \nu \) is simply the distance between the two points, which is 1.
+
+This metric is particularly useful when comparing probability distributions that might not have the same support or when the cost of transportation is significant.
+
+
+\section{Total Variation Distance}
+
+\section{Kullback-Leibler Divergence}
+
+\section{Hellinger Distance}
+
+\end{document}

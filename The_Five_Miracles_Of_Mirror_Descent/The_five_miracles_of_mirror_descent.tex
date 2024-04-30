@@ -20,7 +20,14 @@
 \usepackage{empheq}
 \usepackage{array}
 \usepackage[ruled,vlined]{algorithm2e} 
+\usepackage[many]{tcolorbox}    	% for COLORED BOXES (tikz and xcolor included)
 
+
+\newtcolorbox{boxA}{
+    fontupper = \bf,
+    boxrule = 1.5pt,
+    colframe = black % frame color
+}
 
 
 \setlength{\parindent}{0pt}
@@ -157,12 +164,14 @@ Then if we sum the above inequality from $t=1$ to $T$, we get:
 
 In fact, this is a specific case of the Fundamental Inequality of Optimization. 
 
-\begin{theorem}{Fundamental Inequality of Optimization (unconstrained version)} \\
-    Suppose \( x_{t+1} = x_t - \eta g_t \) for all \( t \), where \( g_1, \ldots, g_T \in \mathbb{R}^d \) are arbitrary vectors. Then for all \( x^* \in \mathbb{R}^d \) it holds that
-    \[
-    \sum_{t=1}^T g_t \cdot (x_t - x^*) \leq \frac{\|x_1 - x^*\|^2}{2\eta} + \frac{\eta}{2} \sum_{t=1}^T \|g_t\|^2.
-    \]
-\end{theorem}
+\begin{boxA}
+    \begin{theorem}{\textbf{The First Miracle:} Fundamental Inequality of Optimization (unconstrained version)} \\
+        Suppose \( x_{t+1} = x_t - \eta g_t \) for all \( t \), where \( g_1, \ldots, g_T \in \mathbb{R}^d \) are arbitrary vectors. Then for all \( x^* \in \mathbb{R}^d \) it holds that
+        \[
+        \sum_{t=1}^T g_t \cdot (x_t - x^*) \leq \frac{\|x_1 - x^*\|^2}{2\eta} + \frac{\eta}{2} \sum_{t=1}^T \|g_t\|^2.
+        \]
+    \end{theorem}
+\end{boxA}
     
 \begin{proof}{Fundamental Inequality of Optimization} \\
     The proof tracks \( \|x_t - x^*\|^2 \) as a ``potential''. First write
@@ -334,6 +343,18 @@ and in MD instead of $\eta$ as a denominator of the distance, we control the rat
         &\leq \eta g(t) \cdot (y - x(t)) 
     \end{align*}
 \end{proof}
+
+\begin{boxA}
+    \begin{theorem}{\textbf{The Second Miracle: Potential Based}} \\
+        Let $x(t)$ be the solution to the Mirror Descent algorithm. Then for any $y \in \mathcal{K}$:
+        \begin{align*}
+            \frac{d}{dt} D_{\phi}(y, x(t)) &\leq \eta g(t) \cdot (y - x(t))
+        \end{align*}
+    \end{theorem}
+\end{boxA}
+
+
+\bigbreak
 
 We can think that $g(t) \cdot y $ is what OPT would have pay at time $t$, and $g(t) \cdot x(t)$ is what we pay.
 If we pay more than OPT, then the Bregman divergence will decrease and we will move towards OPT.
@@ -525,9 +546,6 @@ Continues time problem: instead of $c_t, \quad t \in \mathbb{N}$, we have $c_t,\
 
 \subsection{Wasserstein Distance}
 
-The Wasserstein distance is a measure of the distance between two probability distributions that has gained popularity in various fields, 
-particularly in machine learning for its application in generative models.
-
 \begin{definition}{\textbf{Wasserstein Distance}} \\
     Given two probability measures \( \mu \) and \( \nu \) on a metric space \( (M, d) \), the Wasserstein distance of order \( p \) between \( \mu \) and \( \nu \) is defined as:
     \[
@@ -536,25 +554,57 @@ particularly in machine learning for its application in generative models.
     where \( \Gamma(\mu, \nu) \) denotes the collection of all measures on \( M \times M \) with marginals \( \mu \) and \( \nu \) on the first and second factors, respectively.
 \end{definition}
 
-\textbf{Intuition:} The Wasserstein distance can be thought of as the minimum "cost" required to transform one distribution into another, 
-where the cost is measured by the amount of "mass" that must be moved times the distance it has to be moved.
-
-\textbf{Example:} Consider two one-dimensional distributions, \( \mu \) which is a delta function at 0, 
-and \( \nu \) which is a delta function at 1. The Wasserstein distance of order 1 between \( \mu \) and \( \nu \) is simply the distance between the two points, which is 1.
-
-This metric is particularly useful when comparing probability distributions that might not have the same support or when the cost of transportation is significant.
-
 
 \subsection{Continues space problem}
 
 
 Instead of $\rho_t \in X$, we maintain $x_t \in \bigtriangleup_n$ (simplex). \\
-$dist(\rho_t, \rho_{t+1}) \rightsquigarrow w_1(x_t, x_{t+1}) := \inf_{(X, Y) : X \sim x_t, Y \sim x_{t+1}} \mathbb{E} dist(X, Y)$.
+Instead of $c_t : X \to \mathbb{R}_+$, we have $c(t) : \bigtriangleup_n \to \mathbb{R}_+^n$. \\
+$dist(\rho_t, \rho_{t+1}) \rightsquigarrow W_1(x_t, x_{t+1}) := \inf_{(X, Y) : X \sim x_t, Y \sim x_{t+1}} \mathbb{E} [dist(X, Y)]$. \\
+Finally, assuming that $W_1(p,q) = \| p - q \|$ is a norm between $p$ and $q$ probability vectors. \\
+Then the service cost is $\textbf{SC} = \int c(t) \cdot x(t) dt$ 
+and the movement cost is $\textbf{MC} = \int \| \frac{d}{dt} x(t) \| dt$.
 
+\subsection{Mirror Descent flow on $\mathcal{K} = \bigtriangleup_n$}
 
+\begin{align*}
+    \frac{d}{dt} x(t) &= -[\nabla^2 \phi(x(t))]^{-1} \nabla (c(t) + \lambda(t)) \\
+    \lambda(t) &\in N_{\mathcal{K}}(x(t)) \text{ - normal cone of the simplex at } x(t) \\
+\end{align*}
 
+Recall, the first miracle was the robustness og GD (The fundamental theorem of optimization). \\
+The second miracle was the potential based analysis of GD - for nay fixed point $y \in \mathcal{K}$,
+we are guranateed that if we are not at $y$, then the potential will decrease: 
+\[ 
+    \frac{d}{dt} D_{\phi}(y, x(t)) \leq \eta c(t) \cdot (y - x(t))
+\]
+For prediction with expert advice - this is exactly what we want - we compare ourself to the best expert in hindsight. \\
+But now in MTS problems we can't just apply this argument, we want to compare ourself to a path - the optimal algorthm as a 
+sequence which might move all the time. 
+Now we need to do another calculation which is the 3rd miracle - and this in a sense is really a miracle 
+because mirror descent was not designed for that.
 
+\bigbreak
 
+Lets look what happens when y is moving, and we keep ourself fixed at x.
+We want to say - if OPT is staying in place than we learn about it and we get closer to it,
+but from time to time OPT is going to move also, and what we want to make sure is that if he moves, 
+of couarse the bergman divergence will increase, but we want OPT to pay for it. 
+(If OPT wants to become unpredictable, he has to actually move in the metric space)
+
+\begin{boxA}
+    \begin{theorem}{\textbf{The Third Miracle}} \\
+
+        \begin{equation*}
+            \frac{d}{dt} D_{\phi}(y(t), x) \leq \text{movement of y(t)} =  \| \dot{y}(t) \|
+        \end{equation*}
+
+    \end{theorem}
+\end{boxA}
+
+If the Bregman divergence is increasing, then the movement of the optimal path is increasing, 
+that is, the optimal path pays for the movement. And by miracles 2 and 3,
+ we will make sure that our algorithm is competitive.
 
 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
