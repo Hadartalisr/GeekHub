@@ -165,7 +165,8 @@ Then if we sum the above inequality from $t=1$ to $T$, we get:
 In fact, this is a specific case of the Fundamental Inequality of Optimization. 
 
 \begin{boxA}
-    \begin{theorem}{\textbf{The First Miracle:} Fundamental Inequality of Optimization (unconstrained version)} \\
+    \begin{theorem}{\textbf{The First Miracle:} Robustness of Gradient Descent \\
+        (Fundamental Inequality of Optimization (unconstrained version))} \\
         Suppose \( x_{t+1} = x_t - \eta g_t \) for all \( t \), where \( g_1, \ldots, g_T \in \mathbb{R}^d \) are arbitrary vectors. Then for all \( x^* \in \mathbb{R}^d \) it holds that
         \[
         \sum_{t=1}^T g_t \cdot (x_t - x^*) \leq \frac{\|x_1 - x^*\|^2}{2\eta} + \frac{\eta}{2} \sum_{t=1}^T \|g_t\|^2.
@@ -409,7 +410,7 @@ Mirror Descent fixes this issue - it first map the primal point to the dual spac
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 
-\chapter{The Third Miracle: }
+\chapter{The Third Miracle: Tracking}
 
 \section{Coupon Collector Phenomenon}
 
@@ -593,10 +594,10 @@ of couarse the bergman divergence will increase, but we want OPT to pay for it.
 (If OPT wants to become unpredictable, he has to actually move in the metric space)
 
 \begin{boxA}
-    \begin{theorem}{\textbf{The Third Miracle}} \\
+    \begin{theorem}{\textbf{The Third Miracle}: Tracking} \\
 
         \begin{equation*}
-            \frac{d}{dt} D_{\phi}(y(t), x) \leq \text{movement of y(t)} =  \| \dot{y}(t) \|
+            \frac{d}{dt} D_{\phi}(y(t), x) \leq 2L \| \dot{y}(t) \|
         \end{equation*}
 
     \end{theorem}
@@ -604,7 +605,43 @@ of couarse the bergman divergence will increase, but we want OPT to pay for it.
 
 If the Bregman divergence is increasing, then the movement of the optimal path is increasing, 
 that is, the optimal path pays for the movement. And by miracles 2 and 3,
- we will make sure that our algorithm is competitive.
+we will make sure that our algorithm is competitive.
+
+\medbreak 
+
+\begin{align*}
+    D_{\phi}(y(t), x) &= \phi(y(t)) - \phi(x) - \nabla \phi(x) \cdot  (y(t) - x) \Rightarrow \\
+    \frac{d}{dt} D_{\phi}(y(t), x) &=  (\nabla \phi(y(t)) - \nabla \phi(x)) \cdot \dot{y}(t) \leq 
+    2L \| \dot{y}(t) \|
+\end{align*}
+where $L$ is the Lipschitz constant of $\nabla \phi$, i.e.,
+\[
+  L := \sup_{z \in \mathcal{K}} \| \nabla \phi(z) \|_*
+\]
+
+
+We get that 
+\[
+  \frac{d}{dt}D_{\phi}(y(t), x(t)) \leq \eta c(t) \cdot (y(t) - x(t)) + 2L \| \dot{y}(t) \|
+\]
+
+Integrate both sides from 0 to T, and we get that
+\[
+  0 \leq D_{\phi}(y(T), x(T)) - D_{\phi}(y(0), x(0)) \leq \eta (\text{SC-OPT} - \text{SC-ALG}) + 2L  (\text{MC-OPT})
+\]
+
+
+\begin{lemma}{:} \\ 
+    Take $\eta = 2L$, assume $x(0) = y(0)$ (the initial state is the same), and we get that
+    \[
+      \text{SC-ALG} \leq \text{OPT}
+    \]    
+\end{lemma}
+
+of course that it is trivial to receive a competitive ratio of service cost 1, as we can also move greedily to the best state at each time step.
+So why is this lemma interesting? 
+It says nothing by itself, but the movement cost of the algorithm is where mirror descent will achieve a competitive ratio for the total cost.
+
 
 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
