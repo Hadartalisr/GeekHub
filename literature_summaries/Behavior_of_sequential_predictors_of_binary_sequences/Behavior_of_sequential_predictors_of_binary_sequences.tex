@@ -164,10 +164,8 @@ and the expected empirical average score is given by
     \bar{s} = \mathbb{E}_{p}(s) =  \frac{1}{n} \sum_{i=1}^{n} [p_i \Theta_i + (1 - p_i)(1 - \Theta_i)] 
 \end{align}
 
-\begin{theorem}
-    Any sequential deterministic predicator attains a score of $\frac{k}{n}$ on precisely $\binom{n}{k}$ sequences in $\{0, 1\}^n$ where $k \in [n]$.
-    For any deterministic predictor, there exists a sequence upon which a score of 0 is attained.
-\end{theorem}
+(I) Any sequential deterministic predicator attains a score of $\frac{k}{n}$ on precisely $\binom{n}{k}$ sequences in $\{0, 1\}^n$ where $k \in [n]$.
+For any deterministic predictor, there exists a sequence upon which a score of 0 is attained.
 
 
 
@@ -366,7 +364,7 @@ to achieve a desired terminal wealth distribution.
 \subsubsection{Example 2 - independent flips of a fair coin}
 
 
-Let \(\Theta_1, \cdots, \Theta_n\) be independent flips of a fair coin. 
+Let \(\Theta_1, \ldots, \Theta_n\) be independent flips of a fair coin. 
 For a desired distribution function \( F \), there exists a sequential betting scheme achieving a terminal distribution \( F_n \) such that 
 \[
 \sup_x |F(x) - F_n(x)| < \frac{1}{2^n}
@@ -411,9 +409,98 @@ as suggested by theoretical models, often does not compensate for the overall ri
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 \section{Random Predictors}
+In \ref{eq:3.1} we have seen that the net winnings $w(\Theta)$ of a series of $n$ bets $b = (b_1, b_2, \ldots, b_n)$ 
+on the outcomes of a sequence $\Theta = (\Theta_1, \Theta_2, \ldots, \Theta_n) \in \{0, 1\}^n$ can be expressed as
+\begin{align*}
+    w(\Theta) = \sum_{k=1}^n \left( b_k \Theta_k - b_k(1 - \Theta_k) \right)  = \sum_{k=1}^n b_k(2\Theta_k - 1)
+\end{align*}
+We now consider the case where the bets $b_k$ are random variables, and the gambler's strategy is to choose the $b_k$'s to maximize his expected winnings.
+The random predictor $p = (p_1, p_2, \ldots, p_n)$ yields an average score 
+\begin{align}
+    \bar{s}(\Theta) = \frac{1}{n} \sum_{k=1}^{n} \left( p_k \Theta_k + (1 - p_k)(1 - \Theta_k) \right)
+\end{align}
+
+The characterization of the set of all achievable scores for all $p \in P$ is a consequence of the previous section 
+under the correspondence of bets with probabilities given by 
+
+\begin{align}
+    b_k = \frac{1}{n} (p_k - \frac{1}{2}) \quad \Rightarrow \quad p_k = \frac{1}{2} + n b_k
+\end{align}
+
+The probability constraints $0 \leq p_k \leq 1$ for all $k \in [n]$ imply bounded sets 
+
+\begin{align}
+    \left| b_k \right| \leq \frac{1}{2n}
+\end{align}
+
+Thus, if $b = (b_1, b_2, \ldots, b_n)$ yields $w(\Theta)$, the corresponding predictor $p = (p_1, p_2, \ldots, p_n)$ yields score 
+
+\begin{equation}
+    \begin{aligned}
+        \bar{s}(\Theta) &= \frac{1}{n} \sum_{k=1}^{n} \left( p_k \Theta_k + (1 - p_k)(1 - \Theta_k) \right) \\
+            &= \frac{1}{n} \sum_{k=1}^{n} \left( (\frac{1}{2} + n b_k ) \Theta_k + (\frac{1}{2} - n b_k)(1 - \Theta_k) \right) \\ 
+            &= \frac{1}{2} + \frac{1}{n} \sum_{k=1}^{n} n b_k(2 \Theta_k - 1) = \frac{1}{2} + w(\Theta)
+    \end{aligned}
+\end{equation}
+
+
+(VI) We deduce from previous sections (\ref{eq:3.5}) that a score function $s(\Theta)$ for $\Theta \in \{0, 1\}^n$ is achievable by a sequential predictor
+ $p \in P$ if and only if:
+\begin{equation}
+    \sum_{\Theta} w(\Theta) = 0 \quad 
+    \iff \quad \sum_{\Theta \in \{0, 1\}^n} \bar{s}(\Theta) = \frac{1}{2}  2^n \quad 
+    \iff \quad \left(\frac{1}{2}\right)^n \sum_{\Theta} \bar{s}(\Theta) = \frac{1}{2}
+\end{equation}
+
+and
+\begin{equation}
+    \left| \left(\frac{1}{2}\right)^{n-k+1} \sum_{(\Theta_k, \ldots, \Theta_n) \in \{0,1\}^{n-k+1}} s(\Theta) (2\Theta_k - 1) \right| \leq b \leq \frac{1}{2n}
+\end{equation}
+for all $\Theta \in \{0, 1\}^n$ and each $k = 1, 2, \ldots, n$.
+
+
+\bigbreak
+
+(VII) A score 
+\begin{equation}
+    \bar{s}(\Theta) = \hat{s}\left(\frac{1}{n} \sum_{k=1}^n \Theta_k \right)
+\end{equation}
+depending only on the weight of the sequence $\Theta$, is achievable by a sequential predictor $\hat{p} \in P$ if and only if:
+
+\begin{equation}
+    \left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \hat{s} \left(\frac{k}{n}\right) = \frac{1}{2}
+\end{equation}
+
+and
+
+\begin{equation}
+    \left| \hat{s} \left(\frac{k+1}{n}\right) - \hat{s} \left(\frac{k}{n}\right) \right| < 2b \leq \frac{1}{n}
+\end{equation}
+for $k = 0, 1, 2, \ldots, n-1$.
+
+\bigbreak
+
+In accordance with the previous notation, let the predicator at stage k given history i be denoted by 
+\begin{equation}
+    \hat{p}_k(i) = Pr \{ \delta_k = 1 | \sum_{j=1}^{k-1} \Theta_j = i \}
+\end{equation}
+for $i = 1, 2, \ldots, k-1$ and $k = 1, 2, \ldots, n$.
+
+Then, utilizing (\ref{eq:3.11}) 
+\begin{equation*}
+    \begin{aligned}
+        \left| b_k(i) \right| &= 
+        \left| \left(\frac{1}{2}\right)^{n-k+1} \sum_{j=0}^{n-k} \left( \hat{w} \left( i+j+1 \right) - \hat{w} \left( i+j \right) \right) \binom{n-k}{j} \right| \\
+    \end{aligned}
+\end{equation*}
+the predicator achieving the score function $\bar{s}(\Theta)$ is given by 
 
 
 
+
+
+
+\newpage
 
 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
