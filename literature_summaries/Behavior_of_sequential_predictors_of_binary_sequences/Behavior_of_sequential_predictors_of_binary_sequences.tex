@@ -142,18 +142,16 @@ Consider the set of $2^n$ sequences $\Theta = (\Theta_1, \Theta_2, \ldots, \Thet
 
 At stage $k$, after the observation $\Theta_1, \Theta_2, \ldots, \Theta_{k-1}$, the prediction 1 or 0 will be made with probability $p_k$ and $1-p_k$ respectively.
 
-\begin{definition}[Sequential Predictor]
-    A sequential predictor on $\{0, 1\}^n$ will be completely specified by the set of functions 
-    \[
-        p_1, p_2(\Theta_1), p_3(\Theta_1, \Theta_2), \ldots, p_n(\Theta_1, \Theta_2, \ldots, \Theta_{n-1})
-    \]
-    taking values in $[0, 1]$.
-    \begin{itemize}
-        \item If the $p_i$s are restricted to $\{0, 1\}$, the predictor is called a \textbf{deterministic predictor}.
-        \item If the $p_i$s are independent of the $\Theta$s, the predictor is called a \textbf{memoryless predictor}.
-        \item If the $p_i$s are also independent of $i$, the predictor is called a \textbf{constant/time invariant predictor}.
-    \end{itemize}
-\end{definition}
+A \textbf{sequential predictor} on $\{0, 1\}^n$ will be completely specified by the set of functions 
+\[
+    p_1, p_2(\Theta_1), p_3(\Theta_1, \Theta_2), \ldots, p_n(\Theta_1, \Theta_2, \ldots, \Theta_{n-1})
+\]
+taking values in $[0, 1]$.
+\begin{itemize}
+    \item If the $p_i$s are restricted to $\{0, 1\}$, the predictor is called a \textbf{deterministic predictor}.
+    \item If the $p_i$s are independent of the $\Theta$s, the predictor is called a \textbf{memoryless predictor}.
+    \item If the $p_i$s are also independent of $i$, the predictor is called a \textbf{constant/time invariant predictor}.
+\end{itemize}
 
 Let $\delta = (\delta_1, \delta_2, \ldots, \delta_n) \in \{0, 1\}^n$ be the sequence of R.V.s resulting from the predictor $p = (p_1, p_2, \ldots, p_n)$ and the sequence $\Theta \in \{0, 1\}^n$.
 
@@ -169,9 +167,10 @@ and the expected empirical average score is given by
     \bar{s} = \mathbb{E}_{p}(s) =  \frac{1}{n} \sum_{i=1}^{n} [p_i \Theta_i + (1 - p_i)(1 - \Theta_i)] 
 \end{align}
 
-(I) Any sequential deterministic predicator attains a score of $\frac{k}{n}$ on precisely $\binom{n}{k}$ sequences in $\{0, 1\}^n$ where $k \in [n]$.
-For any deterministic predictor, there exists a sequence upon which a score of 0 is attained.
-
+\begin{boxA}
+    \textbf{(I)} Any sequential deterministic predicator attains a score of $\frac{k}{n}$ on precisely $\binom{n}{k}$ sequences in $\{0, 1\}^n$ where $k \in [n]$.
+    For any deterministic predictor, there exists a sequence upon which a score of 0 is attained.
+\end{boxA}
 
 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
@@ -268,7 +267,7 @@ For general $b_k$ it holds that
 \begin{align*}
     &\sum_{(\Theta_k, \ldots, \Theta_n)} w(\Theta_1, \ldots, \Theta_{k-1}, \Theta_{k}, \ldots, \Theta_n) (2\Theta_k - 1) = \\
     &\sum_{(\Theta_{k+1}, \ldots, \Theta_n)} w(\Theta_1, \ldots, \Theta_{k-1}, 1, \Theta_{k+1}, \ldots, \Theta_n) - w(\Theta_1, \ldots, \Theta_{k-1}, 0, \Theta_{k+1}, \ldots, \Theta_n)  = \\
-    &2 \cdot b_k \cdot 2^{n-(k+1)+1} = 2 \cdot b_k \cdot 2^{n-k} = b_k \cdot 2^{n-k-1}
+    &2 \cdot b_k \cdot 2^{n-(k+1)+1} = 2 \cdot b_k \cdot 2^{n-k} = b_k \cdot 2^{n-k+1}
     \\ \Longrightarrow \\
     &b_k = \left(\frac{1}{2}\right)^{n-k+1} \sum_{(\Theta_k, \ldots, \Theta_n) \in \{0, 1\}^{n-k+1}} w(\Theta)(2\Theta_k - 1).
 \end{align*}
@@ -289,15 +288,23 @@ The betting scheme achieving \(w\) is unique and is given by (\ref{eq:3.6}).
 
 \textbf{Summary:}
 
+
 Consider a betting strategy for a game against sequences: $\Theta = (\Theta_1, \Theta_2, \ldots, \Theta_n) \in \{0,1\}^n$, which allows the bet $b_k$ at stage $k$ to be some 
 element in a subset $B_k$ of the collection $B$ of all functions from $\{0,1\}^n$ to $\mathbb{R}$. 
 Let $w: \{0,1\}^n \rightarrow \mathbb{R}$ be a desired set of net winnings defined for each sequence $\Theta$ in $\{0,1\}^n$. 
 As before, \ref{eq:3.1} expresses the net winnings $w(\Theta)$ as a function of $\{b_1, b_2, \ldots, b_n\}$. Then:
 
-\begin{enumerate}
-    \item[(II)] Trivially, if $B_k = B$, any $w$ is achievable.
-    \item[(III)] If $B_k$ is the set of all functions in $B$ depending only on $\Theta_1, \Theta_2, \ldots, \Theta_{k-1}$, then $w$ is achievable if and only if $(3.5)$ is satisfied.
-    \item[(IV)] If, for $k = 1, 2, \ldots, n$, $B_k \subseteq B$ is the set of functions bounded in absolute value by $b$, depending only on $\Theta_1, \Theta_2, \ldots, \Theta_{k-1}$, 
+\begin{boxA}
+    \textbf{(II)} Trivially, if $B_k = B$, any $w$ is achievable.
+\end{boxA}
+
+\begin{boxA}
+    \textbf{(III)} If $B_k$ is the set of all functions in $B$ depending only on $\Theta_1, \Theta_2, \ldots, \Theta_{k-1}$, 
+    then $w$ is achievable if and only if (\ref{eq:3.5}) is satisfied.
+\end{boxA}
+
+\begin{boxA}
+    \textbf{(IV)} If, for $k = 1, 2, \ldots, n$, $B_k \subseteq B$ is the set of functions bounded in absolute value by $b$, depending only on $\Theta_1, \Theta_2, \ldots, \Theta_{k-1}$, 
     then $w$ is achievable if and only if
     \begin{align} \label{eq:3.7}
         \sum_{\Theta} w(\Theta) &= 0 
@@ -307,7 +314,9 @@ As before, \ref{eq:3.1} expresses the net winnings $w(\Theta)$ as a function of 
         \left|\left(\frac{1}{2}\right)^{n-k+1} \sum_{(\Theta_k, \Theta_{k+1}, \ldots, \Theta_n) \in \{0,1\}^{n-k+1}} w(\Theta)(2\Theta_k - 1)\right| &< b 
     \end{align}
     for every $(\Theta_1, \Theta_2, \ldots, \Theta_{k-1}) \in \{0, 1\}^{k-1}$. This is the sequential betting scheme with bounded bet size.
-\end{enumerate}
+\end{boxA}
+
+
 
 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
@@ -331,9 +340,30 @@ and
 \begin{equation} \label{eq:3.11}
     \left|b_k(i)\right| = \left|\left(\frac{1}{2}\right)^{n-k+1} \sum_{j=0}^{n-k} \left(\hat{w}(i+j+1) - \hat{w}(i+j)\right) \binom{n-k}{j}\right| < b
 \end{equation}
-
 For \(i = 0, 1, \ldots, k - 1\) and \(k = 1, 2, \ldots, n\) where
 $b_k(i)$ is the bet at stage \(k\) when the sum of the first \(k - 1\) outcomes is \(i\).
+
+\textbf{Proof:}
+
+We start by expanding the expression from Equation \eqref{eq:3.8} under the assumption that $\hat{w} \left(\sum_{i=1}^n \Theta_i\right) = w(\Theta)$ from Equation \eqref{eq:3.9}:
+
+\begin{align*}
+    \text{LHS of \eqref{eq:3.8}} &= \left|\left(\frac{1}{2}\right)^{n-k+1} \sum_{(\Theta_k, \Theta_{k+1}, \ldots, \Theta_n) \in \{0,1\}^{n-k+1}} w(\Theta)(2\Theta_k - 1)\right| \\
+    &= \left|\left(\frac{1}{2}\right)^{n-k+1} \sum_{j=0}^{n-k} \left(\sum_{(\Theta_k, \ldots, \Theta_n) \in \{0,1\}^{n-k+1} : \sum \Theta_i = j} w(\Theta) (2\Theta_k - 1)\right) \right| \\
+    &= \left|\left(\frac{1}{2}\right)^{n-k+1} \sum_{j=0}^{n-k} \left(\hat{w}(i+j+1) - \hat{w}(i+j)\right) \binom{n-k}{j}\right|,
+\end{align*}
+where the binomial coefficient $\binom{n-k}{j}$ counts the number of ways in which $\sum \Theta_i = j$ can occur.
+
+The term inside the summation represents the change in winnings $\hat{w}$ when the count of 1's increases by one, hence reflecting the derivative (or difference) $\hat{w}(i+j+1) - \hat{w}(i+j)$. The multiplication by $\binom{n-k}{j}$ adjusts for the number of sequences that result in a particular sum $j$ of 1's among the last $n-k$ flips.
+
+Thus, we have shown that:
+\begin{equation*}
+    \text{LHS of \eqref{eq:3.8}} = \text{RHS of \eqref{eq:3.11}},
+\end{equation*}
+
+\bigbreak
+
+Now we will find a sufficient bound on $\left| b_k(i) \right|$ such that the conditions of \ref{eq:3.11} are satisfied.
 
 Letting \(k = n\) in (3.11) we have the condition:
 \begin{equation} \label{eq:3.12}
@@ -349,7 +379,8 @@ All other conditions of (3.11) are consequences of (3.12), since, assuming (3.12
     \end{aligned}
 \end{equation}
 
-Hence, a terminal score \(\hat{w}\) depending only on \(\sum_{i=1}^n \Theta_i\) is achievable by a sequential betting scheme with bounded bet size \(b\) if and only if
+\begin{boxA}
+\textbf{(V)} A terminal score \(\hat{w}\) depending only on \(\sum_{i=1}^n \Theta_i\) is achievable by a sequential betting scheme with bounded bet size \(b\) if and only if
 \begin{equation} \label{eq:3.14}
     \sum_{k=0}^n \binom{n}{k} \hat{w}(k) = 0
 \end{equation}
@@ -357,6 +388,9 @@ and
 \begin{equation} \label{eq:3.15}
     \left| \hat{w}(k + 1) - \hat{w}(k)\right| < 2b, \quad k = 1, 2, \ldots, n - 1.
 \end{equation}
+\end{boxA}
+
+
 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
@@ -429,6 +463,9 @@ as suggested by theoretical models, often does not compensate for the overall ri
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 \section{Random Predictors}
+
+\subsection{Average Scores of Random Predictors as Winnings in Sequential Betting}
+
 In \ref{eq:3.1} we have seen that the net winnings $w(\Theta)$ of a series of $n$ bets $b = (b_1, b_2, \ldots, b_n)$ 
 on the outcomes of a sequence $\Theta = (\Theta_1, \Theta_2, \ldots, \Theta_n) \in \{0, 1\}^n$ can be expressed as
 \begin{align*}
@@ -447,6 +484,7 @@ under the correspondence of bets with probabilities given by
     b_k = \frac{1}{n} (p_k - \frac{1}{2}) \quad \Rightarrow \quad p_k = \frac{1}{2} + n b_k
 \end{align}
 
+
 The probability constraints $0 \leq p_k \leq 1$ for all $k \in [n]$ imply bounded sets 
 
 \begin{align}
@@ -464,39 +502,41 @@ Thus, if $b = (b_1, b_2, \ldots, b_n)$ yields $w(\Theta)$, the corresponding pre
 \end{equation}
 
 
-(VI) We deduce from previous sections (\ref{eq:3.5}) that a score function $s(\Theta)$ for $\Theta \in \{0, 1\}^n$ is achievable by a sequential predictor
- $p \in P$ if and only if:
-\begin{equation}
-    \sum_{\Theta} w(\Theta) = 0 \quad 
-    \iff \quad \sum_{\Theta \in \{0, 1\}^n} \bar{s}(\Theta) = \frac{1}{2}  2^n \quad 
-    \iff \quad \left(\frac{1}{2}\right)^n \sum_{\Theta} \bar{s}(\Theta) = \frac{1}{2}
-\end{equation}
-
-and
-\begin{equation}
-    \left| \left(\frac{1}{2}\right)^{n-k+1} \sum_{(\Theta_k, \ldots, \Theta_n) \in \{0,1\}^{n-k+1}} s(\Theta) (2\Theta_k - 1) \right| \leq b \leq \frac{1}{2n}
-\end{equation}
-for all $\Theta \in \{0, 1\}^n$ and each $k = 1, 2, \ldots, n$.
-
+\begin{boxA}
+    (VI) We deduce from previous sections (\ref{eq:3.5}) that a score function $s(\Theta)$ for $\Theta \in \{0, 1\}^n$ is achievable by a sequential predictor
+    $p \in P$ if and only if:
+    \begin{equation}
+        \sum_{\Theta} w(\Theta) = 0 \quad 
+        \iff \quad \sum_{\Theta \in \{0, 1\}^n} \bar{s}(\Theta) = \frac{1}{2}  2^n \quad 
+        \iff \quad \left(\frac{1}{2}\right)^n \sum_{\Theta} \bar{s}(\Theta) = \frac{1}{2}
+    \end{equation}
+    and
+    \begin{equation}
+        \left| \left(\frac{1}{2}\right)^{n-k+1} \sum_{(\Theta_k, \ldots, \Theta_n) \in \{0,1\}^{n-k+1}} s(\Theta) (2\Theta_k - 1) \right| \leq b \leq \frac{1}{2n}
+    \end{equation}
+    for all $\Theta \in \{0, 1\}^n$ and each $k = 1, 2, \ldots, n$.
+\end{boxA}
 
 \bigbreak
 
-(VII) A score 
-\begin{equation}
-    \bar{s}(\Theta) = \hat{s}\left(\frac{1}{n} \sum_{k=1}^n \Theta_k \right)
-\end{equation}
-depending only on the weight of the sequence $\Theta$, is achievable by a sequential predictor $\hat{p} \in P$ if and only if:
+\begin{boxA}
+    (VII) A score 
+    \begin{equation}
+        \bar{s}(\Theta) = \hat{s}\left(\frac{1}{n} \sum_{k=1}^n \Theta_k \right)
+    \end{equation}
+    depending only on the weight of the sequence $\Theta$, is achievable by a sequential predictor $\hat{p} \in P$ if and only if:
 
-\begin{equation}
-    \left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \hat{s} \left(\frac{k}{n}\right) = \frac{1}{2}
-\end{equation}
+    \begin{equation}
+        \left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \hat{s} \left(\frac{k}{n}\right) = \frac{1}{2}
+    \end{equation}
 
-and
+    and
 
-\begin{equation}
-    \left| \hat{s} \left(\frac{k+1}{n}\right) - \hat{s} \left(\frac{k}{n}\right) \right| < 2b \leq \frac{1}{n}
-\end{equation}
-for $k = 0, 1, 2, \ldots, n-1$.
+    \begin{equation}
+        \left| \hat{s} \left(\frac{k+1}{n}\right) - \hat{s} \left(\frac{k}{n}\right) \right| \leq 2b \leq \frac{1}{n}
+    \end{equation}
+    for $k = 0, 1, 2, \ldots, n-1$.
+\end{boxA}
 
 \bigbreak
 
@@ -506,17 +546,76 @@ In accordance with the previous notation, let the predicator at stage k given hi
 \end{equation}
 for $i = 1, 2, \ldots, k-1$ and $k = 1, 2, \ldots, n$.
 
-Then, utilizing (\ref{eq:3.11}) 
+Then, utilizing (\ref{eq:3.6}) (as we did in \ref{eq:3.11})
 \begin{equation*}
     \begin{aligned}
-        \left| b_k(i) \right| &= 
-        \left| \left(\frac{1}{2}\right)^{n-k+1} \sum_{j=0}^{n-k} \left( \hat{w} \left( i+j+1 \right) - \hat{w} \left( i+j \right) \right) \binom{n-k}{j} \right| \\
+        \hat{p}_k(i) &= \frac{1}{2} + n b_k(i) \\
+        &= \frac{1}{2} + n \left(\frac{1}{2}\right)^{n-k+1} \sum_{j=0}^{n-k} \left(\hat{s}(i+j+1) - \hat{s}(i+j)\right) \binom{n-k}{j}
     \end{aligned}
 \end{equation*}
-the predicator achieving the score function $\bar{s}(\Theta)$ is given by 
+
+\subsection{Examples and uniform distribution}
+
+\subsubsection{Example 1:}
+
+$\bar{s}(\Theta) = \frac{1}{2}$ for all $\Theta \in \{0, 1\}^n$ is achievable by the predictor ${p} = (\frac{1}{2}, \frac{1}{2}, \ldots, \frac{1}{2})$.
+
+proof:
+
+\begin{equation*}
+    \begin{aligned}
+        \bar{s}(\Theta) &= \frac{1}{n} \sum_{k=1}^{n} \left( p_k \Theta_k + (1 - p_k)(1 - \Theta_k) \right) \\
+        &= \frac{1}{n} \sum_{k=1}^{n} \left( \frac{1}{2} \Theta_k + \frac{1}{2} (1 - \Theta_k) \right) \\
+        &= \frac{1}{n} \sum_{k=1}^{n} \frac{1}{2} = \frac{1}{2}
+    \end{aligned}
+\end{equation*}
+
+Intuitively, the predictor $p = (\frac{1}{2}, \frac{1}{2}, \ldots, \frac{1}{2})$ is the most conservative strategy, 
+and for every flip we will predict correctly with probability $\frac{1}{2}$.
+
+\bigbreak
+
+\subsubsection{Example 2:}
+
+\begin{align*}
+    &\hat{s}(\frac{k}{n})= \frac{k}{n} \\
+\end{align*}
+$\eta + (1 - \frac{k}{n})(1 - \eta) \quad \text{for} \quad \eta \in [0, 1]$, satisfies the achievability constraints and is achieved by 
+the constant predictor $p = (\eta, \eta, \ldots, \eta)$.
+
+\textbf{proof:}
+
+Given the score function 
+\[
+\hat{s}\left(\frac{k}{n}\right) = \frac{k}{n},
+\]
+we need to verify the conditions stated in the given constraints for achievability by a sequential predictor.
 
 
+\textbf{Condition 1:}
+\[
+\left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \hat{s} \left(\frac{k}{n}\right) = \frac{1}{2}
+\]
+This condition simplifies as follows:
+\[
+\left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \frac{k}{n} = \left(\frac{1}{2}\right)^n \frac{1}{n} \sum_{k=0}^n k \binom{n}{k} = \left(\frac{1}{2}\right)^n \frac{n 2^{n-1}}{n} = \frac{1}{2}
+\]
+which holds true by the binomial theorem where the expected value of $k$ in a binomial distribution $B(n, \frac{1}{2})$ is $\frac{n}{2}$.
 
+\textbf{Condition 2:}
+\[
+\left| \hat{s} \left(\frac{k+1}{n}\right) - \hat{s} \left(\frac{k}{n}\right) \right| = \left| \frac{k+1}{n} - \frac{k}{n} \right| = \frac{1}{n} < 2b \leq \frac{1}{n}
+\]
+This also holds as the absolute difference between successive terms of $\hat{s}$ is $\frac{1}{n}$, which is within the bounds specified by the constraint.
+
+\bigbreak
+
+\textbf{Construction of Sequential Predictor $\hat{p}$}
+Given $\hat{s}$, the predictor $\hat{p}_k$ for each stage $k$ based on the history of sums can be designed as:
+\[
+\hat{p}_k(i) = \frac{1}{2} + n \left(\frac{1}{2}\right)^{n-k+1} \sum_{j=0}^{n-k} \left(\hat{s}(i+j+1) - \hat{s}(i+j)\right) \binom{n-k}{j}
+\]
+simplifies to $\hat{p}_k(i) = \frac{1}{2} + n \left(\frac{1}{2}\right)^{n-k+1} \frac{1}{n} \left(\binom{n-k}{0} - \binom{n-k}{n-k}\right) = \frac{1}{2}$ as all terms cancel out except the boundary cases, which simplifies back to $\frac{1}{2}$, making it a uniform predictor that always bets $\frac{1}{2}$ regardless of the history, consistent with the uniform distribution over binary outcomes.
 
 
 
