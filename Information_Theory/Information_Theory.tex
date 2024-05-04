@@ -1,0 +1,186 @@
+\documentclass[11pt]{book} 
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{amsthm}
+\usepackage{tikz}
+\usepackage{subcaption}
+\usetikzlibrary{positioning}
+\usepackage{pgfplots} 
+\usepackage[ruled,vlined]{algorithm2e} 
+\usepackage{dsfont}
+\usepackage{graphicx}
+\usepackage{mathdesign}
+\usepackage{float}
+\usepackage{todonotes} 
+\usepackage{empheq}
+\usepackage{array}
+\usepackage[ruled,vlined]{algorithm2e} 
+
+
+
+\setlength{\parindent}{0pt}
+
+
+\newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
+\newcommand\defeq{\stackrel{\mathclap{\normalfont\mbox{def}}}{=}}
+\SetCommentSty{mycommfont}
+
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+
+
+\newtheoremstyle{boldStyle}%                % Name
+  {}%                                     % Space above
+  {}%                                     % Space below
+  {\itshape}%                                     % Body font
+  {}%                                     % Indent amount
+  {\bfseries}%                            % Theorem head font
+  {}%                                    % Punctuation after theorem head
+  {\newline}                              % Space after theorem head, new line
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}%                                     % Theorem head spec (can be left empty, meaning `normal')
+
+
+\theoremstyle{boldStyle}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{claim}{claim}[section]
+\newtheorem{example}{Example}[section]
+
+
+\newtheorem*{claim*}{Claim}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem*{corollary*}{Corollary}
+\newtheorem*{remark*}{Remark}
+\newtheorem*{example*}{Example}
+\newtheorem*{examples*}{Examples}
+\newtheorem*{definition*}{Definition}
+
+
+
+\setcounter{tocdepth}{3}
+
+
+
+
+
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+     {\huge\bfseries 
+    Information Theory     \\}
+     % ----------------------------------------------------------------
+     \vspace{1.5cm}
+     {\Large\bfseries Hadar Tal}\\[5pt]
+     hadar.tal@mail.huji.ac.il\\[14pt]
+      % ----------------------------------------------------------------
+     \vspace{2cm}
+     {This paper is a summary of the educational materials and lectures from 
+     \begin{itemize}
+        \item \textbf{Wikipedia}
+        \item \textbf{3Blue1Brown} YouTube channel
+     \end{itemize}
+     }
+
+     \vfill
+    {Winter 2024}
+    \end{center}
+\end{titlepage}
+
+
+\frontmatter
+\tableofcontents
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+
+\mainmatter
+
+\chapter{Definitions}
+
+
+\begin{definition}[Entropy]
+The entropy of a discrete random variable $X$ with probability mass function $p(x)$ is defined as
+\begin{equation}
+    H(X) = -\sum_{x} p(x) \log p(x)
+\end{equation}
+\end{definition}
+
+\begin{definition}[Joint Entropy]
+The joint entropy of two discrete random variables $X$ and $Y$ with joint probability mass function $p(x,y)$ is defined as
+\begin{equation}
+    H(X,Y) = -\sum_{x,y} p(x,y) \log p(x,y)
+\end{equation}
+\end{definition}
+
+\begin{definition}[Conditional Entropy]
+The conditional entropy of a discrete random variable $X$ given another discrete random variable $Y$ is defined as
+\begin{equation}
+    H(X|Y) = -\sum_{x,y} p(x,y) \log p(x|y)
+\end{equation}
+\end{definition}
+
+\begin{definition}[Mutual Information]
+The mutual information between two discrete random variables $X$ and $Y$ is defined as
+\begin{equation}
+    I(X;Y) = H(X) - H(X|Y)
+\end{equation}
+\end{definition}
+
+\begin{definition}[Conditional Mutual Information]
+The conditional mutual information between two discrete random variables $X$ and $Y$ given a third discrete random variable $Z$ is defined as
+\begin{equation}
+    I(X;Y|Z) = H(X|Z) - H(X|Y,Z)
+\end{equation}
+\end{definition}
+
+\begin{definition}[Kullback-Leibler Divergence]
+The Kullback-Leibler divergence between two probability distributions $p$ and $q$ is defined as
+\begin{equation}
+    D_{KL}(p||q) = \sum_{x} p(x) \log \frac{p(x)}{q(x)}
+\end{equation}
+\end{definition}
+
+\begin{definition}[Cross Entropy]
+The cross entropy between two probability distributions $p$ and $q$ is defined as
+\begin{equation}
+    H(p,q) = -\sum_{x} p(x) \log q(x)
+\end{equation}
+\end{definition}
+
+\begin{definition}[Hamming Distance]
+The Hamming distance between two binary strings $x$ and $y$ of equal length is defined as
+\begin{equation}
+    d_H(x,y) = \sum_{i} |x_i - y_i|
+\end{equation}
+\end{definition}
+
+
+
+
+
+\end{document}

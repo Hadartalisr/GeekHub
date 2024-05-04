@@ -32,9 +32,8 @@
 
 
 \setlength{\parindent}{0pt}
+\numberwithin{equation}{section}
 
-% \let\stdsection\section
-% \renewcommand\section{\newpage\stdsection}
 
 \newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
 \newcommand\defeq{\stackrel{\mathclap{\normalfont\mbox{def}}}{=}}
@@ -134,17 +133,43 @@
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 \section{Deterministic Predictors}
 
-Consider the set of $2^n$ sequences $\Theta = (\Theta_1, \Theta_2, \ldots, \Theta_{n}) \in {0, 1}^n$.
+Consider the set of $2^n$ sequences $\Theta = (\Theta_1, \Theta_2, \ldots, \Theta_{n}) \in \{0, 1\}^n$.
 
 At stage $k$, after the observation $\Theta_1, \Theta_2, \ldots, \Theta_{k-1}$, the prediction 1 or 0 will be made with probability $p_k$ and $1-p_k$ respectively.
 
 \begin{definition}[Sequential Predictor]
-    A sequential predictor is a sequence of functions $p_1, p_2, \ldots, p_n$ taking values in $[0, 1]$.
+    A sequential predictor on $\{0, 1\}^n$ will be completely specified by the set of functions 
+    \[
+        p_1, p_2(\Theta_1), p_3(\Theta_1, \Theta_2), \ldots, p_n(\Theta_1, \Theta_2, \ldots, \Theta_{n-1})
+    \]
+    taking values in $[0, 1]$.
+    \begin{itemize}
+        \item If the $p_i$s are restricted to $\{0, 1\}$, the predictor is called a \textbf{deterministic predictor}.
+        \item If the $p_i$s are independent of the $\Theta$s, the predictor is called a \textbf{memoryless predictor}.
+        \item If the $p_i$s are also independent of $i$, the predictor is called a \textbf{constant/time invariant predictor}.
+    \end{itemize}
 \end{definition}
 
-Thus, a sequential predictor on ${0, 1}^n$ will be completely specified by the set of functions 
-$p_1, p_2(\Theta_1), p_3(\Theta_1, \Theta_2), \ldots, p_n(\Theta_1, \Theta_2, \ldots, \Theta_{n-1})$ 
-taking values in $[0, 1]$.
+Let $\delta = (\delta_1, \delta_2, \ldots, \delta_n) \in \{0, 1\}^n$ be the sequence of R.V.s resulting from the predictor $p = (p_1, p_2, \ldots, p_n)$ and the sequence $\Theta \in \{0, 1\}^n$.
+
+Then the empirical average score (the fraction of correct predictions) is given by
+
+\begin{align}
+    s = \frac{1}{n} \sum_{i=1}^{n} [\delta_i \Theta_i + (1 - \delta_i)(1 - \Theta_i)]
+\end{align}
+
+and the expected empirical average score is given by
+
+\begin{align}
+    \bar{s} = \mathbb{E}_{p}(s) =  \frac{1}{n} \sum_{i=1}^{n} [p_i \Theta_i + (1 - p_i)(1 - \Theta_i)] 
+\end{align}
+
+\begin{theorem}
+    Any sequential deterministic predicator attains a score of $\frac{k}{n}$ on precisely $\binom{n}{k}$ sequences in $\{0, 1\}^n$ where $k \in [n]$.
+    For any deterministic predictor, there exists a sequence upon which a score of 0 is attained.
+\end{theorem}
+
+
 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
@@ -167,6 +192,95 @@ taking values in $[0, 1]$.
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 \section{Sequential Betting Systems}
 
+\subsection{Achievable Winnings in Sequential Betting}
+
+A series of \(n\) bets \(b = (b_1, b_2, \ldots, b_n)\) is made by a gambler on the outcomes of a sequence \(\Theta = (\Theta_1, \Theta_2, \ldots, \Theta_n) \in \{0, 1\}^n\).
+The gambler's net gain at bet \(k\) is \(b_k\) if \(\Theta_k = 1\) and \(-b_k\) if \(\Theta_k = 0\). Hence, his net winnings \(w(\Theta)\) using strategy \(b\) against sequence \(\Theta\) is
+\begin{align} \label{eq:3.1}
+    w(\Theta) = \sum_{k=1}^n \left(b_k \Theta_k - b_k(1 - \Theta_k)\right) = \sum_{k=1}^n b_k(2\Theta_k - 1),
+\end{align}
+
+where, in general, \(b_k\) will be a real valued function of \(\Theta\).
+
+\medbreak
+
+Notice that a gambler may win any preassigned amount \(w(\Theta)\) if \(\Theta\) is known a priori. For example, any \(w\) could be achieved with the betting system
+\begin{equation} \label{eq:3.2}
+    \begin{aligned}
+        b_1 &= w(\Theta) \Theta_1 - w(\Theta)(1 - \Theta_1), \\
+        b_2 &= b_3 = \ldots = b_n = 0.
+    \end{aligned}
+\end{equation}
+
+However, if he knows only \(\Theta_1, \Theta_2, \ldots, \Theta_{k-1}\) when he must place his bet \(b_k\), his set of achievable winnings \(w\) on \(\{0, 1\}^n\) is limited. For, if \(\{b_1, b_2, \ldots, b_n\}\) achieves \(w\), then manipulation of the above sum, noting the functional independence of \(b_k\) and \(\Theta_k\), yields
+\begin{align} \label{eq:3.3}
+    w(\Theta_1, \ldots, \Theta_{n-1}, 1) + w(\Theta_1, \ldots, \Theta_{n-1}, 0) = 2 \sum_{k=1}^{n-1} b_k(2\Theta_k - 1),
+\end{align}
+
+and
+\begin{align} \label{eq:3.4}
+    w(\Theta_1, \ldots, \Theta_{n-1}, 1) - w(\Theta_1, \ldots, \Theta_{n-1}, 0) = 2b_n.
+\end{align}
+
+So, \(b_n\) is determined and \ref{eq:3.1} is replaced by \ref{eq:3.3} for the determination of \(b_{n-1}\). 
+
+Proceeding, we find
+\begin{align} \label{eq:3.5}
+    \sum_{\Theta} w(\Theta) = 0
+\end{align}
+
+\textbf{Proof:}
+\begin{align*}
+    \sum_{\Theta} w(\Theta) &= \sum_{\Theta} \sum_{k=1}^n b_k(2\Theta_k - 1) \\
+    &= \sum_{k=1}^n b_k \sum_{\Theta} (2\Theta_k - 1) \\
+    &= \sum_{k=1}^n b_k \cdot 0 = 0.
+\end{align*}
+
+and 
+
+\begin{align} \label{eq:3.6}
+    b_k = (\frac{1}{2})^{n-k+1} \sum_{(\Theta_k, \Theta_{k+1}, \ldots, \Theta_n) \in \{0, 1\}^{n-k+1}} w(\Theta)(2\Theta_k - 1) \quad (k = 1, 2, \ldots, n).
+\end{align}
+
+\textbf{Proof:}
+
+From Equation (\ref{eq:3.3}) and (\ref{eq:3.4}), the last bet \(b_n\) can be uniquely determined if all prior outcomes \(\Theta_1, \ldots, \Theta_{n-1}\) are known.
+
+To generalize for any \(b_k\), consider the summation over all possible sequences of \(\Theta\) from \(k\) to \(n\), and the functional form \((2\Theta_k - )\) 
+flips the impact of the bet \(b_k\) based on the outcome \(\Theta_k\). Thus:
+\begin{equation*}
+b_k = \left(\frac{1}{2}\right)^{n-k+1} \sum_{(\Theta_k, \Theta_{k+1}, \ldots, \Theta_n) \in \{0, 1\}^{n-k+1}} w(\Theta) (2\Theta_k - 1)
+\end{equation*}
+
+Hence, for $w(\Theta)$ to be achievable by a sequential betting scheme, it is necessary and sufficient (\ref{eq:3.5}) be satisfied.
+The betting scheme achieving \(w\) is unique and is given by (\ref{eq:3.6}).
+
+\bigbreak
+
+\textbf{Summary:}
+
+Consider a betting strategy for a game against sequences: $\Theta = (\Theta_1, \Theta_2, \ldots, \Theta_n) \in \{0,1\}^n$, which allows the bet $b_k$ at stage $k$ to be some 
+element in a subset $B_k$ of the collection $B$ of all functions from $\{0,1\}^n$ to $\mathbb{R}$. 
+Let $w: \{0,1\}^n \rightarrow \mathbb{R}$ be a desired set of net winnings defined for each sequence $\Theta$ in $\{0,1\}^n$. 
+As before, \ref{eq:3.1} expresses the net winnings $w(\Theta)$ as a function of $\{b_1, b_2, \ldots, b_n\}$. Then:
+
+\begin{enumerate}
+    \item[(II)] Trivially, if $B_k = B$, any $w$ is achievable.
+    \item[(III)] If $B_k$ is the set of all functions in $B$ depending only on $\Theta_1, \Theta_2, \ldots, \Theta_{k-1}$, then $w$ is achievable if and only if $(3.5)$ is satisfied.
+    \item[(IV)] If, for $k = 1, 2, \ldots, n$, $B_k \subseteq B$ is the set of functions bounded in absolute value by $b$, depending only on $\Theta_1, \Theta_2, \ldots, \Theta_{k-1}$, 
+    then $w$ is achievable if and only if
+    \begin{align}
+        \sum_{\Theta} w(\Theta) &= 0 
+    \end{align}
+    and if, for $k = 1, 2, \ldots, n$,
+    \begin{align}
+        \left|\left(\frac{1}{2}\right)^{n-k+1} \sum_{(\Theta_k, \Theta_{k+1}, \ldots, \Theta_n) \in \{0,1\}^{n-k+1}} w(\Theta)(2\Theta_k - 1)\right| &< b 
+    \end{align}
+    for every $(\Theta_1, \Theta_2, \ldots, \Theta_{k-1}) \in \{0, 1\}^{k-1}$. This is the sequential betting scheme with bounded bet size.
+\end{enumerate}
+
+
+\subsection{Winnings which are functions of $\sum_{i=1}^{n} \Theta_i$}
 
 
 
