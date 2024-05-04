@@ -75,15 +75,13 @@
 
 
 \title{
-    \Huge Transactions of the Fourth Prague Conference\\
-    \Large on Information Theory, Statistical Decision Functions, Random Processes \\
-    \large Held at Prague, from August 31 to September 11, 1965 \\
+    \huge Behaviour of Sequential Predictors of Binary Sequences\\
     \vspace{10pt}
-    \normalsize Behaviour of Sequential Predictors of Binary Sequences
 }
 
 \author{T. M. Cover}
-\date{Published by the Publishing House of the Czechoslovak Academy of Sciences, Prague 1967}
+
+\date{Publishing House of the Czechoslovak Academy of Sciences, Prague 1967}
 
 
 
@@ -110,6 +108,13 @@
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 \section{Introduction}
+
+This paper explores the effectiveness of sequential predictors on finite binary sequences. 
+Prior work by Robbins, Hannan, and Blackwell has demonstrated algorithms capable of asymptotically achieving high scores by leveraging 
+the empirical distribution of the sequences. Fogel has notably extended this by adapting the predictive model based on the sequence observed, 
+achieving near-perfect accuracy on sequences displaying non-random patterns, such as prime numbers. This study investigates the capacity of sequential 
+predictors to consistently generate high scores across a broad spectrum of sequences, delving into the inherent limits and potential of 
+such algorithms in systematic and non-random environments.
 
 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
@@ -247,13 +252,28 @@ and
 
 \textbf{Proof:}
 
-From Equation (\ref{eq:3.3}) and (\ref{eq:3.4}), the last bet \(b_n\) can be uniquely determined if all prior outcomes \(\Theta_1, \ldots, \Theta_{n-1}\) are known.
+For \(k = n\), we need to show that
+\begin{align*}
+    b_n = \left(\frac{1}{2}\right) \sum_{\Theta_n \in \{0, 1\}} w(\Theta_1, \ldots, \Theta_{n-1}, \Theta_{n})(2\Theta_n - 1)
+\end{align*}
+we have from \ref{eq:3.4} that 
+\begin{align*}
+    &w(\Theta_1, \ldots, \Theta_{n-1}, 1) - w(\Theta_1, \ldots, \Theta_{n-1}, 0) = 2b_n, \\
+    b_n &= \frac{1}{2}(w(\Theta_1, \ldots, \Theta_{n-1}, 1) - w(\Theta_1, \ldots, \Theta_{n-1}, 0)).
+\end{align*}
 
-To generalize for any \(b_k\), consider the summation over all possible sequences of \(\Theta\) from \(k\) to \(n\), and the functional form \((2\Theta_k - 1)\) 
-flips the impact of the bet \(b_k\) based on the outcome \(\Theta_k\). Thus:
-\begin{equation*}
-b_k = \left(\frac{1}{2}\right)^{n-k+1} \sum_{(\Theta_k, \Theta_{k+1}, \ldots, \Theta_n) \in \{0, 1\}^{n-k+1}} w(\Theta) (2\Theta_k - 1)
-\end{equation*}
+\bigbreak
+
+For general $b_k$ it holds that
+\begin{align*}
+    &\sum_{(\Theta_k, \ldots, \Theta_n)} w(\Theta_1, \ldots, \Theta_{k-1}, \Theta_{k}, \ldots, \Theta_n) (2\Theta_k - 1) = \\
+    &\sum_{(\Theta_{k+1}, \ldots, \Theta_n)} w(\Theta_1, \ldots, \Theta_{k-1}, 1, \Theta_{k+1}, \ldots, \Theta_n) - w(\Theta_1, \ldots, \Theta_{k-1}, 0, \Theta_{k+1}, \ldots, \Theta_n)  = \\
+    &2 \cdot b_k \cdot 2^{n-(k+1)+1} = 2 \cdot b_k \cdot 2^{n-k} = b_k \cdot 2^{n-k-1}
+    \\ \Longrightarrow \\
+    &b_k = \left(\frac{1}{2}\right)^{n-k+1} \sum_{(\Theta_k, \ldots, \Theta_n) \in \{0, 1\}^{n-k+1}} w(\Theta)(2\Theta_k - 1).
+\end{align*}
+
+\bigbreak
 
 Hence, for $w(\Theta)$ to be achievable by a sequential betting scheme, it is necessary and sufficient (\ref{eq:3.5}) be satisfied.
 The betting scheme achieving \(w\) is unique and is given by (\ref{eq:3.6}).
