@@ -192,6 +192,11 @@ and the expected empirical average score is given by
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 \section{Sequential Betting Systems}
 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
 \subsection{Achievable Winnings in Sequential Betting}
 
 A series of \(n\) bets \(b = (b_1, b_2, \ldots, b_n)\) is made by a gambler on the outcomes of a sequence \(\Theta = (\Theta_1, \Theta_2, \ldots, \Theta_n) \in \{0, 1\}^n\).
@@ -246,7 +251,7 @@ and
 
 From Equation (\ref{eq:3.3}) and (\ref{eq:3.4}), the last bet \(b_n\) can be uniquely determined if all prior outcomes \(\Theta_1, \ldots, \Theta_{n-1}\) are known.
 
-To generalize for any \(b_k\), consider the summation over all possible sequences of \(\Theta\) from \(k\) to \(n\), and the functional form \((2\Theta_k - )\) 
+To generalize for any \(b_k\), consider the summation over all possible sequences of \(\Theta\) from \(k\) to \(n\), and the functional form \((2\Theta_k - 1)\) 
 flips the impact of the bet \(b_k\) based on the outcome \(\Theta_k\). Thus:
 \begin{equation*}
 b_k = \left(\frac{1}{2}\right)^{n-k+1} \sum_{(\Theta_k, \Theta_{k+1}, \ldots, \Theta_n) \in \{0, 1\}^{n-k+1}} w(\Theta) (2\Theta_k - 1)
@@ -254,6 +259,13 @@ b_k = \left(\frac{1}{2}\right)^{n-k+1} \sum_{(\Theta_k, \Theta_{k+1}, \ldots, \T
 
 Hence, for $w(\Theta)$ to be achievable by a sequential betting scheme, it is necessary and sufficient (\ref{eq:3.5}) be satisfied.
 The betting scheme achieving \(w\) is unique and is given by (\ref{eq:3.6}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figs/achievable_winning.jpeg}
+    \caption{Sequential Betting Scheme}
+\end{figure}
+
 
 \bigbreak
 
@@ -269,18 +281,113 @@ As before, \ref{eq:3.1} expresses the net winnings $w(\Theta)$ as a function of 
     \item[(III)] If $B_k$ is the set of all functions in $B$ depending only on $\Theta_1, \Theta_2, \ldots, \Theta_{k-1}$, then $w$ is achievable if and only if $(3.5)$ is satisfied.
     \item[(IV)] If, for $k = 1, 2, \ldots, n$, $B_k \subseteq B$ is the set of functions bounded in absolute value by $b$, depending only on $\Theta_1, \Theta_2, \ldots, \Theta_{k-1}$, 
     then $w$ is achievable if and only if
-    \begin{align}
+    \begin{align} \label{eq:3.7}
         \sum_{\Theta} w(\Theta) &= 0 
     \end{align}
     and if, for $k = 1, 2, \ldots, n$,
-    \begin{align}
+    \begin{align} \label{eq:3.8}
         \left|\left(\frac{1}{2}\right)^{n-k+1} \sum_{(\Theta_k, \Theta_{k+1}, \ldots, \Theta_n) \in \{0,1\}^{n-k+1}} w(\Theta)(2\Theta_k - 1)\right| &< b 
     \end{align}
     for every $(\Theta_1, \Theta_2, \ldots, \Theta_{k-1}) \in \{0, 1\}^{k-1}$. This is the sequential betting scheme with bounded bet size.
 \end{enumerate}
 
 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
 \subsection{Winnings which are functions of $\sum_{i=1}^{n} \Theta_i$}
+
+
+We may be interested in winnings $w$ which are functions only of $\sum_{i=1}^n \Theta_i$, the number of $1$'s in $\Theta$. In this case, define, for every $\Theta \in \{0, 1\}^n$,
+\begin{equation} \label{eq:3.9}
+    \hat{w} \left(\sum_{i=1}^n \Theta_i\right) = w(\Theta).
+\end{equation}
+
+Then the conditions of \ref{eq:3.7} and \ref{eq:3.8} become respectively
+\begin{equation} \label{eq:3.10}
+    \sum_{k=0}^n \binom{n}{k} \hat{w}(k) = 0
+\end{equation}
+and
+\begin{equation} \label{eq:3.11}
+    \left|b_k(i)\right| = \left|\left(\frac{1}{2}\right)^{n-k+1} \sum_{j=0}^{n-k} \left(\hat{w}(i+j+1) - \hat{w}(i+j)\right) \binom{n-k}{j}\right| < b
+\end{equation}
+
+For \(i = 0, 1, \ldots, k - 1\) and \(k = 1, 2, \ldots, n\) where
+$b_k(i)$ is the bet at stage \(k\) when the sum of the first \(k - 1\) outcomes is \(i\).
+
+Letting \(k = n\) in (3.11) we have the condition:
+\begin{equation} \label{eq:3.12}
+    \left |b_n(i) \right| = \frac{1}{2} \left| \hat{w}(i + 1) - \hat{w}(i)\right| < b
+\end{equation}
+for \(i = 0, 1, \ldots, n - 1\).
+
+All other conditions of (3.11) are consequences of (3.12), since, assuming (3.12) true,
+\begin{equation} \label{eq:3.13}
+    \begin{aligned}
+        \left|b_k(i)\right| &= \left| \left(\frac{1}{2}\right)^{n-k+1} \sum_{j=0}^{n-k} \left(w(i + j + 1) - w(i + j)\right) \binom{n-k}{j} \right| \leq \\
+        &\left(\frac{1}{2}\right)^{n-k+1} \sum_{j=0}^{n-k} \binom{n-k}{j} 2b = b.
+    \end{aligned}
+\end{equation}
+
+Hence, a terminal score \(\hat{w}\) depending only on \(\sum_{i=1}^n \Theta_i\) is achievable by a sequential betting scheme with bounded bet size \(b\) if and only if
+\begin{equation} \label{eq:3.14}
+    \sum_{k=0}^n \binom{n}{k} \hat{w}(k) = 0
+\end{equation}
+and
+\begin{equation} \label{eq:3.15}
+    \left| \hat{w}(k + 1) - \hat{w}(k)\right| < 2b, \quad k = 1, 2, \ldots, n - 1.
+\end{equation}
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+\subsection{Examples}
+
+\subsubsection{Example 1 - foreknowledge of a sequence which will not occur}
+
+Consider a gambler betting on a binary sequence of length \(n\), consisting of 1's and 0's. 
+The gambler can choose his bet amount at each stage, based on the sequence observed so far. 
+Suppose the gambler knows in advance that a specific sequence, say \(\Theta^*\), will not occur. 
+The question is whether the gambler can guarantee a profit. The answer is yes; he can potentially win an infinite amount. 
+
+For any goal function \(w(\Theta)\), there exists a betting strategy that guarantees a win of \(w(\Theta)\) 
+for any sequence \(\Theta \neq \Theta^*\). This is achieved by setting:
+\[
+w(\Theta^*) = -\sum_{\Theta \neq \Theta^*} w(\Theta)
+\]
+and applying the betting strategy outlined in section \(3.6\).
+This example illustrates that, under certain conditions, a gambler can manipulate his bets based on a probability distribution over possible outcomes 
+to achieve a desired terminal wealth distribution. 
+
+\subsubsection{Example 2 - independent flips of a fair coin}
+
+
+Let \(\Theta_1, \cdots, \Theta_n\) be independent flips of a fair coin. 
+For a desired distribution function \( F \), there exists a sequential betting scheme achieving a terminal distribution \( F_n \) such that 
+\[
+\sup_x |F(x) - F_n(x)| < \frac{1}{2^n}
+\]
+
+To achieve $F_n$ in the case of continuous $F$, choose $w_i$ such that $F(w_i) = \frac{i}{2^n}$ for $i = 1, 2, \ldots, 2^n - 1$ and $w_0 = -\sum_{i=1}^{2^n - 1} w_i$.
+Associate the winnings $w$ with the outcomes $\Theta$'s in an arbitrary fashion and use the betting scheme of \ref{eq:3.6}.
+
+
+\subsection{Summary}
+
+Our investigations reveal that while almost any probability distribution for terminal capital can theoretically be achieved through sequential 
+betting strategies, in practice, most terminal distributions are not appealing to gamblers. 
+This disinterest largely stems from the nature of popular gambling systems like Martingale and Progression Systems, 
+which typically offer small gains offset by a significant risk of substantial losses.
+
+Most betting systems fail to optimize gambler's utilities because they do not sufficiently reward the risk of extreme outcomes, 
+leading to inherently suboptimal strategies. The utility functions, if properly utilized to influence betting decisions, 
+should account for the potential gains at the extremes of the distribution. However, the increase at a few terminal points, 
+as suggested by theoretical models, often does not compensate for the overall risk, making these strategies less favorable.
+
 
 
 
