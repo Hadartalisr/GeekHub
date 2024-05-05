@@ -522,18 +522,18 @@ Thus, if $b = (b_1, b_2, \ldots, b_n)$ yields $w(\Theta)$, the corresponding pre
 
 \begin{boxA}
     (VII) A score 
-    \begin{equation}
+    \begin{equation} \label{eq:4.7}
         \bar{s}(\Theta) = \hat{s}\left(\frac{1}{n} \sum_{k=1}^n \Theta_k \right)
     \end{equation}
     depending only on the weight of the sequence $\Theta$, is achievable by a sequential predictor $\hat{p} \in P$ if and only if:
 
-    \begin{equation}
+    \begin{equation} \label{eq:4.8}
         \left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \hat{s} \left(\frac{k}{n}\right) = \frac{1}{2}
     \end{equation}
 
     and
 
-    \begin{equation}
+    \begin{equation} \label{eq:4.9}
         \left| \hat{s} \left(\frac{k+1}{n}\right) - \hat{s} \left(\frac{k}{n}\right) \right| \leq 2b \leq \frac{1}{n}
     \end{equation}
     for $k = 0, 1, 2, \ldots, n-1$.
@@ -542,28 +542,59 @@ Thus, if $b = (b_1, b_2, \ldots, b_n)$ yields $w(\Theta)$, the corresponding pre
 \bigbreak
 
 In accordance with the previous notation, let the predicator at stage $k$ given history $i$ be denoted by 
-\begin{equation}
+\begin{equation} \label{eq:4.10}
     \hat{p}_k(i) = Pr \{ \delta_k = 1 | \sum_{j=1}^{k-1} \Theta_j = i \}
 \end{equation}
 for $i = 1, 2, \ldots, k-1$ and $k = 1, 2, \ldots, n$.
 
 Then, utilizing (\ref{eq:3.6}), (\ref{eq:4.2}) and (\ref{eq:4.6}) (as we did in (\ref{eq:3.11}))
-\begin{equation*}
+\begin{equation} \label{eq:4.11}
     \begin{aligned}
         \hat{p}_k(i) &= \frac{1}{2} + n b_k(i) \\
         &= \frac{1}{2} + n \left(\frac{1}{2}\right)^{n-k+1} 
             \sum_{j=0}^{n-k} \left(\hat{s} \left( \frac{i+j+1}{n} \right) - \hat{s} \left( \frac{i+j}{n} \right) \right) \binom{n-k}{j}
     \end{aligned}
-\end{equation*}
+\end{equation}
 
 \subsection{Examples and uniform distribution}
 
 \subsubsection{Example 1:}
 
-$\bar{s}(\Theta) = \frac{1}{2}$ for all $\Theta \in \{0, 1\}^n$ is achievable by the predictor ${p} = (\frac{1}{2}, \frac{1}{2}, \ldots, \frac{1}{2})$.
+$\bar{s}(\Theta) = \frac{1}{2}$ for all $\Theta \in \{0, 1\}^n$ is achievable by the predictor 
+${p} = (\frac{1}{2}, \frac{1}{2}, \ldots, \frac{1}{2})$.
 
-proof:
+\textbf{proof: }
 
+Given the score function
+\[
+\bar{s}(\Theta) = \frac{1}{2},
+\]
+for all $\Theta \in \{0, 1\}^n$, we want to demonstrate that it satisfies the conditions of achievability defined by Equations \ref{eq:4.5} and \ref{eq:4.6}.
+
+\textbf{Condition 1:}
+Firstly, according to Equation \ref{eq:4.5}, the total sum of scores over all possible $\Theta$ configurations must be half of $2^n$:
+\[
+\sum_{\Theta} \bar{s}(\Theta) = \frac{1}{2} \times 2^n = 2^{n-1}.
+\]
+This simplifies to:
+\[
+\left(\frac{1}{2}\right)^n \sum_{\Theta} \bar{s}(\Theta) = \left(\frac{1}{2}\right)^n \times \frac{1}{2} \times 2^{n} = \frac{1}{2}.
+\]
+Hence, condition \ref{eq:4.5} is satisfied as the average of the scores equals $\frac{1}{2}$.
+
+\textbf{Condition 2:}
+Next, to verify Equation \ref{eq:4.6}, we compute:
+\[
+\left| \left(\frac{1}{2}\right)^{n-k+1} \sum_{(\Theta_k, \ldots, \Theta_n) \in \{0,1\}^{n-k+1}} \bar{s}(\Theta) (2\Theta_k - 1) \right|.
+\]
+Since $\bar{s}(\Theta) = \frac{1}{2}$ for all $\Theta$, and noting the symmetry between $\Theta_k = 1$ and $\Theta_k = 0$, the weighted sum for each $k$ simplifies to zero:
+\[
+\sum_{(\Theta_k, \ldots, \Theta_n)} (2\Theta_k - 1) = 0.
+\]
+Thus, each term in the sum is zero and the absolute condition in \ref{eq:4.6} 
+is trivially satisfied as $0 \leq b \leq \frac{1}{2n}$.
+
+Then we can see that the predictor $p = (\frac{1}{2}, \frac{1}{2}, \ldots, \frac{1}{2})$ achieves the average score $\bar{s}(\Theta) = \frac{1}{2}$ for all $\Theta \in \{0, 1\}^n$: 
 \begin{equation*}
     \begin{aligned}
         \bar{s}(\Theta) &= \frac{1}{n} \sum_{k=1}^{n} \left( p_k \Theta_k + (1 - p_k)(1 - \Theta_k) \right) \\
@@ -580,10 +611,11 @@ and for every flip we will predict correctly with probability $\frac{1}{2}$.
 \subsubsection{Example 2:}
 
 \begin{align*}
-    &\hat{s}(\frac{k}{n})= \frac{k}{n} \\
+    &\hat{s} \left( \frac{k}{n} \right)= \frac{k}{n} \\
 \end{align*}
 $\eta + (1 - \frac{k}{n})(1 - \eta) \quad \text{for} \quad \eta \in [0, 1]$, satisfies the achievability constraints and is achieved by 
 the constant predictor $p = (\eta, \eta, \ldots, \eta)$.
+\todo[inline]{check this example and how $\eta$ is related here}
 
 \textbf{proof:}
 
@@ -612,12 +644,29 @@ This also holds as the absolute difference between successive terms of $\hat{s}$
 
 \bigbreak
 
-\textbf{Construction of Sequential Predictor $\hat{p}$}
-Given $\hat{s}$, the predictor $\hat{p}_k$ for each stage $k$ based on the history of sums can be designed as:
+\textbf{Construction of Sequential Predictor $\hat{p}$:}
+Given $\hat{s}$, the predictor $\hat{p}_k$ for each stage $k$ based on the history of sums can be designed according 
+to Equation \ref{eq:4.11}:
+\begin{align*}
+    \hat{p}_k(i) = \frac{1}{2} + n \left(\frac{1}{2}\right)^{n-k+1} 
+    \sum_{j=0}^{n-k} \left(\hat{s} \left( \frac{i+j+1}{n} \right) - \hat{s} \left( \frac{i+j}{n} \right) \right) \binom{n-k}{j}
+\end{align*}
+
+Let's define $\hat{s}\left(\frac{k}{n}\right) = \frac{k}{n}$. Then for each $k$, we can calculate the change in score needed for the next predictor:
 \[
-\hat{p}_k(i) = \frac{1}{2} + n \left(\frac{1}{2}\right)^{n-k+1} \sum_{j=0}^{n-k} \left(\hat{s}(i+j+1) - \hat{s}(i+j)\right) \binom{n-k}{j}
+\Delta s_k = \hat{s}\left(\frac{k+1}{n}\right) - \hat{s}\left(\frac{k}{n}\right) = \frac{k+1}{n} - \frac{k}{n} = \frac{1}{n}.
 \]
-simplifies to $\hat{p}_k(i) = \frac{1}{2} + n \left(\frac{1}{2}\right)^{n-k+1} \frac{1}{n} \left(\binom{n-k}{0} - \binom{n-k}{n-k}\right) = \frac{1}{2}$ as all terms cancel out except the boundary cases, which simplifies back to $\frac{1}{2}$, making it a uniform predictor that always bets $\frac{1}{2}$ regardless of the history, consistent with the uniform distribution over binary outcomes.
+
+This $\Delta s_k$ affects the predictor $\hat{p}_k(i)$, which depends on the history $i$ as:
+\[
+\hat{p}_k(i) = \frac{1}{2} + n \left(\frac{1}{2}\right)^{n-k+1} \sum_{j=0}^{n-k} \left(\hat{s} \left( \frac{i+j+1}{n} \right) - \hat{s} \left( \frac{i+j}{n} \right) \right) \binom{n-k}{j}.
+\]
+
+Given $\Delta s_k = \frac{1}{n}$, the formula simplifies because $\hat{s} \left( \frac{i+j+1}{n} \right) - \hat{s} \left( \frac{i+j}{n} \right)$ equals $\frac{1}{n}$ for all $j$. Thus,
+\[
+\hat{p}_k(i) = \frac{1}{2} + n \left(\frac{1}{2}\right)^{n-k+1} \sum_{j=0}^{n-k} \left(\frac{1}{n}\right) \binom{n-k}{j}.
+\]
+
 
 
 
