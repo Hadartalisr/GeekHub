@@ -669,6 +669,49 @@ Given $\Delta s_k = \frac{1}{n}$, the formula simplifies because $\hat{s} \left(
 
 \subsubsection{Error and Bayes Envelope}
 
+\subsection{Uniformly Asymptotically Approachable Scores}
+
+A score $\hat{s}(\frac{k}{n})$ which satisfies (\ref{eq:4.9}) but not (\ref{eq:4.8}) can be achieved with error 
+\begin{equation} \label{eq:4.12}
+    \varepsilon_n = \frac{1}{2} - \left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \hat{s} \left(\frac{k}{n}\right)
+\end{equation}
+\textbf{uniformly} in $\Theta$ by the $p$ which achieves $\hat{s} + \varepsilon_n$.
+
+If $\varepsilon_n \rightarrow 0$, we shall say that $\hat{s}$ is \textbf{\textit{uniformly asymptotically approachable}} by $\hat{p}$.
+
+\subsection{Bayes Envelope}
+
+Of particular interest is the Bayes envelope 
+\begin{equation*} 
+    \max \left\{ \frac{1}{n} \sum_{i=1}^n \Theta_i, 1 - \frac{1}{n} \sum_{i=1}^n \Theta_i \right\},
+\end{equation*}
+
+considered by Hannan and Robbins, corresponding to the score function
+\begin{equation} \label{eq:4.13}
+    \hat{s}(\eta) = \max \{\eta, 1 - \eta\}, \quad 0 < \eta < 1.
+\end{equation}
+
+$\hat{s}$ satisfies the nondegeneracy requirements of (\ref{eq:4.8}) and hence can be achieved uniformly in $\Theta$ with error
+\[
+    \epsilon_n =  \frac{1}{2} - \left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \max \left\{ \frac{k}{n}, 1 - \frac{k}{n} \right\} \approx \frac{-1}{\sqrt{2\pi n}}.
+\]
+
+
+Consider the score function $\hat{s}(\eta) = \max\{\eta, 1-\eta\}$, and the corresponding error term defined as:
+\[
+\epsilon_n = \frac{1}{2} - \left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \max\left\{\frac{k}{n}, 1 - \frac{k}{n}\right\}
+\]
+
+By the symmetry of the binomial distribution, half of the terms $\frac{k}{n}$ are less than or equal to 0.5, and the others are greater, thereby $\max\left\{\frac{k}{n}, 1 - \frac{k}{n}\right\}$ becomes a reflection about 0.5. The binomial distribution's mean is $\frac{n}{2}$, and its variance is $\frac{n}{4}$, suggesting that as $n \rightarrow \infty$, the normalized sum $\frac{1}{n} \sum_{k=0}^n k \binom{n}{k}$ approaches $\frac{n}{2}$, reinforcing that:
+
+\[
+\left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \frac{k}{n} \rightarrow \frac{1}{2} \text{ as } n \rightarrow \infty
+\]
+
+Therefore, the error term $\epsilon_n$ approaches zero:
+\[
+\lim_{n \to \infty} \epsilon_n = 0
+\]
 
 
 
