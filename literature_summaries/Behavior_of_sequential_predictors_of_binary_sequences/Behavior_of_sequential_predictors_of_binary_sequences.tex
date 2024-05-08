@@ -348,8 +348,10 @@ $b_k(i)$ is the bet at stage \(k\) when the sum of the first \(k - 1\) outcomes 
 We start by expanding the expression from Equation \eqref{eq:3.8} under the assumption that $\hat{w} \left(\sum_{i=1}^n \Theta_i\right) = w(\Theta)$ from Equation \eqref{eq:3.9}:
 
 \begin{align*}
-    \text{LHS of \eqref{eq:3.8}} &= \left|\left(\frac{1}{2}\right)^{n-k+1} \sum_{(\Theta_k, \Theta_{k+1}, \ldots, \Theta_n) \in \{0,1\}^{n-k+1}} w(\Theta)(2\Theta_k - 1)\right| \\
-    &= \left|\left(\frac{1}{2}\right)^{n-k+1} \sum_{j=0}^{n-k} \left(\sum_{(\Theta_k, \ldots, \Theta_n) \in \{0,1\}^{n-k+1} : \sum \Theta_i = j} w(\Theta) (2\Theta_k - 1)\right) \right| \\
+    &\text{LHS of \eqref{eq:3.8}} = \left| b_k(i) \right| \\ 
+    &= \left|\left(\frac{1}{2}\right)^{n-k+1} \sum_{(\Theta_k, \Theta_{k+1}, \ldots, \Theta_n) \in \{0,1\}^{n-k+1}} w(\Theta)(2\Theta_k - 1)\right| \\
+    &= \left|\left(\frac{1}{2}\right)^{n-k+1} \sum_{j=0}^{n-k+1} \left(\sum_{(\Theta_k, \ldots, \Theta_n) \in \{0,1\}^{n-k+1} : \sum \Theta_i = j} w(\Theta) (2\Theta_k - 1)\right) \right| \\
+    &= \left|\left(\frac{1}{2}\right)^{n-k+1} \sum_{j=0}^{n-k} \left( \sum_{(\Theta_{k+1}, \ldots, \Theta_n)} w(\Theta_1, \ldots, \Theta_k, 1, \Theta_{k+1}, \ldots, \Theta_n) - w(\Theta_1, \ldots, \Theta_k, 0, \Theta_{k+1}, \ldots, \Theta_n) \right) \right| \\
     &= \left|\left(\frac{1}{2}\right)^{n-k+1} \sum_{j=0}^{n-k} \left(\hat{w}(i+j+1) - \hat{w}(i+j)\right) \binom{n-k}{j}\right|,
 \end{align*}
 where the binomial coefficient $\binom{n-k}{j}$ counts the number of ways in which $\sum \Theta_i = j$ can occur.
@@ -712,6 +714,7 @@ Therefore, the error term $\epsilon_n$ approaches zero:
 \[
 \lim_{n \to \infty} \epsilon_n = 0
 \]
+
 
 
 
