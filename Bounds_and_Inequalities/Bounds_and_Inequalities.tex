@@ -64,7 +64,7 @@
 \begin{titlepage}
     \begin{center}
      {\huge\bfseries 
-    Bound and Inequalities     \\}
+    Bound, Equalities and Inequalities     \\}
      % ----------------------------------------------------------------
      \vspace{1.5cm}
      {\Large\bfseries Hadar Tal}\\[5pt]
@@ -87,30 +87,136 @@
 \frontmatter
 \tableofcontents
 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
-% * * * * * * * * * * * * * * * * * * * * * * * * 
 
 \mainmatter
 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
 \chapter{Bounds}
 
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+\chapter{Equalities}
+
+\section{Properties of Binomial Coefficients}
+
+\subsection{Symmetry Rule for Binomial Coefficients}
+
+\begin{theorem}
+    For all $n, k \in \mathbb{N}$, the following holds
+    \begin{equation}
+        \binom{n}{k} = \binom{n}{n-k}
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    The proof is by definition of the binomial coefficient
+    \begin{equation}
+        \binom{n}{k} = \frac{n!}{k!(n-k)!}
+    \end{equation}
+    and the symmetry of the factorial function
+    \begin{equation}
+        n! = n \cdot (n-1) \cdot \ldots \cdot 2 \cdot 1 = 1 \cdot 2 \cdot \ldots \cdot (n-1) \cdot n = n!
+    \end{equation}
+    which implies that
+    \begin{equation}
+        \binom{n}{k} = \frac{n!}{k!(n-k)!} = \frac{n!}{(n-k)!k!} = \binom{n}{n-k}
+    \end{equation}
+\end{proof}
+
+
+\subsection{Sum of Binomial Coefficients over Lower Index}
+
+\begin{theorem}
+    For all $n\in \mathbb{N}$, the following holds
+    \begin{equation}
+        \sum_{i=0}^{n} \binom{n}{i} = 2^n
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    The proof is by induction on $n$. For $n=0$, the base case is
+    \begin{equation}
+        \sum_{i=0}^{0} \binom{0}{i} = \binom{0}{0} = 1 = 2^0
+    \end{equation}
+    For the induction step, assume that the theorem holds for $n=k$. Then
+    \begin{equation}
+        \sum_{i=0}^{k+1} \binom{k+1}{i} = \sum_{i=0}^{k+1} \left( \binom{k}{i} + \binom{k}{i-1} \right) = \sum_{i=0}^{k} \binom{k}{i} + \sum_{i=0}^{k} \binom{k}{i-1} = 2^k + 2^k = 2^{k+1}
+    \end{equation}
+\end{proof}
+
+
+\subsection{Increasing Sum of Binomial Coefficients}
+
+\begin{theorem}
+    For all $n\in \mathbb{N}$, the following holds
+    \begin{equation}
+        \sum_{k=0}^{n} k \binom{n}{k} = n \cdot 2^{n-1}
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    \begin{equation}
+        \sum_{k=0}^{n} k \binom{n}{k} = \sum_{k=1}^{n} k \binom{n}{k} = \sum_{k=1}^{n} n \binom{n-1}{k-1} = n \sum_{k=1}^{n} \binom{n-1}{k-1} = n \sum_{k=0}^{n-1} \binom{n-1}{k} = n \cdot 2^{n-1}
+    \end{equation}
+\end{proof}
+
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
 \chapter{Inequalities}
 
 \begin{theorem}{\textbf{Cauchy-Schwarz Inequality}} \\
