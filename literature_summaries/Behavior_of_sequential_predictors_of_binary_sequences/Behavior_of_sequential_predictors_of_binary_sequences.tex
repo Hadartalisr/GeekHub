@@ -619,9 +619,6 @@ and for every flip we will predict correctly with probability $\frac{1}{2}$.
 \begin{align*}
     &\hat{s} \left( \frac{k}{n} \right)= \frac{k}{n} \\
 \end{align*}
-$\eta + (1 - \frac{k}{n})(1 - \eta) \quad \text{for} \quad \eta \in [0, 1]$, satisfies the achievability constraints and is achieved by 
-the constant predictor $p = (\eta, \eta, \ldots, \eta)$.
-\todo[inline]{check this example and how $\eta$ is related here}
 
 \textbf{proof:}
 
@@ -673,9 +670,10 @@ Given $\Delta s_k = \frac{1}{n}$, the formula simplifies because $\hat{s} \left(
 \hat{p}_k(i) = \frac{1}{2} + n \left(\frac{1}{2}\right)^{n-k+1} \sum_{j=0}^{n-k} \left(\frac{1}{n}\right) \binom{n-k}{j}.
 \]
 
-\subsubsection{Error and Bayes Envelope}
 
 \subsection{Uniformly Asymptotically Approachable Scores}
+
+\subsubsection{Definition}
 
 A score $\hat{s}(\frac{k}{n})$ which satisfies (\ref{eq:4.9}) but not (\ref{eq:4.8}) can be achieved with error 
 \begin{equation} \label{eq:4.12}
@@ -685,7 +683,7 @@ A score $\hat{s}(\frac{k}{n})$ which satisfies (\ref{eq:4.9}) but not (\ref{eq:4
 
 If $\varepsilon_n \rightarrow 0$, we shall say that $\hat{s}$ is \textbf{\textit{uniformly asymptotically approachable}} by $\hat{p}$.
 
-\subsection{Bayes Envelope}
+\subsubsection{Bayes Envelope}
 
 Of particular interest is the Bayes envelope 
 \begin{equation*} 
@@ -697,29 +695,15 @@ considered by Hannan and Robbins, corresponding to the score function
     \hat{s}(\eta) = \max \{\eta, 1 - \eta\}, \quad 0 < \eta < 1.
 \end{equation}
 
-$\hat{s}$ satisfies the nondegeneracy requirements of (\ref{eq:4.8}) and hence can be achieved uniformly in $\Theta$ with error
+$\hat{s}$ satisfies (\ref{eq:4.9}) and hence can be achieved uniformly in $\Theta$ with error
 \[
     \epsilon_n =  \frac{1}{2} - \left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \max \left\{ \frac{k}{n}, 1 - \frac{k}{n} \right\} \approx \frac{-1}{\sqrt{2\pi n}}.
 \]
 
+\bigbreak
+\bigbreak
 
-% Consider the score function $\hat{s}(\eta) = \max\{\eta, 1-\eta\}$, and the corresponding error term defined as:
-% \[
-% \epsilon_n = \frac{1}{2} - \left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \max\left\{\frac{k}{n}, 1 - \frac{k}{n}\right\}
-% \]
-
-% By the symmetry of the binomial distribution, half of the terms $\frac{k}{n}$ are less than or equal to 0.5, and the others are greater, thereby $\max\left\{\frac{k}{n}, 1 - \frac{k}{n}\right\}$ becomes a reflection about 0.5. The binomial distribution's mean is $\frac{n}{2}$, and its variance is $\frac{n}{4}$, suggesting that as $n \rightarrow \infty$, the normalized sum $\frac{1}{n} \sum_{k=0}^n k \binom{n}{k}$ approaches $\frac{n}{2}$, reinforcing that:
-
-% \[
-% \left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \frac{k}{n} \rightarrow \frac{1}{2} \text{ as } n \rightarrow \infty
-% \]
-
-% Therefore, the error term $\epsilon_n$ approaches zero:
-% \[
-% \lim_{n \to \infty} \epsilon_n = 0
-% \]
-
-\subsubsection{Proof of the Approximation for $\epsilon_n$}
+\textbf{Proof of the Approximation for $\epsilon_n$}
 
 Given:
 \[
@@ -763,7 +747,7 @@ We get:
     &= \frac{1}{2} - \left(\frac{1}{2}\right)^n \sum_{k=0}^n \left(\frac{1}{2}\right) \binom{n}{k}  - \left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \left| \frac{k}{n} - \frac{1}{2} \right| \\
     &= - \left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \left| \frac{k}{n} - \frac{1}{2} \right| \\
     &= - \sum_{k=0}^n  \frac{\binom{n}{k}}{2^n} \left| \frac{k}{n} - \frac{1}{2} \right| \\
-    &\sim - \left( \text{The mean of the folded normal distribution with } \mu = 0, \sigma^2 = \frac{1}{4n} \right) \\
+    &\sim - \left( \text{The expectation of the folded normal distribution with } \mu = 0, \sigma^2 = \frac{1}{4n} \right) \\
     &= - \sqrt{\frac{1}{4n}} \sqrt{\frac{2}{\pi}} e^{-\frac{0}{2 \cdot \frac{1}{4n}}} + 0 \left(1 - 2 \Phi\left(-\frac{0}{\sqrt{\frac{1}{4n}}}\right)\right) \\
     &= - \frac{1}{\sqrt{2\pi n}}
 \end{align*}
@@ -783,9 +767,41 @@ We get:
 \end{figure}
 
 
+\subsubsection{The Set of Asymptotically Approachable Scores}
+
+It is natural to ask what set of score functions $\hat{s}(\eta), 0 \leq \eta \leq 1$, satisfy (\ref{eq:4.8}) and (\ref{eq:4.9}) in the 
+limit as $n \to \infty$. Clearly, the set of all continous differentiable such functions satisfies the constraints: 
+\begin{equation}
+    \hat{s}(\frac{1}{2}) = \frac{1}{2}
+\end{equation}
+\begin{equation}
+    \left| \hat{s}(\eta) \right| < 1 , \quad 0 \leq \eta \leq 1
+\end{equation}
+
+We define the set of uniformly asymptotically approachable scores in the sense of Blackwell as follows:
 
 
 
+\begin{equation}
+    \begin{aligned}
+        \hat{\mathcal{S}} = \left\{ \hat{s}(\eta), 0 \leq \eta \leq 1 : \exists p = (p_1, p_2, \ldots) \in \{0,1\}^\infty \text{ s.t. } \forall \Theta \in \{0,1\}^\infty \right. \\
+        \left. \mathbb{P} \left\{ \lim_{n \to \infty} \left| \frac{1}{n} \sum_{i=1}^n s_i(\Theta_i) - \hat{s} \left( \frac{1}{n} \sum_{i=1}^n \Theta_i \right) \right| = 0 \right\} = 1 \right\}
+    \end{aligned}
+\end{equation}
+
+(Recall that $s_i(\Theta_i) = \delta_i \Theta_i + (1 - \delta_i)(1 - \Theta_i)$ is a Random Variable govern by $p_i$.)
+
+Blackwell reports that necessary and sufficient conditions for approachability and exclaudability are known only for convex functions. 
+
+In particular, $\eta \alpha + (1 - \eta) (1 - \alpha)$, for $0 \leq \alpha \leq 1$, and $\max{\eta, 1 - \eta}$ are approachable.
+
+\bigbreak
+
+Cover offer the conjecture that $\hat{s}$ is approachable if and only if $\hat{s}\left(\frac{1}{2}\right) = \frac{1}{2}$ and
+\[
+\left| \hat{s}\left(\frac{k+1}{n}\right) - \hat{s}\left(\frac{k}{n}\right) \right| < \frac{1}{n},
+\]
+for all \( k = 0, 1, 2, \dots, n-1 \) and \( n = 1, 2, \dots \).
 
 
 
