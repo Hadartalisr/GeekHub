@@ -703,22 +703,68 @@ $\hat{s}$ satisfies the nondegeneracy requirements of (\ref{eq:4.8}) and hence c
 \]
 
 
-Consider the score function $\hat{s}(\eta) = \max\{\eta, 1-\eta\}$, and the corresponding error term defined as:
+% Consider the score function $\hat{s}(\eta) = \max\{\eta, 1-\eta\}$, and the corresponding error term defined as:
+% \[
+% \epsilon_n = \frac{1}{2} - \left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \max\left\{\frac{k}{n}, 1 - \frac{k}{n}\right\}
+% \]
+
+% By the symmetry of the binomial distribution, half of the terms $\frac{k}{n}$ are less than or equal to 0.5, and the others are greater, thereby $\max\left\{\frac{k}{n}, 1 - \frac{k}{n}\right\}$ becomes a reflection about 0.5. The binomial distribution's mean is $\frac{n}{2}$, and its variance is $\frac{n}{4}$, suggesting that as $n \rightarrow \infty$, the normalized sum $\frac{1}{n} \sum_{k=0}^n k \binom{n}{k}$ approaches $\frac{n}{2}$, reinforcing that:
+
+% \[
+% \left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \frac{k}{n} \rightarrow \frac{1}{2} \text{ as } n \rightarrow \infty
+% \]
+
+% Therefore, the error term $\epsilon_n$ approaches zero:
+% \[
+% \lim_{n \to \infty} \epsilon_n = 0
+% \]
+
+\subsubsection{Proof of the Approximation for $\epsilon_n$}
+
+Given:
 \[
-\epsilon_n = \frac{1}{2} - \left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \max\left\{\frac{k}{n}, 1 - \frac{k}{n}\right\}
+    \epsilon_n =  \frac{1}{2} - \left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \max \left\{ \frac{k}{n}, 1 - \frac{k}{n} \right\}
+\]
+we seek to prove that:
+\[
+    \epsilon_n \approx \frac{-1}{\sqrt{2\pi n}}.
 \]
 
-By the symmetry of the binomial distribution, half of the terms $\frac{k}{n}$ are less than or equal to 0.5, and the others are greater, thereby $\max\left\{\frac{k}{n}, 1 - \frac{k}{n}\right\}$ becomes a reflection about 0.5. The binomial distribution's mean is $\frac{n}{2}$, and its variance is $\frac{n}{4}$, suggesting that as $n \rightarrow \infty$, the normalized sum $\frac{1}{n} \sum_{k=0}^n k \binom{n}{k}$ approaches $\frac{n}{2}$, reinforcing that:
-
+\subsection*{Step 1: Symmetry and Simplification}
+Due to symmetry around $\frac{n}{2}$, the function inside the sum simplifies the computation:
 \[
-\left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \frac{k}{n} \rightarrow \frac{1}{2} \text{ as } n \rightarrow \infty
+    \sum_{k=0}^n \binom{n}{k} \left| \frac{k}{n} - \frac{1}{2} \right| = 2 \sum_{k=0}^{\lfloor n/2 \rfloor} \binom{n}{k} \left( \frac{1}{2} - \frac{k}{n} \right)
 \]
 
-Therefore, the error term $\epsilon_n$ approaches zero:
+
+The function inside the summation, $\max \left\{ \frac{k}{n}, 1 - \frac{k}{n} \right\}$, is crucial for understanding the behavior of the sum. It measures the maximum value between $\frac{k}{n}$ and its complement relative to 1, for each term $k$.
+
+\begin{itemize}
+    \item When $k \leq \frac{n}{2}$, $\frac{k}{n}$ is closer to 0 than to 1, making $1 - \frac{k}{n}$ (the complement) larger than $\frac{k}{n}$. In this case, $\max \left\{ \frac{k}{n}, 1 - \frac{k}{n} \right\} = 1 - \frac{k}{n}$.
+    \item Conversely, when $k > \frac{n}{2}$, $\frac{k}{n}$ is closer to 1, making it larger than its complement $1 - \frac{k}{n}$. Here, $\max \left\{ \frac{k}{n}, 1 - \frac{k}{n} \right\} = \frac{k}{n}$.
+\end{itemize}
+
+Thus, this function always returns a value that is at least $\frac{1}{2}$. The usage of $\max \left\{ \frac{k}{n}, 1 - \frac{k}{n} \right\}$ ensures we are always choosing the larger segment of $n$, whether it be the fraction represented by $k$ or the fraction not represented by $k$. This symmetric property around $\frac{n}{2}$ simplifies the calculation of the sum, as each pair of terms equidistant from $\frac{n}{2}$ contributes equally. This detail is crucial for efficiently summing the terms by considering only up to the midpoint and adjusting for symmetry.
+
+
+\subsection*{Step 2: Asymptotic Approximation}
+Using the normal approximation to the binomial distribution near $k = \frac{n}{2}$:
 \[
-\lim_{n \to \infty} \epsilon_n = 0
+    \binom{n}{k} \approx \frac{2}{\sqrt{2\pi n}} \exp\left(-\frac{2(k-n/2)^2}{n}\right)
 \]
 
+\subsection*{Step 3: Integral Approximation}
+The sum can be approximated by an integral:
+\[
+    \int_{-\infty}^{\infty} \frac{2}{\sqrt{2\pi n}} x^2 e^{-2x^2/n} \, dx = \frac{1}{2 \sqrt{2\pi n}}
+\]
+
+\subsection*{Step 4: Combining Results}
+Combining the results yields:
+\[
+    \epsilon_n \approx \frac{1}{2} - \left(\frac{1}{2}\right)^n \cdot 2 \cdot \frac{1}{2 \sqrt{2\pi n}} = \frac{1}{2} - \frac{1}{\sqrt{2\pi n}}
+\]
+This shows that as $n$ becomes large, $\epsilon_n$ approximates $\frac{-1}{\sqrt{2\pi n}}$, demonstrating the correctness of the given asymptotic expression.
 
 
 

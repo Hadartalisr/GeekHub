@@ -20,6 +20,7 @@
 \usepackage{empheq}
 \usepackage{array}
 \usepackage[ruled,vlined]{algorithm2e} 
+\usepackage[many]{tcolorbox}    	
 
 
 
@@ -56,7 +57,11 @@
 \setcounter{tocdepth}{3}
 
 
-
+\newtcolorbox{boxA}{
+    fontupper = \bf,
+    boxrule = 1.5pt,
+    colframe = black 
+}
 
 
 \begin{document}
@@ -137,12 +142,14 @@
 
 \subsection{Symmetry Rule for Binomial Coefficients}
 
-\begin{theorem}
-    For all $n, k \in \mathbb{N}$, the following holds
-    \begin{equation}
-        \binom{n}{k} = \binom{n}{n-k}
-    \end{equation}
-\end{theorem}
+\begin{boxA}
+    \begin{theorem}
+        For all $n, k \in \mathbb{N}$, the following holds
+        \begin{equation}
+            \binom{n}{k} = \binom{n}{n-k}
+        \end{equation}
+    \end{theorem}
+\end{boxA}
 
 \begin{proof}
     The proof is by definition of the binomial coefficient
@@ -159,15 +166,49 @@
     \end{equation}
 \end{proof}
 
+\begin{example*}
+    The symmetry rule for binomial coefficients states that the number of ways to choose $k$ elements out of $n$ is the same as the number of ways to choose $n-k$ elements out of $n$.
+\end{example*}
+
+
+\subsection{Pascal's Rule for Binomial Coefficients}
+
+\begin{boxA}
+    \begin{theorem}
+        For all $n, k \in \mathbb{N}$, the following holds
+        \begin{equation}
+            \binom{n}{k} = \binom{n-1}{k} + \binom{n-1}{k-1}
+        \end{equation}
+    \end{theorem}
+\end{boxA}
+
+\begin{proof}
+    \begin{equation}
+        \binom{n}{k} = \frac{n!}{k!(n-k)!} = \frac{(n-1)!}{k!(n-1-k)!} + \frac{(n-1)!}{(k-1)!(n-1-(k-1))!} = \binom{n-1}{k} + \binom{n-1}{k-1}
+    \end{equation}
+\end{proof}
+
+\begin{example*}
+    choosing a team of k players from n candidates: you can either include a specific player in your team and choose the rest 
+    k-1 players from the remaining n-1 candidates, or not include that specific player, thus choosing all k players from the remaining n-1 candidates.
+\end{example*}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{figs/pascals_triangle.jpeg}
+    \caption{Pascal's Triangle}
+\end{figure}
 
 \subsection{Sum of Binomial Coefficients over Lower Index}
 
-\begin{theorem}
-    For all $n\in \mathbb{N}$, the following holds
-    \begin{equation}
-        \sum_{i=0}^{n} \binom{n}{i} = 2^n
-    \end{equation}
-\end{theorem}
+\begin{boxA}
+    \begin{theorem}
+        For all $n\in \mathbb{N}$, the following holds
+        \begin{equation}
+            \sum_{i=0}^{n} \binom{n}{i} = 2^n
+        \end{equation}
+    \end{theorem}
+\end{boxA}
 
 \begin{proof}
     The proof is by induction on $n$. For $n=0$, the base case is
@@ -180,23 +221,53 @@
     \end{equation}
 \end{proof}
 
+\begin{example*}
+    The sum of binomial coefficients over the lower index is the same as counting all the subsets of a set of size $n$ which is $2^n$.
+\end{example*}
+
+
+\subsection{Factors of Binomial Coefficient}
+
+\begin{boxA}
+    \begin{theorem}
+        For all $r \in \mathbb{R}, k \in \mathbb{Z}$, the following holds:
+        \begin{equation}
+            k \binom{r}{k} = r \binom{r-1}{k-1}
+        \end{equation}
+    \end{theorem}
+\end{boxA}
+
+\begin{proof}
+    By definition, the binomial coefficient $\binom{r}{k}$ is given by
+    \begin{equation}
+        \binom{r}{k} = \frac{r!}{k!(r-k)!}.
+    \end{equation}
+    Multiplying both sides by $k$, we have
+    \begin{equation}
+        k \binom{r}{k} = k \frac{r!}{k!(r-k)!} = \frac{r!}{(k-1)!(r-k)!} = r \frac{(r-1)!}{(k-1)!(r-k)!} = r \binom{r-1}{k-1}.
+    \end{equation}
+\end{proof}
+
+\begin{example*}
+    Forming a committee of $k$ members from a group of $r$ individuals, with one member to be chosen as chairperson.
+\end{example*}
 
 \subsection{Increasing Sum of Binomial Coefficients}
 
-\begin{theorem}
-    For all $n\in \mathbb{N}$, the following holds
-    \begin{equation}
-        \sum_{k=0}^{n} k \binom{n}{k} = n \cdot 2^{n-1}
-    \end{equation}
-\end{theorem}
+\begin{boxA}
+    \begin{theorem}
+        For all $n\in \mathbb{N}$, the following holds
+        \begin{equation}
+            \sum_{k=0}^{n} k \binom{n}{k} = n 2^{n-1}
+        \end{equation}
+    \end{theorem}
+\end{boxA}
 
 \begin{proof}
     \begin{equation}
         \sum_{k=0}^{n} k \binom{n}{k} = \sum_{k=1}^{n} k \binom{n}{k} = \sum_{k=1}^{n} n \binom{n-1}{k-1} = n \sum_{k=1}^{n} \binom{n-1}{k-1} = n \sum_{k=0}^{n-1} \binom{n-1}{k} = n \cdot 2^{n-1}
     \end{equation}
 \end{proof}
-
-
 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
