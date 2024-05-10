@@ -290,12 +290,109 @@
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 \chapter{Inequalities}
 
+\section{Vector Norms}
+
 \begin{theorem}{\textbf{Cauchy-Schwarz Inequality}} \\
     Let $u, v$ be vectors of an inner product space. Then
     \begin{equation*}
         \left| \langle u, v \rangle \right|^2 \leq \left\| u \right\| \left\| v \right\|
     \end{equation*}
 \end{theorem} 
+
+\begin{theorem}{\textbf{Triangle Inequality}} \\
+    Let $u, v$ be vectors of an inner product space. Then
+    \begin{equation*}
+        \left\| u + v \right\| \leq \left\| u \right\| + \left\| v \right\|
+    \end{equation*}
+\end{theorem}
+
+
+\section{Probability}
+
+\subsection{Markov's Inequality}
+
+\begin{boxA}
+    \begin{theorem}{\textbf{Markov's Inequality}} \\
+        Let $X$ be a non-negative random variable and $a > 0$. Then
+        \begin{equation*}
+            P(X \geq a) \leq \frac{E[X]}{a}
+        \end{equation*}
+    \end{theorem}
+\end{boxA}
+
+\begin{proof}
+    \begin{equation}
+        E[X] = \int_{0}^{\infty} x f(x) dx \geq \int_{a}^{\infty} x f(x) dx \geq \int_{a}^{\infty} a f(x) dx = a \int_{a}^{\infty} f(x) dx = a P(X \geq a)
+    \end{equation}
+\end{proof}
+
+\subsection{Chebyshev's Inequality}
+
+\begin{boxA}
+    \begin{theorem}{\textbf{Chebyshev's Inequality}} \\
+        Let $X$ be a random variable with mean $\mu$ and variance $\sigma^2$. Then
+        \begin{equation*}
+            P(|X - \mu| \geq a) \leq \frac{\sigma^2}{a^2}
+        \end{equation*}
+    \end{theorem}
+\end{boxA}
+
+\begin{proof}
+    \begin{equation}
+        P(|X - \mu| \geq a) = P((X - \mu)^2 \geq a^2) \leq \frac{E[(X - \mu)^2]}{a^2} = \frac{\sigma^2}{a^2}
+    \end{equation}
+\end{proof}
+
+
+\subsection{Chernoff Bound for Sum of Independent Bernoulli Variables}
+
+\begin{boxA}
+    \begin{theorem}{\textbf{Chernoff Bound}}
+        Let \(X_1, X_2, \ldots, X_n\) be independent Bernoulli random variables with \(X_i \sim \text{Bernoulli}(p_i)\) and \( \Pr(X_i = 1) = p_i \). Define \( \mu = E\left[\sum_{i=1}^n X_i\right] = \sum_{i=1}^n p_i \). Then for any \( \delta > 0 \), the following bounds hold:
+        \begin{equation*}
+            \Pr\left(\sum_{i=1}^n X_i \geq (1 + \delta) \mu\right) \leq \left(\frac{e^\delta}{(1+\delta)^{1+\delta}}\right)^\mu, \quad \text{if } \delta > 0
+        \end{equation*}
+        \begin{equation*}
+            \Pr\left(\sum_{i=1}^n X_i \leq (1 - \delta) \mu\right) \leq \left(\frac{e^{-\delta}}{(1-\delta)^{1-\delta}}\right)^\mu, \quad \text{if } 0 < \delta < 1
+        \end{equation*}
+    \end{theorem}
+\end{boxA}
+
+\begin{proof}
+    Define \( t = \log(1 + \delta) \) for the upper tail bound and \( t = -\log(1 - \delta) \) for the lower tail bound. By using the moment-generating function approach, we have:
+    \begin{equation}
+        E[e^{tX_i}] = p_i e^t + (1 - p_i) = 1 + p_i(e^t - 1) \leq e^{p_i(e^t - 1)}
+    \end{equation}
+    Thus, for the upper bound:
+    \begin{equation}
+        \begin{aligned}
+            E\left[e^{t\sum_{i=1}^n X_i}\right] = \prod_{i=1}^n E[e^{tX_i}] = \prod_{i=1}^n \left(1 + p_i(e^t - 1)\right) \\
+            \leq \prod_{i=1}^n e^{p_i(e^t - 1)} = e^{\sum_{i=1}^n p_i(e^t - 1)} = e^{\mu (e^t - 1)} 
+        \end{aligned}
+    \end{equation}
+    \begin{equation}
+        \Pr\left(\sum_{i=1}^n X_i \geq (1+\delta)\mu\right) \leq \frac{e^{\mu(e^t - 1)}}{e^{t(1+\delta)\mu}} = e^{-\mu t \delta} \left(\frac{e^t}{1+\delta}\right)^\mu
+    \end{equation}
+    Simplifying further using Taylor series approximations and properties of logarithms, we obtain the upper bound as stated in the theorem.
+
+    The proof for the lower bound follows similarly, using \( t = -\log(1 - \delta) \) and applying analogous steps.
+\end{proof}
+
+\textbf{Remarks:}
+This proof illustrates the power of the Chernoff bound for providing exponentially decreasing bounds on the tail probabilities of the sum of independent Bernoulli trials, particularly useful in scenarios involving large numbers of independent events or trials.
+
+
+\begin{boxA}
+    \begin{theorem}
+        Let \(X_1, X_2, \ldots, X_n\) be independent Bernoulli random variables where each \(X_i\) takes values in \(\{0, 1\}\). Define \(Z_n = \sum_{i=1}^n X_i\) and \(\mu = E[Z_n]\). Then for any \(\delta > 0\), it holds that:
+        \begin{equation}
+            \Pr(|Z_n - \mu| \geq \delta \mu) \leq 2 e^{-\frac{\delta^2 \mu}{2}}.
+        \end{equation}
+    \end{theorem}    
+\end{boxA}
+
+
+
 
 
 
