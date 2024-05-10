@@ -730,41 +730,65 @@ we seek to prove that:
     \epsilon_n \approx \frac{-1}{\sqrt{2\pi n}}.
 \]
 
-\subsection*{Step 1: Symmetry and Simplification}
-Due to symmetry around $\frac{n}{2}$, the function inside the sum simplifies the computation:
+
+An elementary form of the CLT states the following. 
+
+Let \(\Theta_1, \Theta_2, \dots, \Theta_n\) denote a random sample of \(n\) independent observations 
+from a population with overall expected value (average) \(\mu\) and finite variance \(\sigma^2\), and let \(\overline{\Theta}_n\) denote the 
+sample mean of that sample (which is itself a random variable). Then the limit as \(n \to \infty\) of the distribution of
 \[
-    \sum_{k=0}^n \binom{n}{k} \left| \frac{k}{n} - \frac{1}{2} \right| = 2 \sum_{k=0}^{\lfloor n/2 \rfloor} \binom{n}{k} \left( \frac{1}{2} - \frac{k}{n} \right)
+\frac{\overline{X}_n - \mu}{\sigma_{\overline{X}_n}},
 \]
+where \(\sigma_{\overline{X}_n} = \frac{\sigma}{\sqrt{n}}\), is the standard normal distribution, 
+i.e., \( \overline{\Theta}_n \sim N(\mu, \sigma^2/n) \).
 
+\bigbreak
 
-The function inside the summation, $\max \left\{ \frac{k}{n}, 1 - \frac{k}{n} \right\}$, is crucial for understanding the behavior of the sum. It measures the maximum value between $\frac{k}{n}$ and its complement relative to 1, for each term $k$.
-
-\begin{itemize}
-    \item When $k \leq \frac{n}{2}$, $\frac{k}{n}$ is closer to 0 than to 1, making $1 - \frac{k}{n}$ (the complement) larger than $\frac{k}{n}$. In this case, $\max \left\{ \frac{k}{n}, 1 - \frac{k}{n} \right\} = 1 - \frac{k}{n}$.
-    \item Conversely, when $k > \frac{n}{2}$, $\frac{k}{n}$ is closer to 1, making it larger than its complement $1 - \frac{k}{n}$. Here, $\max \left\{ \frac{k}{n}, 1 - \frac{k}{n} \right\} = \frac{k}{n}$.
-\end{itemize}
-
-Thus, this function always returns a value that is at least $\frac{1}{2}$. The usage of $\max \left\{ \frac{k}{n}, 1 - \frac{k}{n} \right\}$ ensures we are always choosing the larger segment of $n$, whether it be the fraction represented by $k$ or the fraction not represented by $k$. This symmetric property around $\frac{n}{2}$ simplifies the calculation of the sum, as each pair of terms equidistant from $\frac{n}{2}$ contributes equally. This detail is crucial for efficiently summing the terms by considering only up to the midpoint and adjusting for symmetry.
-
-
-\subsection*{Step 2: Asymptotic Approximation}
-Using the normal approximation to the binomial distribution near $k = \frac{n}{2}$:
+The PDF of Folded Normal Distribution is given by:
 \[
-    \binom{n}{k} \approx \frac{2}{\sqrt{2\pi n}} \exp\left(-\frac{2(k-n/2)^2}{n}\right)
+    f_{Y}(x; \mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} e^{-\frac{(x - \mu)^2}{2\sigma^2}} + \frac{1}{\sqrt{2\pi \sigma^2}} e^{-\frac{(x + \mu)^2}{2\sigma^2}}
 \]
-
-\subsection*{Step 3: Integral Approximation}
-The sum can be approximated by an integral:
+and the mean is given by:
 \[
-    \int_{-\infty}^{\infty} \frac{2}{\sqrt{2\pi n}} x^2 e^{-2x^2/n} \, dx = \frac{1}{2 \sqrt{2\pi n}}
+    \mu_{Y} = \sigma \sqrt{\frac{2}{\pi}} e^{-\frac{\mu^2}{2\sigma^2}} + \mu \left(1 - 2 \Phi\left(-\frac{\mu}{\sigma}\right)\right)
 \]
+where $\Phi$ is the normal cumulative distribution function.
 
-\subsection*{Step 4: Combining Results}
-Combining the results yields:
-\[
-    \epsilon_n \approx \frac{1}{2} - \left(\frac{1}{2}\right)^n \cdot 2 \cdot \frac{1}{2 \sqrt{2\pi n}} = \frac{1}{2} - \frac{1}{\sqrt{2\pi n}}
-\]
-This shows that as $n$ becomes large, $\epsilon_n$ approximates $\frac{-1}{\sqrt{2\pi n}}$, demonstrating the correctness of the given asymptotic expression.
+\bigbreak
+
+We get:
+\begin{align*}
+    \epsilon_n &=  \frac{1}{2} - \left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \max \left\{ \frac{k}{n}, 1 - \frac{k}{n} \right\} \\
+    &= \frac{1}{2} - \left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \left( \frac{1}{2} + \left| \frac{k}{n} - \frac{1}{2} \right| \right) \\
+    &= \frac{1}{2} - \left(\frac{1}{2}\right)^n \sum_{k=0}^n \left(\frac{1}{2}\right) \binom{n}{k}  - \left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \left| \frac{k}{n} - \frac{1}{2} \right| \\
+    &= - \left(\frac{1}{2}\right)^n \sum_{k=0}^n \binom{n}{k} \left| \frac{k}{n} - \frac{1}{2} \right| \\
+    &= - \sum_{k=0}^n  \frac{\binom{n}{k}}{2^n} \left| \frac{k}{n} - \frac{1}{2} \right| \\
+    &\sim - \left( \text{The mean of the folded normal distribution with } \mu = 0, \sigma^2 = \frac{1}{4n} \right) \\
+    &= - \sqrt{\frac{1}{4n}} \sqrt{\frac{2}{\pi}} e^{-\frac{0}{2 \cdot \frac{1}{4n}}} + 0 \left(1 - 2 \Phi\left(-\frac{0}{\sqrt{\frac{1}{4n}}}\right)\right) \\
+    &= - \frac{1}{\sqrt{2\pi n}}
+\end{align*}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figs/Visualization_of_Binomial_PMF_Functions.png}
+    \caption{Visualization of Binomial PMF Functions}
+    \label{fig:binomial_pmf}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figs/Normal Distribution_vs_Folded_Normal_Distribution.png}
+    \caption{Normal Distribution vs Folded Normal Distribution}
+    \label{fig:folded_normal_distribution}
+\end{figure}
+
+
+
+
+
+
+
+
 
 
 
