@@ -368,9 +368,56 @@ It is convenient to extend their definitions to the whole of m-space by
 \begin{equation}
     \begin{aligned}
         xs : \mathbb{R}^m \rightarrow \mathbb{R}^n, \quad xs(x) &= \argmin_{s \in S = \{Ay | y \in Y \}} x^T s \\
-        \phi(x) &=  x^T xs(x).
+        \phi(x) &=  x^T xs(x) = \min_{s \in \text{conv}\{A^1, A^2, \ldots, A^n\}} x^T s.
     \end{aligned}
 \end{equation}
+
+
+The Bayes envelope represents the minimum value of a finite class of linear functions. Here's the breakdown:
+
+\textbf{Finite Class of Linear Functions:}
+
+The term \(x^T s\) where \(s\) is a vector in the convex hull of the columns \(A^1, A^2, \ldots, A^n\) of matrix \(A\), represents a linear function in terms of \(s\). Each column vector \(A^j\) represents a linear function \(x^T A^j\). If \(s\) is an element of the convex hull of these columns, it can be expressed as a linear combination:
+\[
+s = \sum_{j=1}^n \lambda_j A^j,
+\]
+where \(\lambda_j \geq 0\) and \(\sum_{j=1}^n \lambda_j = 1\). Thus, \(x^T s\) can be rewritten as:
+\[
+x^T s = x^T \left(\sum_{j=1}^n \lambda_j A^j\right) = \sum_{j=1}^n \lambda_j (x^T A^j),
+\]
+where \(x^T A^j\) are linear functions, and \(s\) represents a linear combination of these functions.
+
+\textbf{Concavity and Piecewise Linearity:}
+
+\begin{itemize}
+    \item \textbf{Concavity:} The function \(\phi(x)\) is concave because it is defined as the minimum of a collection of linear functions \(\{x^T A^j\}\). The minimum of linear functions is a concave function, as the intersection of convex sets (epigraphs of each linear component) is also convex.
+
+    \item \textbf{Piecewise Linearity:} Each function \(x^T A^j\) is linear in \(x\). The function \(\phi(x)\), being the minimum over these linear functions, is piecewise linear. It directly adopts the linearity of \(x^T A^j\) in regions where a particular \(x^T A^j\) provides the minimum value. Where the minimum shifts from one linear function to another due to changes in \(x\), the graph of \(\phi(x)\) will exhibit a 'kink' or a change in slope, reflecting its piecewise linear nature.
+\end{itemize}
+
+
+It holds that 
+\begin{equation}
+    (w - w')^T s(w) = \phi(w) - w'^T s(w) \leq \phi(w) - \phi(w') \leq (w - w')^T \phi(w')
+\end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \newpage
 % * * * * * * * * * * * * * * * * * * * * * * * * 

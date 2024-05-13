@@ -109,7 +109,107 @@
 
 \mainmatter
 
+\chapter{Linear Programming (LP)}
 
+\begin{definition}(The Primal Problem in canonical form) \\
+    The primal problem in canonical form is given by
+    \begin{equation}
+        \begin{aligned}
+            \text{maximize} \quad & \langle c,x \rangle \\
+            \text{subject to} \quad & Ax \leq b \\
+            & x \geq 0
+        \end{aligned}
+    \end{equation}
+\end{definition}
+
+
+\begin{definition}(The Primal Problem in standard form) \\
+    The primal problem in standard form is given by
+    \begin{equation}
+        \begin{aligned}
+            \text{maximize} \quad & \langle c,x \rangle \\
+            \text{subject to} \quad & Ax = b \\
+            & x \geq 0
+        \end{aligned}
+    \end{equation}
+\end{definition}
+
+\begin{definition}(The Dual Problem in canonical form) \\
+    The dual problem in canonical form is given by
+    \begin{equation}
+        \begin{aligned}
+            \text{minimize} \quad & \langle b,y \rangle \\
+            \text{subject to} \quad & A^T y \geq c \\
+            & y \geq 0
+        \end{aligned}
+    \end{equation}
+\end{definition}
+
+
+\begin{theorem}(Weak Duality) \\
+    Let $x$ be a feasible solution to the primal problem and $y$ be a feasible solution to the dual problem. Then
+    \begin{equation}
+        \langle c,x \rangle \leq \langle b,y \rangle
+    \end{equation}
+\end{theorem}
+
+\begin{theorem}(Strong Duality) \\
+    If the primal problem has an optimal solution, then the dual problem also has an optimal solution and the optimal values of the primal and dual problems are equal.
+\end{theorem}
+
+
+
+\section{Minimiax Theorem}
+
+\subsection{Theorem}
+Let \(X \subset \mathbb{R}^n\) and \(Y \subset \mathbb{R}^m\) be compact convex sets. If \(f : X \times Y \rightarrow \mathbb{R}\) is a continuous function that is concave-convex, i.e.,
+\begin{itemize}
+    \item \(f(\cdot, y) : X \rightarrow \mathbb{R}\) is concave for fixed \(y\),
+    \item \(f(x, \cdot) : Y \rightarrow \mathbb{R}\) is convex for fixed \(x\),
+\end{itemize}
+then we have that
+\[
+\max_{x \in X} \min_{y \in Y} f(x, y) = \min_{y \in Y} \max_{x \in X} f(x, y).
+\]
+
+\subsection{Special Case: Bilinear Function}
+The theorem holds in particular if \(f(x, y)\) is a linear function in both of its arguments (and therefore is bilinear) since a linear function is both concave and convex. Thus, if \(f(x, y) = x^T Ay\) for a finite matrix \(A \in \mathbb{R}^{n \times m}\), we have:
+\[
+\max_{x \in X} \min_{y \in Y} x^T Ay = \min_{y \in Y} \max_{x \in X} x^T Ay.
+\]
+The bilinear special case is particularly important for zero-sum games, when the strategy set of each player consists of lotteries over actions (mixed strategies), and payoffs are induced by expected value. In the above formulation, \(A\) is the payoff matrix.
+
+The function \(f(x, y) = y^2 - x^2\) is shown below as an example of a concave-convex function.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Figs/Saddle_point.png}
+    \caption{Concave-convex function}
+\end{figure}
+
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 \chapter{Important subsets of $\mathbb{R}^n$}
 
 \begin{definition}{Open set} \\
