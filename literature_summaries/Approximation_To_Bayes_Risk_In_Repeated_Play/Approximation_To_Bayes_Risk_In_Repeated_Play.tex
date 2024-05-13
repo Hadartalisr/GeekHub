@@ -224,7 +224,7 @@ Let $G$ be a finite two-person general game in which players I and II have, resp
 and their pure strategies will be represented by
 \begin{equation} \label{eq:2}
     \begin{aligned}
-        \epsilon = (e_1, e_2, \ldots, e_m) \text{ a basis vector in } X,
+        \epsilon = (\epsilon_1, \epsilon_2, \ldots, \epsilon_m) \text{ a basis vector in } X,
         \delta = (\delta_1, \delta_2, \ldots, \delta_n) \text{ a basis vector in } Y.
 \   \end{aligned}   
 \end{equation}
@@ -243,6 +243,29 @@ To exclude trivial games, it will be assumed that $A$ has no dominant column for
 \begin{equation} \label{eq:4}
     \max_{\epsilon} \{ \epsilon A^j - \min_{r} \epsilon A^r \} > 0,
 \end{equation}
+
+The expectation of the loss when II uses a randomized strategy \( y \) will be called the risk,
+\[
+    R(\epsilon, y) = \mathbb{E}_y(\epsilon^T A \delta) = \epsilon^T A \mathbb{E}_y(\delta) = \epsilon^T A y.
+\]
+
+For given y, the risk function is representable as the vector, $s = Ay$.
+
+From the point of view of risk, G is identical with the game in which II's pure strategies are m-vectors in the set of columns of A, 
+\begin{equation} \label{eq:6}
+    \sigma = (\sigma_1, \sigma_2, \ldots, \sigma_m) \text{ in } \{A^1, A^2, \ldots, A^n\}.
+\end{equation},
+
+II's randomized strategies are m-vectors in the convex hull of the columns of A, 
+\begin{equation} \label{eq:7}
+    s = (s_1, s_2, \ldots, s_m) \text{ in } S = \{Ay : y \in Y \}
+\end{equation},
+
+and the risk of s in S is given by the scalar product
+\begin{equation} \label{eq:8}
+    R(\epsilon, s) = \mathbb{E}_s(\epsilon^T \sigma) = \epsilon^T \mathbb{E}_s(\sigma) = \epsilon^T s
+\end{equation}.
+
 
 
 \subsection{Binary Game Matrix Analysis}
@@ -321,95 +344,35 @@ A non-trivial matrix \( A \), which provides a more complex and strategic intera
 
 \begin{equation} \label{eq:nontrivial}
     A_{\text{non-trivial}} = \begin{bmatrix}
-    1 & 2 & 3 \\
-    4 & 5 & 6 \\
-    7 & 8 & 9
+    1 & 1 & 3 \\
+    9 & 5 & 6 \\
+    7 & 8 & 0
     \end{bmatrix}
 \end{equation}
 
-This matrix has distinct elements with no rows or columns being scalar multiples of each other. It provides a range of outcomes based on the strategic choices of the players. Each choice by player II (selecting a column) results in different losses for player I depending on the row (strategy) they choose. This matrix creates a scenario where the strategy truly influences the game's outcome, providing a dynamic and non-trivial game environment.
+This matrix has distinct elements with no rows or columns being scalar multiples of each other. It provides a range of outcomes based on the strategic choices of the players. 
 
 
 
-and to avoid notation distinguishing a subset of non-weakly-dominated columns, that $A$ has no dominated or duplicated column, for each $j$,
-\begin{equation} \label{eq:5}
-    e^j A \geq e^y A \text{ for all } e \text{ only if } y_j = 1.
+\subsection{Bayes Risk}
+
+For each $x \in X$ the minimum of the expectation of risk, 
+\[
+    \min_{s} x^T s
+\]
+is attained for s in the convex hull of the set of minimizing $\sigma$. 
+This minimum will be called \textbf{The Bayes Risk} against x and any minimizing s will be called a \textbf{Bayes Strategy} against x.
+
+Considered as functions, $\phi$ and $s$, on $X$, $\phi$ will be termed the \textbf{Bayes envelope}, and $s$ the \textbf{Bayes response}.
+It is convenient to extend their definitions to the whole of m-space by 
+\begin{equation}
+    \begin{aligned}
+        xs : \mathbb{R}^m \rightarrow \mathbb{R}^n, \quad xs(x) &= \argmin_{s \in S = \{Ay | y \in Y \}} x^T s \\
+        \phi(x) &=  x^T xs(x).
+    \end{aligned}
 \end{equation}
 
-The expectation of the loss when II uses a randomized strategy $y$ will be called the risk,
-\[
-R(e, y) = \sum_{y} e A \delta = e A y = e \cdot A y.
-\]
-
-For given $y$, the risk function is representable as the vector, $s = Ay$, and the mapping from $Y$ to $S = Ay$ furnishes a convenient canonical form for $G$. From the point of view of risk, $G$ is identical with the game in which II's pure strategies are m-vectors in the set of columns of $A$,
-\[
-\sigma = (\sigma_1, \ldots, \sigma_m) \text{ in } [A^1, A^2, \ldots, A^n],
-\]
-\[
-s = (s_1, \ldots, s_m) \text{ in } S = [Ay \mid y \text{ in } Y],
-\]
-and the risk of $s$ in $S$ is given by the scalar product
-\[
-R(e, s) = \sum_{y} e \sigma = e \cdot y \sigma = e \cdot s.
-\]
-
-For each $x$ in $X$ the minimum of the expectation of risk,
-\[
-\min_{s \in S} xs,
-\]
-is attained for $s$ in the convex hull of the set of minimizing $\sigma$. This minimum will be called the Bayes risk against $x$ and any minimizing $s$ will be called a Bayes strategy against $x$. Considered as functions, $\beta$ and $s$, on $X$, $\beta$ will be termed the Bayes envelope, $s$ a Bayes response. It is convenient to extend their definition to the whole of $m$-space by
-\[
-\beta(w) = \min_{s} ws = \min_{w} w \sigma,
-\]
-\[
-s^* \text{ any function to } S \text{ such that } ws(w) = \beta(w) \text{ for each } w.
-\]
-
-Some continuity properties of the Bayes envelope and the risks of Bayes strategies are immediate consequences of their definitions. These properties are little utilized in static game theory and their importance here stems from their direct use and analogical value in connection with the sequence games to be introduced in Section 3.
-
-The Bayes envelope is known to be concave and continuous in more general games ([2] Theorem 2.27). Here $\beta$, as the minimum of a finite class of linear functions, is concave and piecewise linear, and
-\[
-(w - w')s(w) \leq \beta(w) - \beta(w') \leq (w - w')s(w').
-\]
-Although any Bayes response will be discontinuous at every point of possible ambiguity, each Bayes response possesses a local weak continuity at each $w$, $ws(w') - \beta(w) = w(s(w') - s(w)) \leq (w - w')s(w') - s(w)$.
-
-Introducing the several norms for $m$-vectors,
-\[
-\|v\| = \sum_{i=1}^m |v_i|, \quad |v| = \max_{i=1}^m |v_i|,
-\]
-and the uniform bound on the variation of any Bayes response,
-\[
-|\beta| = \sup_{w,w'} |s(w') - s(w)| = \max_{\epsilon} \max_{\sigma} |\epsilon \cdot \beta - \beta(\epsilon)| = \max_{\max} \max_{j=1}^m \left|A^j - \min_{r} A^r\right|,
-\]
-the inequality may conveniently be weakened to
-\[
-ws(w') - \beta(w) \leq \|w - w'\| |s(w') - s(w)| \leq \|w - w'\| |\beta|.
-\]
-
-Letting $W_j = \{w \mid wA^j = \beta(w)\}$, $\beta$ is linear on each $W_j$ and each $W_j$ is convex and closed. Each $W_j$ not containing a given $w$ has a positive distance from it and, letting $d(w)$ be the minimum of these distances (or $+\infty$ if not otherwise defined), it follows that each $\sigma$ which is Bayes with respect to a $w$ in the open neighborhood
-\[
-\sum_{i=1}^m (w'_i - w_i)^2 < d^2(w)
-\]
-(and hence also each $s(w')$) is necessarily Bayes with respect to $w$,
-\[
-ws(w') - \beta(w) > 0 \text{ only if } \sum_{i=1}^m (w'_i - w_i)^2 \geq d^2(w).
-\]
-
-In zero-sum games against an intelligent opponent, attention has been concentrated on the ordering of II's strategies induced by their maximum risk. Letting $R(s)$ denote
-\[
-\max_{\epsilon} s_{\epsilon},
-\]
-the value of $G$ is given by
-\[
-R = \min_{s \in S} R(s),
-\]
-and, by the min-max theorem,
-\[
-R = \max_{\min_{x}} \sigma = \max_{x} \beta(x).
-\]
-
-
-
+\newpage
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
@@ -435,7 +398,7 @@ R = \max_{\min_{x}} \sigma = \max_{x} \beta(x).
 
 
 
-
+\newpage
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
@@ -461,7 +424,7 @@ R = \max_{\min_{x}} \sigma = \max_{x} \beta(x).
 
 
 
-
+\newpage
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
@@ -487,7 +450,7 @@ R = \max_{\min_{x}} \sigma = \max_{x} \beta(x).
 
 
 
-
+\newpage
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
@@ -513,7 +476,7 @@ R = \max_{\min_{x}} \sigma = \max_{x} \beta(x).
 
 
 
-
+\newpage
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
