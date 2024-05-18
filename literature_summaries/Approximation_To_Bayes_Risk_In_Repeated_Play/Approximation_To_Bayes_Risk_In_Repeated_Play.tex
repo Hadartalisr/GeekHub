@@ -24,10 +24,25 @@
 
 
 
-\newtcolorbox{boxA}{
+\newtcolorbox{bluebox}{
     fontupper = \bf,
     boxrule = 1.5pt,
-    colframe = black % frame color
+    colframe = black,
+    colback = blue!30
+}
+
+\newtcolorbox{redbox}{
+    fontupper = \bf,
+    boxrule = 1.5pt,
+    colframe = black,
+    colback = red!50
+}
+
+\newtcolorbox{purplebox}{
+    fontupper = \bf,
+    boxrule = 1.5pt,
+    colframe = black,
+    colback = purple!50
 }
 
 
@@ -224,7 +239,7 @@ Let $G$ be a finite two-person general game in which players I and II have, resp
 and their pure strategies will be represented by
 \begin{equation} \label{eq:2}
     \begin{aligned}
-        \epsilon = (\epsilon_1, \epsilon_2, \ldots, \epsilon_m) \text{ a basis vector in } X,
+        \epsilon = (\epsilon_1, \epsilon_2, \ldots, \epsilon_m) \text{ a basis vector in } X, \\
         \delta = (\delta_1, \delta_2, \ldots, \delta_n) \text{ a basis vector in } Y.
 \   \end{aligned}   
 \end{equation}
@@ -241,13 +256,13 @@ The elements of $A$ will be denoted by $a_{ij}$, the rows by $A_i$ and the colum
     \end{bmatrix} = \begin{bmatrix} A_1 \\ A_2 \\ \vdots \\ A_m \end{bmatrix} = \begin{bmatrix} A^1 & A^2 & \cdots & A^n \end{bmatrix}.
 \end{equation}
 
-To exclude trivial games, it will be assumed that $A$ has no dominant column for each $j$,
+To exclude trivial games, it will be assumed that $A$ has no dominant column - for each $j$,
 \begin{equation} \label{eq:4}
-    \max_{\epsilon} \{ \epsilon A^j - \min_{r} \epsilon A^r \} > 0,
+    \max_{\epsilon} \{ \epsilon^T A^j - \min_{r} \epsilon^T A^r \} > 0,
 \end{equation}
-and, to avoid notation distingushing a subset of non-weakly-dominated columns, that A has no dominated ot duplicated column, for each $j$,
+and, to avoid notation distingushing a subset of non-weakly-dominated columns, that A has no dominated ot duplicated column - for each $j$,
 \begin{equation} \label{eq:5}
-    \epsilon A^j \geq \epsilon A^y \quad \forall \epsilon \quad \text{ only if } y_j = 1
+    \epsilon^T A^j \geq \epsilon^T Ay \quad \forall \epsilon \quad \text{ only if } y_j = 1
 \end{equation}
 
 \bigbreak
@@ -373,7 +388,7 @@ This minimum will be called \textbf{The Bayes Risk} against x and any minimizing
 
 Considered as functions, $\phi$ and $s$, on $X$, $\phi$ will be termed the \textbf{Bayes envelope}, and $s$ the \textbf{Bayes response}.
 It is convenient to extend their definitions to the whole of m-space by 
-\begin{equation}
+\begin{equation} \label{eq:9}
     \begin{aligned}
         s : \mathbb{R}^m \rightarrow \mathbb{R}^n, \quad s(w) &= \argmin_{s \in S = \{Ay | y \in Y \}} w^T s \\
         \phi(w) &=  w^T s(w) = \min_{s \in \text{conv}\{A^1, A^2, \ldots, A^n\}} w^T s.
@@ -381,7 +396,9 @@ It is convenient to extend their definitions to the whole of m-space by
 \end{equation}
 
 
-The Bayes envelope represents the minimum value of a finite class of linear functions:
+\begin{bluebox}
+    The Bayes envelope, as the minimum value of a finite class of linear functions, is concave and piecewise linear.
+\end{bluebox}
 
 \textbf{Finite Class of Linear Functions:}
 
@@ -411,7 +428,7 @@ where \(x^T A^j\) are linear functions, and \(s\) represents a linear combinatio
 
 
 It holds that 
-\begin{equation}
+\begin{equation} \label{eq:10}
     (w - w')^T s(w) = \phi(w) - w'^T s(w) \leq \phi(w) - \phi(w') \leq (w - w')^T \phi(w')
 \end{equation}
 
@@ -423,7 +440,7 @@ Although any bayes response will be discontinuous at every point of possible amb
 proof:
 \begin{align*}
     \nabla_w \phi(w) &= \nabla_w (w^T s(w)) = s(w) \\
-    \phi(w') &\leq \phi(w) + s(w)^T (w' - w)  \\
+    \phi(w') &\leq \phi(w) + s(w)^T (w' - w) \quad \text{ (by concavity) } \\
     -\phi(w) &\leq -\phi(w') + s(w)^T (w' - w) \\
     w^T s(w') - \phi(w) &\leq w^T s(w') -\phi(w') + s(w)^T (w' - w) \\
     &= w^T s(w') - w'^T s(w') + s(w)^T (w' - w) \\
@@ -432,9 +449,138 @@ proof:
 \end{align*}
 
 
+Introducing the several norms for \( m \)-vectors,
+
+\begin{equation} \label{eq:12}
+\|v\|_1 = \sum_{1}^{m} |v_i| \quad \|v\|_\infty = \max_{i} |v_i|,
+\end{equation}
+
+and the uniform bound on the variation of any Bayes response,
+
+\begin{equation} \label{eq:13}
+|B| = \sup_{w, w'} |s(w') - s(w)| = \max_{\sigma} \max_{\epsilon} [\epsilon \sigma - \phi (\epsilon)] = \max_{j} \max_{i} [A^j_i - \min_{r}A^r_i]
+\end{equation}
+
+the inequality (\ref{eq:11}) may conveniently be weakened to
+
+\begin{bluebox}
+\begin{equation} \label{eq:14}
+0 \leq w^T s(w') - \phi(w) \leq \|w - w'\| |s(w') - s(w)| \leq \|w - w'\| |B|.
+\end{equation}
+\end{bluebox}
+
+\bigbreak
+
+Letting 
+\begin{equation*}
+    W_j = \{w \mid wA^j = \phi(w) \} 
+\end{equation*}
+
+\(\phi\) is linear on each \( W_j \) and each \( W_j \) is convex and closed. 
 
 
+Each \( W_j \) not containing a given \( w \) has a positive distance from it. 
 
+Let \( d(w) \) be the minimum of these distances (or \( + \infty \) if not otherwise defined):
+\begin{equation*}
+    d(w) = 
+    \begin{cases}
+        \min_{j} \min_{w' \in W_j} \|w - w'\| & \text{if } \exists j : w \notin W_j \\
+        \infty & \text{ o.w }
+    \end{cases}
+\end{equation*}
+
+\begin{bluebox}
+it follows that each \(\sigma\) which is Bayes with respect to a \( w' \) in the open neighborhood
+
+\begin{equation*}
+\sum_{i=1}^{m} (w'_i - w_i)^2 < d^2(w)
+\end{equation*}
+
+(and hence also each  $s(w')$) is necessarily Bayes with respect to \( w \),
+
+\begin{equation} \label{eq:15}
+w^T s(w') - \phi(w) > 0 \text{ only if } \sum_{i=1}^{m} (w'_i - w_i)^2 \geq d^2(w).
+\end{equation}
+\end{bluebox}
+
+
+The bound (\ref{eq:11}) is thus improved to zero for all \(\|w - w'\|\) sufficiently small, quite non-uniformly in \( w \).
+
+\bigbreak
+
+In zero-sum games against an intelligent opponent, attention has been concentrated on the ordering of II's 
+strategies induced by their maximum risk. Letting \( R(s) \) denote
+
+\begin{equation*}
+    R(s) := \max_{\epsilon} \epsilon^T s
+\end{equation*}
+
+the value of \( G \) is given by
+
+\begin{equation*}
+    R = \min_{s} R(s) = \min_{s} \max_{\epsilon} \epsilon^T s.
+\end{equation*}
+
+and by the min-max theorem, 
+
+\begin{equation} \label{eq:16}
+    R = \max_{x \in X} \min_{\sigma} x^T \sigma = \max_{x \in X} \phi(x)
+\end{equation}
+
+\bigbreak
+
+In games against Nature, the Bayes envelope is considered a worthy defensive goal for II since it is usually felt that I's 
+move is in no way influenced by II's choice of strategy. As a consequence, a strategy \( s \) is evaluated for each 
+\( x \) in \( X \) in terms of the "regret", the additional expected risk above \( \phi (x) \) which it incurs,
+
+\begin{equation} \label{eq:17}
+    D(x, s) = x^T s - \phi(x).
+\end{equation}
+
+\( D(x, s) \) is clearly non-negative and its maximum with respect to \( x \) is frequently used to establish a complete ordering on \( S \). 
+It follows from the concavity of \( \phi \) that \( \mathbb{E}_x [\epsilon^T s - \phi(\epsilon)] \geq x^T s - \phi(x) \) and hence that equality holds in
+
+\[
+\max_{\epsilon} D(\epsilon, s) \leq \max_x D(x, s).
+\]
+
+Because of the assumption (\ref{eq:4}),
+
+\begin{equation} \label{eq:18}
+    \begin{aligned}
+        D(s) &= \max_x D(x, s) = \max_{\epsilon} D(\epsilon, s) = \max_{\epsilon} [\epsilon^T s - \phi (\epsilon)] > 0, \\
+        D &= \min_s D(s) > 0
+    \end{aligned}
+\end{equation}
+
+
+and, since
+
+\[
+\max_{\epsilon} [\epsilon^T s - \phi (\epsilon)] = \max_x \mathbb{E}_x [x^T s - \phi(\epsilon)] = \max_x [x^T s - \mathbb{E}_x \phi (\epsilon)],
+\]
+
+the min-max theorem yields the representation,
+
+\begin{purplebox}
+    \begin{equation} \label{eq:19}
+        D = \min_s \max_x [x^T s - \mathbb{E}_x \phi (\epsilon)] = \max_x \min_s [x^T s - \mathbb{E}_x \phi (\epsilon)] = \max_x [\phi (x) - \mathbb{E}_x \phi (\epsilon)].    
+    \end{equation}
+\end{purplebox}
+
+The restriction of the regret function, \( D(\epsilon, s) \), is associated with the degenerate (pointwise) partition of I's pure strategies. 
+Developments in connection with the sequence games of Section 3 suggest that, in certain structured games, 
+it may be of interest to consider modifications of regret associated with more general partitions of I's pure strategies. 
+Letting \( \pi \) be a function of \( \epsilon \) whose values partition I's pure strategies, 
+\( T \) a subset of \( S \), define the \( T \)-envelope of maximum risks on the partition \( \pi \),
+
+\begin{equation}
+    \phi^T (\pi) = \inf_{s \in T} \max_{\epsilon \in \pi (\epsilon)} \epsilon^T s,
+\end{equation}
+
+and define the regret of a strategy \( s \), relative to the use of \( T \) with the knowledge of \( \pi (\epsilon) \), 
+to be \( \epsilon^T s - \phi^T (\pi( \epsilon )) \).
 
 
 
