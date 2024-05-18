@@ -284,7 +284,7 @@ $<\cdot, \cdot>_x$ for each $x \in \mathcal{K}$, the tangent space will be $\mat
    f(x + dx) &\approx f(x) + \langle grad_M f(x) , dx \rangle_x
 \end{align*}
 
-We will consider $M$ such that $\langle \cdot, \cdot \rangle_x = \nabla^2 \phi (x) [\cdot, \cdot]$, where $\phi$ is a fixed convex function. 
+We will consider $M$ such that $\langle \cdot, \cdot \rangle_x = \nabla^2 \phi [\cdot, \cdot]$, where $\phi$ is a fixed convex function. 
 The function $\phi$ encodes the geometry of the space, and this is where the prior information is encoded. We get that:
 \begin{align*}
     (dx)^T  \nabla f(x) = \langle grad_M f(x) , dx \rangle_x &= dx^T \nabla^2 \phi(x) grad_M f(x) \Rightarrow \\
