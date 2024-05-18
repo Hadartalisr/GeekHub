@@ -20,7 +20,15 @@
 \usepackage{empheq}
 \usepackage{array}
 \usepackage[ruled,vlined]{algorithm2e} 
+\usepackage[many]{tcolorbox}    	% for COLORED BOXES (tikz and xcolor included)
 
+
+
+\newtcolorbox{boxA}{
+    fontupper = \bf,
+    boxrule = 1.5pt,
+    colframe = black % frame color
+}
 
 
 \setlength{\parindent}{0pt}
@@ -153,9 +161,46 @@
     \end{equation}
 \end{theorem}
 
-\begin{theorem}(Strong Duality) \\
-    If the primal problem has an optimal solution, then the dual problem also has an optimal solution and the optimal values of the primal and dual problems are equal.
+
+\begin{theorem}{Farkas' Lemma} \\
+    Let $A \in \mathbb{R}^{m \times n}$ and $b \in \mathbb{R}^m$. Then exactly one of the following holds:
+    \begin{itemize}
+        \item There exists $x \in \mathbb{R}^n$ such that $Ax = b$ and $x \geq 0$.
+        \item There exists $y \in \mathbb{R}^m$ such that $A^T y \geq 0$ and $\langle b,y \rangle < 0$.
+    \end{itemize}
 \end{theorem}
+
+\begin{boxA}
+\begin{theorem}(Strong Duality) \\
+    Let $P$ be the primal problem 
+    \begin{equation*}
+        \begin{aligned}
+            \text{maximize} \quad & \langle c,x \rangle \\
+            \text{subject to} \quad & Ax \leq b \\
+            & x \geq 0
+        \end{aligned}
+    \end{equation*}
+    and $D$ be the dual problem
+    \begin{equation*}
+        \begin{aligned}
+            \text{minimize} \quad & \langle b,y \rangle \\
+            \text{subject to} \quad & A^T y \geq c \\
+            & y \geq 0
+        \end{aligned}
+    \end{equation*}
+    Then exactly one of the following holds:
+    \begin{itemize}
+        \item Both $P$ and $D$ are infeasible.
+        \item $P$ is unbounded and $D$ is infeasible.
+        \item $P$ is infeasible and $D$ is unbounded.
+        \item Both $P$ and $D$ are feasible and hence bounded. 
+            Let $x^*$ be an optimal solution to $P$ and $y^*$ be an optimal solution to $D$. Then
+            \begin{equation*}
+                \langle c,x^* \rangle = \langle b,y^* \rangle
+            \end{equation*}
+    \end{itemize}
+\end{theorem}
+\end{boxA}
 
 
 

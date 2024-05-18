@@ -229,7 +229,9 @@ and their pure strategies will be represented by
 \   \end{aligned}   
 \end{equation}
 
-In accord with the dominant decision theoretic orientation, the game will be consistently viewed from the position of player II. Nothing will be assumed about player I's motivation and the game will be defined only up to player II's inutility which will be described by a loss matrix $A$. The elements of $A$ will be denoted by $a_{ij}$, the rows by $A_i$ and the columns by $A^j$,
+In accord with the dominant decision theoretic orientation, the game will be consistently viewed from the position of player II. 
+Nothing will be assumed about player I's motivation and the game will be defined only up to player II's inutility which will be described by a \textbf{loss matrix $A$}. 
+The elements of $A$ will be denoted by $a_{ij}$, the rows by $A_i$ and the columns by $A^j$,
 \begin{equation} \label{eq:3}
     A = \begin{bmatrix}
     a_{11} & a_{12} & \cdots & a_{1n} \\
@@ -243,6 +245,12 @@ To exclude trivial games, it will be assumed that $A$ has no dominant column for
 \begin{equation} \label{eq:4}
     \max_{\epsilon} \{ \epsilon A^j - \min_{r} \epsilon A^r \} > 0,
 \end{equation}
+and, to avoid notation distingushing a subset of non-weakly-dominated columns, that A has no dominated ot duplicated column, for each $j$,
+\begin{equation} \label{eq:5}
+    \epsilon A^j \geq \epsilon A^y \quad \forall \epsilon \quad \text{ only if } y_j = 1
+\end{equation}
+
+\bigbreak
 
 The expectation of the loss when II uses a randomized strategy \( y \) will be called the risk,
 \[
@@ -272,39 +280,39 @@ and the risk of s in S is given by the scalar product
 
 Consider a two-player game where Player I and Player II each have two strategies. The loss matrix \( A \), which represents the cost to Player II when specific combinations of strategies are chosen, is given by:
 
-\begin{equation}
+\begin{equation*}
     A = \begin{bmatrix}
     0 & 1 \\
     1 & 0
     \end{bmatrix}
-\end{equation}
+\end{equation*}
 
 Player I's strategy choices are represented as a vector \( x \) in the space \( X \), and Player II's strategy choices as a vector \( y \) in the space \( Y \):
 
-\begin{equation} \label{eq:strategies}
+\begin{equation*} \label{eq:strategies}
     \begin{aligned}
         X &= \{x = (x_1, x_2) \mid x_i \geq 0, x_1 + x_2 = 1\}, \\
         Y &= \{y = (y_1, y_2) \mid y_j \geq 0, y_1 + y_2 = 1\}.
     \end{aligned}
-\end{equation}
+\end{equation*}
 
 Let us denote the pure strategies by \( \epsilon \) for Player I and \( \delta \) for Player II:
-\begin{equation} \label{eq:pure_strategies}
+\begin{equation*} \label{eq:pure_strategies}
     \begin{aligned}
         \epsilon &= (e_1, e_2) \text{ where } e_1 = (1, 0), e_2 = (0, 1), \\
         \delta &= (\delta_1, \delta_2) \text{ where } \delta_1 = (1, 0), \delta_2 = (0, 1).
     \end{aligned}
-\end{equation}
+\end{equation*}
 
 The expected cost for Player II, when players use strategies \( x \) and \( y \) respectively, can be calculated by:
-\begin{equation} \label{eq:expected_cost}
+\begin{equation*} \label{eq:expected_cost}
     \text{Cost}_{II}(x, y) = x^T A y
-\end{equation}
+\end{equation*}
 
 To elaborate, if Player I uses a mixed strategy \( x = (x_1, x_2) \) and Player II uses a mixed strategy \( y = (y_1, y_2) \), the cost for Player II is computed as:
-\begin{equation}
+\begin{equation*}
     \text{Cost}_{II}(x, y) = \begin{bmatrix} x_1 & x_2 \end{bmatrix} \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix} \begin{bmatrix} y_1 \\ y_2 \end{bmatrix} = x_1 y_2 + x_2 y_1
-\end{equation}
+\end{equation*}
 
 This function shows the interdependence of strategies. For instance:
 - If Player I and Player II choose identical strategies (\( x_1 = y_1 \) and \( x_2 = y_2 \)), the cost is minimized for Player II.
@@ -315,26 +323,26 @@ This function shows the interdependence of strategies. For instance:
 
 Given the loss matrix \( A \) for a game between two players with the matrices defined as follows:
 
-\begin{equation} \label{eq:3}
+\begin{equation*} \label{eq:3}
     A = \begin{bmatrix}
     a_{11} & a_{12} & \cdots & a_{1n} \\
     a_{21} & a_{22} & \cdots & a_{2n} \\
     \vdots & \vdots & \ddots & \vdots \\
     a_{m1} & a_{m2} & \cdots & a_{mn}
     \end{bmatrix} = \begin{bmatrix} A_1 \\ A_2 \\ \vdots \\ A_m \end{bmatrix} = \begin{bmatrix} A^1 & A^2 & \cdots & A^n \end{bmatrix}.
-\end{equation}
+\end{equation*}
 
 \subsubsection{Example of a Trivial Matrix \( A \)}
 
 A trivial matrix \( A \) might look like this:
 
-\begin{equation} \label{eq:trivial}
+\begin{equation*} \label{eq:trivial}
     A_{\text{trivial}} = \begin{bmatrix}
     1 & 1 & 1 \\
     2 & 2 & 2 \\
     3 & 3 & 3
     \end{bmatrix}
-\end{equation}
+\end{equation*}
 
 In this matrix, all columns are identical up to a scalar multiple, which means no matter which column (strategy) player II chooses, the outcome will be predictably proportional to their choice. Here, each column is dominated by any other column (as they are identical). Thus, it offers no strategic diversity, making the game trivial as no genuine strategic decision affects the outcome.
 
@@ -342,13 +350,13 @@ In this matrix, all columns are identical up to a scalar multiple, which means n
 
 A non-trivial matrix \( A \), which provides a more complex and strategic interaction, might look like this:
 
-\begin{equation} \label{eq:nontrivial}
+\begin{equation*} \label{eq:nontrivial}
     A_{\text{non-trivial}} = \begin{bmatrix}
     1 & 1 & 3 \\
     9 & 5 & 6 \\
     7 & 8 & 0
     \end{bmatrix}
-\end{equation}
+\end{equation*}
 
 This matrix has distinct elements with no rows or columns being scalar multiples of each other. It provides a range of outcomes based on the strategic choices of the players. 
 
@@ -367,13 +375,13 @@ Considered as functions, $\phi$ and $s$, on $X$, $\phi$ will be termed the \text
 It is convenient to extend their definitions to the whole of m-space by 
 \begin{equation}
     \begin{aligned}
-        xs : \mathbb{R}^m \rightarrow \mathbb{R}^n, \quad xs(x) &= \argmin_{s \in S = \{Ay | y \in Y \}} x^T s \\
-        \phi(x) &=  x^T xs(x) = \min_{s \in \text{conv}\{A^1, A^2, \ldots, A^n\}} x^T s.
+        s : \mathbb{R}^m \rightarrow \mathbb{R}^n, \quad s(w) &= \argmin_{s \in S = \{Ay | y \in Y \}} w^T s \\
+        \phi(w) &=  w^T s(w) = \min_{s \in \text{conv}\{A^1, A^2, \ldots, A^n\}} w^T s.
     \end{aligned}
 \end{equation}
 
 
-The Bayes envelope represents the minimum value of a finite class of linear functions. Here's the breakdown:
+The Bayes envelope represents the minimum value of a finite class of linear functions:
 
 \textbf{Finite Class of Linear Functions:}
 
@@ -390,9 +398,15 @@ where \(x^T A^j\) are linear functions, and \(s\) represents a linear combinatio
 \textbf{Concavity and Piecewise Linearity:}
 
 \begin{itemize}
-    \item \textbf{Concavity:} The function \(\phi(x)\) is concave because it is defined as the minimum of a collection of linear functions \(\{x^T A^j\}\). The minimum of linear functions is a concave function, as the intersection of convex sets (epigraphs of each linear component) is also convex.
+    \item \textbf{Concavity:} The function \(\phi(x)\) is concave because it is defined as the minimum of a collection of 
+        linear functions \(\{x^T A^j\}\) (concave functions).
+        The minimum of linear functions is a concave function, as the intersection of convex sets (hypograph of each linear component) is also convex.
 
-    \item \textbf{Piecewise Linearity:} Each function \(x^T A^j\) is linear in \(x\). The function \(\phi(x)\), being the minimum over these linear functions, is piecewise linear. It directly adopts the linearity of \(x^T A^j\) in regions where a particular \(x^T A^j\) provides the minimum value. Where the minimum shifts from one linear function to another due to changes in \(x\), the graph of \(\phi(x)\) will exhibit a 'kink' or a change in slope, reflecting its piecewise linear nature.
+    \item \textbf{Piecewise Linearity:} Each function \(x^T A^j\) is linear in \(x\). 
+        The function \(\phi(x)\), being the minimum over these linear functions, is piecewise linear. 
+        It directly adopts the linearity of \(x^T A^j\) in regions where a particular \(x^T A^j\) provides the minimum value. 
+        Where the minimum shifts from one linear function to another due to changes in \(x\), the graph of \(\phi(x)\) will exhibit 
+        a 'kink' or a change in slope, reflecting its piecewise linear nature.
 \end{itemize}
 
 

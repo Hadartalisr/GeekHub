@@ -391,6 +391,87 @@ This proof illustrates the power of the Chernoff bound for providing exponential
     \end{theorem}    
 \end{boxA}
 
+\subsection{Hoeffding's Inequality}
+
+\subsubsection{Hoeffding's Lemma}
+
+\begin{boxA}
+    \begin{theorem}{\textbf{Hoeffding's Lemma}}
+        Let \(X\) be a random variable such that \(a \leq X \leq b\). Then for any \(\lambda \in \mathbb{R}\),
+        \begin{equation*}
+            E\left[e^{\lambda (X - E[X])}\right] \leq \exp\left(\frac{\lambda^2 (b - a)^2}{8}\right).
+        \end{equation*}
+    \end{theorem}
+\end{boxA}
+
+\begin{proof}
+    Define the function \( \psi(t) = E[e^{t(X - E[X])}] \). We will show that \( \psi(t) \leq \exp\left(\frac{t^2 (b - a)^2}{8}\right) \) for any \( t \in \mathbb{R} \).
+
+    First, observe that \( \psi(0) = 1 \). To bound \( \psi(t) \), we use the convexity of the exponential function. For any \( t \in \mathbb{R} \),
+    \begin{equation*}
+        e^{t(X - E[X])} \leq \frac{b - X}{b - a} e^{t(a - E[X])} + \frac{X - a}{b - a} e^{t(b - E[X])}.
+    \end{equation*}
+    Taking the expectation on both sides, we get
+    \begin{equation*}
+        \psi(t) = E[e^{t(X - E[X])}] \leq \frac{b - E[X]}{b - a} e^{t(a - E[X])} + \frac{E[X] - a}{b - a} e^{t(b - E[X])}.
+    \end{equation*}
+
+    Next, we apply Jensen's inequality to the convex function \( f(x) = e^{tx} \):
+    \begin{equation*}
+        \psi(t) \leq e^{t E[X - E[X]]} = e^{0} = 1.
+    \end{equation*}
+    However, this is not enough to prove the lemma. We need a sharper bound. Using the fact that \( e^x \leq 1 + x + \frac{x^2}{2} e^{|x|} \) for any \( x \in \mathbb{R} \), we get
+    \begin{equation*}
+        \psi(t) \leq 1 + t E[X - E[X]] + \frac{t^2}{2} E[(X - E[X])^2] e^{|t|(b - a)}.
+    \end{equation*}
+    Since \( E[X - E[X]] = 0 \) and \( E[(X - E[X])^2] \leq (b - a)^2 / 4 \), we obtain
+    \begin{equation*}
+        \psi(t) \leq 1 + \frac{t^2 (b - a)^2}{8} e^{|t|(b - a)}.
+    \end{equation*}
+
+    For small \( t \), the exponential term \( e^{|t|(b - a)} \approx 1 \), so
+    \begin{equation*}
+        \psi(t) \leq \exp\left(\frac{t^2 (b - a)^2}{8}\right).
+    \end{equation*}
+    This completes the proof.
+\end{proof}
+
+\textbf{Remarks:}
+Hoeffding's Lemma is a key result that provides an exponential bound on the moment-generating function of a bounded random variable. This lemma is fundamental in deriving Hoeffding's inequality and other concentration inequalities, offering a way to control the tail behavior of sums of bounded independent random variables.
+
+
+\begin{boxA}
+    \begin{theorem}{\textbf{Hoeffding's Inequality}} \\
+        Let \(X_1, X_2, \ldots, X_n\) be independent random variables such that \(X_i\) takes values in the interval \([a_i, b_i]\). Define the sum of these variables as \(S_n = \sum_{i=1}^n X_i\) and let \(\mu = E[S_n]\). Then for any \(\epsilon > 0\),
+        \begin{equation*}
+            \Pr\left( \left| S_n - \mu \right| \geq \epsilon\right) \leq \exp\left(-\frac{2\epsilon^2}{\sum_{i=1}^n (b_i - a_i)^2}\right),
+        \end{equation*}
+    \end{theorem}
+\end{boxA}
+
+\begin{proof}
+    Consider the moment-generating function of \(X_i\). For any \(\lambda > 0\), we have:
+    \begin{equation}
+        E\left[e^{\lambda (X_i - E[X_i])}\right] \leq \exp\left(\frac{\lambda^2 (b_i - a_i)^2}{8}\right),
+    \end{equation}
+    which follows from Hoeffding's lemma. Therefore, for the sum \(S_n = \sum_{i=1}^n X_i\), we can write:
+    \begin{equation}
+        E\left[e^{\lambda (S_n - \mu)}\right] = \prod_{i=1}^n E\left[e^{\lambda (X_i - E[X_i])}\right] \leq \prod_{i=1}^n \exp\left(\frac{\lambda^2 (b_i - a_i)^2}{8}\right) = \exp\left(\frac{\lambda^2}{8} \sum_{i=1}^n (b_i - a_i)^2\right).
+    \end{equation}
+    Using Markov's inequality, we get:
+    \begin{equation}
+        \Pr(S_n - \mu \geq \epsilon) = \Pr\left(e^{\lambda (S_n - \mu)} \geq e^{\lambda \epsilon}\right) \leq \frac{E\left[e^{\lambda (S_n - \mu)}\right]}{e^{\lambda \epsilon}} \leq \exp\left(\frac{\lambda^2}{8} \sum_{i=1}^n (b_i - a_i)^2 - \lambda \epsilon\right).
+    \end{equation}
+    By optimizing the bound over \(\lambda\), we set \(\lambda = \frac{4 \epsilon}{\sum_{i=1}^n (b_i - a_i)^2}\) to minimize the exponent:
+    \begin{equation}
+        \Pr(S_n - \mu \geq \epsilon) \leq \exp\left(-\frac{2\epsilon^2}{\sum_{i=1}^n (b_i - a_i)^2}\right).
+    \end{equation}
+    The bound for \(\Pr(S_n - \mu \leq -\epsilon)\) follows by applying the same argument to \(-X_i\).
+
+\end{proof}
+
+\textbf{Remarks:}
+Hoeffding's inequality provides a powerful tool for bounding the probability that the sum of bounded independent random variables deviates significantly from its expected value. This inequality is particularly useful in scenarios where we need uniform bounds that hold regardless of the distribution of the individual variables, as long as they are within specified bounds.
 
 
 
