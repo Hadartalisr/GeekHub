@@ -415,6 +415,21 @@ It holds that
     (w - w')^T s(w) = \phi(w) - w'^T s(w) \leq \phi(w) - \phi(w') \leq (w - w')^T \phi(w')
 \end{equation}
 
+Although any bayes response will be discontinuous at every point of possible ambiguity, the Bayes response possesses a local weak continuity at each w,
+\begin{equation} \label{eq:11}
+    w^T s(w') - \phi(w) = w^T (s(w') - s(w)) \leq (w - w')^T (s(w') - s(w)) 
+\end{equation}
+
+proof:
+\begin{align*}
+    \nabla_w \phi(w) &= \nabla_w (w^T s(w)) = s(w) \\
+    \phi(w') &\leq \phi(w) + s(w)^T (w' - w)  \\
+    -\phi(w) &\leq -\phi(w') + s(w)^T (w' - w) \\
+    w^T s(w') - \phi(w) &\leq w^T s(w') -\phi(w') + s(w)^T (w' - w) \\
+    &= w^T s(w') - w'^T s(w') + s(w)^T (w' - w) \\
+    &= w^T s(w') - w'^T s(w') + w^T (-s(w)) - w'^T (-s(w)) \\
+    &= (w - w')^T (s(w') - s(w)) 
+\end{align*}
 
 
 
