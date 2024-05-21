@@ -1,0 +1,311 @@
+\documentclass[11pt]{book} 
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{amsthm}
+\usepackage{tikz}
+\usepackage{subcaption}
+\usetikzlibrary{positioning}
+\usepackage{pgfplots} 
+\usepackage[ruled,vlined]{algorithm2e} 
+\usepackage{dsfont}
+\usepackage{graphicx}
+\usepackage{mathdesign}
+\usepackage{float}
+\usepackage{todonotes} 
+\usepackage{empheq}
+\usepackage{array}
+\usepackage[ruled,vlined]{algorithm2e} 
+\usepackage[many]{tcolorbox}    	% for COLORED BOXES (tikz and xcolor included)
+
+
+
+\newtcolorbox{bluebox}{
+    fontupper = \bf,
+    boxrule = 1.5pt,
+    colframe = black,
+    colback = blue!30
+}
+
+\newtcolorbox{redbox}{
+    fontupper = \bf,
+    boxrule = 1.5pt,
+    colframe = black,
+    colback = red!50
+}
+
+\newtcolorbox{purplebox}{
+    fontupper = \bf,
+    boxrule = 1.5pt,
+    colframe = black,
+    colback = purple!50
+}
+
+
+\setlength{\parindent}{0pt}
+\numberwithin{equation}{chapter}
+
+
+\newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
+\newcommand\defeq{\stackrel{\mathclap{\normalfont\mbox{def}}}{=}}
+\SetCommentSty{mycommfont}
+
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+
+
+
+\newtheoremstyle{boldStyle}%                % Name
+  {}%                                     % Space above
+  {}%                                     % Space below
+  {\itshape}%                                     % Body font
+  {}%                                     % Indent amount
+  {\bfseries}%                            % Theorem head font
+  {}%                                    % Punctuation after theorem head
+  {\newline}                              % Space after theorem head, new line
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}%                                     % Theorem head spec (can be left empty, meaning `normal')
+
+
+\theoremstyle{boldStyle}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{claim}{claim}[section]
+\newtheorem{example}{Example}[section]
+
+
+\newtheorem*{claim*}{Claim}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem*{corollary*}{Corollary}
+\newtheorem*{remark*}{Remark}
+\newtheorem*{example*}{Example}
+\newtheorem*{examples*}{Examples}
+\newtheorem*{definition*}{Definition}
+
+
+
+\title{
+    \huge Measure Theory\\
+    \vspace{10pt}
+}
+
+\author{Hadar Tal}
+
+\date{Hebrew University of Jerusalem, Israel, 2024}
+
+
+\begin{document}
+\maketitle
+
+\chapter{Measure Theory}
+
+\section{$\sigma$-algebras and measures}
+
+\begin{definition}($\sigma$-algebra) \\
+    Let $\Omega$ be a set. A collection $\mathcal{F}$ of subsets of $\Omega$ is called a $\sigma$-algebra if:
+    \begin{enumerate}
+        \item $\Omega \in \mathcal{F}$.
+        \item If $A \in \mathcal{F}$, then $A^c \in \mathcal{F}$.
+        \item If $A_1, A_2, \ldots \in \mathcal{F}$, then $\bigcup_{i=1}^{\infty} A_i \in \mathcal{F}$.
+    \end{enumerate}
+\end{definition}
+
+
+\begin{definition}(Measure) \\
+    Let $\Omega$ be a set and $\mathcal{F}$ be a $\sigma$-algebra on $\Omega$. A function $\mu: \mathcal{F} \to [0, \infty]$ is called a measure if:
+    \begin{enumerate}
+        \item $\mu(\emptyset) = 0$.
+        \item If $A_1, A_2, \ldots \in \mathcal{F}$ are pairwise disjoint, then $\mu\left(\bigcup_{i=1}^{\infty} A_i\right) = \sum_{i=1}^{\infty} \mu(A_i)$.
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}(Measure Space) \\
+    A measure space is a triple $(\Omega, \mathcal{F}, \mu)$, where $\Omega$ is a set, $\mathcal{F}$ 
+    is a $\sigma$-algebra on $\Omega$, and $\mu$ is a measure on $\mathcal{F}$.
+\end{definition}
+
+
+\section{Order of spaces}
+
+\subsection{1. Topological Space (Most General)}
+
+\textbf{Axioms:} A topological space is a set \( X \) together with a collection \( \mathcal{T} \) of subsets of \( X \) (called open sets) such that:
+\begin{enumerate}
+    \item The empty set and \( X \) itself are in \( \mathcal{T} \).
+    \item Any union of sets in \( \mathcal{T} \) is also in \( \mathcal{T} \).
+    \item Any finite intersection of sets in \( \mathcal{T} \) is also in \( \mathcal{T} \).
+\end{enumerate}
+
+\textbf{Why it's more general:} Topological spaces are the most general because they only require a definition of open sets, without any need for distances or measures. They provide a flexible framework for discussing continuity, compactness, and connectedness.
+
+\vspace{10pt}
+
+\subsection*{2. Measurable Space}
+
+\textbf{Axioms:} A measurable space is a set \( X \) together with a collection \( \mathcal{F} \) of subsets of \( X \) (called measurable sets) such that:
+\begin{enumerate}
+    \item The empty set and \( X \) itself are in \( \mathcal{F} \).
+    \item \( \mathcal{F} \) is closed under complements: if \( A \in \mathcal{F} \), then \( X \setminus A \in \mathcal{F} \).
+    \item \( \mathcal{F} \) is closed under countable unions: if \( A_1, A_2, \ldots \in \mathcal{F} \), then \( \bigcup_{i=1}^\infty A_i \in \mathcal{F} \).
+\end{enumerate}
+
+\textbf{Why it's less general than a topological space:} Measurable spaces are less general because they require the collection of measurable sets to be closed under complements and countable unions, forming a \(\sigma\)-algebra. This imposes more structure compared to the open sets in a topological space, which only need to be closed under arbitrary unions and finite intersections.
+
+\vspace{10pt}
+
+\subsection*{3. Metric Space (Most Specific)}
+
+\textbf{Axioms:} A metric space is a set \( X \) together with a function \( d: X \times X \to \mathbb{R} \) (called a metric) such that:
+\begin{enumerate}
+    \item \( d(x, y) \geq 0 \) for all \( x, y \in X \) (non-negativity).
+    \item \( d(x, y) = 0 \) if and only if \( x = y \) (identity of indiscernibles).
+    \item \( d(x, y) = d(y, x) \) for all \( x, y \in X \) (symmetry).
+    \item \( d(x, z) \leq d(x, y) + d(y, z) \) for all \( x, y, z \in X \) (triangle inequality).
+\end{enumerate}
+
+\textbf{Why it's less general than a measurable space:} Metric spaces are less general because they require the existence of a metric that defines distances between points. This metric induces a topology, where open sets are defined in terms of open balls around points. While every metric space is a topological space (with the topology induced by the metric), not every topological space can be given a metric that defines its open sets. Furthermore, metric spaces do not inherently involve measurable sets or \(\sigma\)-algebras.
+
+
+\section{Borel $\sigma$-algebra}
+
+
+\begin{definition}(Borel \(\sigma\)-algebra) \\
+    Let \(X\) be a topological space. The Borel \(\sigma\)-algebra on \(X\), denoted by \(\mathcal{B}(X)\), is the smallest \(\sigma\)-algebra that contains all the open sets of \(X\). Formally, \(\mathcal{B}(X)\) is the \(\sigma\)-algebra generated by the collection of open sets \(\mathcal{T}\) in \(X\):
+    \[
+    \mathcal{B}(X) = \sigma(\mathcal{T}),
+    \]
+    where \(\sigma(\mathcal{T})\) denotes the \(\sigma\)-algebra generated by \(\mathcal{T}\). 
+    This means that \(\mathcal{B}(X)\) is the smallest collection of subsets of \(X\) that contains all open sets and is
+    a \(\sigma\)-algebra.
+\end{definition}
+
+Examples of Borel \(\sigma\)-algebras include:
+
+\begin{itemize}
+    \item \textbf{Borel \(\sigma\)-algebra on \(\mathbb{R}\)}: The Borel \(\sigma\)-algebra on the real line \(\mathbb{R}\), denoted by \(\mathcal{B}(\mathbb{R})\), is the \(\sigma\)-algebra generated by all open intervals in \(\mathbb{R}\). This includes:
+    \begin{itemize}
+        \item All open intervals \((a, b)\) where \(a < b\).
+        \item All closed intervals \([a, b]\) where \(a < b\).
+        \item All half-open intervals \((a, b]\) and \([a, b)\) where \(a < b\).
+        \item All singletons \(\{a\}\) where \(a \in \mathbb{R}\).
+        \item All countable unions and intersections of such sets.
+    \end{itemize}
+
+    \item \textbf{Borel \(\sigma\)-algebra on \(\mathbb{R}^n\)}: The Borel \(\sigma\)-algebra on \(\mathbb{R}^n\), denoted by \(\mathcal{B}(\mathbb{R}^n)\), is the \(\sigma\)-algebra generated by all open sets in the Euclidean space \(\mathbb{R}^n\). This includes:
+    \begin{itemize}
+        \item All open balls \(B(x, r) = \{ y \in \mathbb{R}^n \mid \|y - x\| < r \}\) where \(x \in \mathbb{R}^n\) and \(r > 0\).
+        \item All open rectangles \((a_1, b_1) \times (a_2, b_2) \times \cdots \times (a_n, b_n)\) where \(a_i < b_i\) for each \(i\).
+        \item All closed sets and other sets formed by countable unions and intersections of open sets in \(\mathbb{R}^n\).
+    \end{itemize}
+\end{itemize}
+
+
+
+\section{Measurable Functions}
+
+\begin{definition}(Measurable Function) \\
+    Let \((\Omega_1, \mathcal{A}_1)\) and \((\Omega_2, \mathcal{A}_2)\) be measurable spaces. 
+    A function \(f: \Omega_1 \to \Omega_2\) is called measurable (with respect to \(\mathcal{A}_1\) and \(\mathcal{A}_2\)) if:
+    \[
+    f^{-1}(A_2) \in \mathcal{A}_1 \quad \text{for all } A_2 \in \mathcal{A}_2.
+    \]
+\end{definition}
+
+\subsection{Examples}
+
+\begin{enumerate}
+    \item \((\Omega, \mathcal{A})\), \((\mathbb{R}, \mathcal{B}(\mathbb{R}))\)
+    \begin{itemize}
+        \item \textbf{Characteristic Function}:
+        \[
+        \chi_A: \Omega \to \mathbb{R},
+        \]
+        where
+        \[
+        \chi_A(\omega) =
+        \begin{cases}
+        1, & \omega \in A \\
+        0, & \omega \notin A
+        \end{cases}
+        \]
+        For all measurable \(A \in \mathcal{A}\), \(\chi_A\) is a measurable map.
+        \begin{itemize}
+            \item \(\chi_A^{-1}(\varnothing) = \varnothing \subset \Omega\)
+            \item \(\chi_A^{-1}(\mathbb{R}) = \Omega \in A\)
+            \item \(\chi_A^{-1}({1}) = A \in \mathcal{A}\)
+            \item \(\chi_A^{-1}({0}) = A^c \in \mathcal{A}\) by the closure of \(\mathcal{A}\) under complements.
+        \end{itemize}
+    \end{itemize}
+
+    \item \((\Omega_1, \mathcal{A}_1)\), \((\Omega_2, \mathcal{A}_2)\), \((\Omega_3, \mathcal{A}_3)\) are measurable spaces
+    \begin{itemize}
+        \item If \(f: \Omega_1 \to \Omega_2\) is measurable and \(g: \Omega_2 \to \Omega_3\) is measurable, then \(g \circ f: \Omega_1 \to \Omega_3\) is measurable.
+        \[
+        (g \circ f)^{-1}(A_3) = f^{-1}(g^{-1}(A_3)) \in \mathcal{A}_1 \quad \text{for all } A_3 \in \mathcal{A}_3
+        \]
+    \end{itemize}
+\end{enumerate}
+
+\subsection*{Important}
+
+\((\Omega, \mathcal{A})\), \((\mathbb{R}, \mathcal{B}(\mathbb{R}))\)
+\begin{itemize}
+    \item \(f, g\) measurable \(\Rightarrow f + g, f \cdot g\) measurable
+    \item \(|f|\) measurable
+\end{itemize}
+
+\end{document}
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% \section*{Summary}
+
+
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+
+
+
+\end{document}

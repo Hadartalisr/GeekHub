@@ -618,39 +618,98 @@ to be \( \epsilon^T s - \phi^T (\pi( \epsilon )) \).
 
 
 
-\( G^N \) will denote a game consisting of \( N \) successive plays of \( G \) where the choices of pure strategies in the component 
-games are completely unrestricted, II's choice in each component is allowed to depend on I's choices in previous components, 
+\( G^N \) will denote a game consisting of \( N \) successive plays of \( G \) where the choices of 
+pure strategies in the component 
+games are completely unrestricted, II's choice in each component is allowed to depend on I's 
+choices in previous components, 
 and the loss is taken to be the sum (or average) of the losses of the component games.
 
 The component \( G \) will be considered purely from the point of view of the normal form and the terminological accumulation 
-will be reduced by referring to pure strategies in the component \( G \) as moves. (The results of the paper will find their most 
-immediate application to games where I's pure strategies are moves in the ordinary sense.)
+will be reduced by referring to pure strategies in the component \( G \) as moves. 
+(The results of the paper will find their most immediate application to games where I's pure 
+strategies are moves in the ordinary sense.)
 
-Denoting non-randomized move sequences in \( G^N \) by the direct product of the \( m \)-vectors representing moves in the component 
+Denoting non-randomized move sequences in \( G^N \) by the direct product of the \( m \)-vectors 
+representing moves in the component 
 games and introducing the abbreviations
 
 \begin{equation}
     \begin{aligned}
-        \underline{\epsilon}^r  = \lambda_1^r \epsilon^k, \quad \sigma^r = \lambda_1^r \sigma^k \quad r = 1, 2, \ldots, N \\
-        \epsilon = \epsilon^{N \times i}, \quad \sigma = \sigma^{N \times i},
+        \underline{\epsilon}^r  &= \times_{k=1}^r \epsilon^k, \quad &\sigma^r = \times_{k=1}^r \sigma^k \quad r &= 1, 2, \ldots, N \\
+        \underline{\epsilon} &= \underline{\epsilon}^{N}, \quad &\underline{\sigma} = \underline{\sigma}^{N} &,
     \end{aligned}
 \end{equation}
 
 the total loss of any play in \( G^N \) will be denoted by the function
 
-\[
-R^N(\epsilon, \sigma) = \sum_{i=1}^{N} \epsilon^i \sigma^i.
-\]
+\begin{equation}
+    R^N(\underline{\epsilon}, \underline{\sigma}) = \sum_{k=1}^{N} (\epsilon^k)^T \sigma^k.
+\end{equation}
 
-In the sequence game, the unsymmetric treatment of the players will be continued. It will not be necessary to introduce strategies for I since the class of results to be obtained will hold uniformly in the move sequences of I. The present and following sections are exceptional only in that it is sometimes technically convenient to consider certain linear functions of II's sequence risk which would be readily interpretable in terms of strategies for I.
+In the sequence game, the unsymmetric treatment of the players will be continued. It will not be 
+necessary to introduce strategies for I since the class of results to be obtained will hold uniformly 
+in the move sequences of I. The present and following sections are exceptional only in that it 
+is sometimes technically convenient to consider certain linear functions of II's sequence risk which 
+would be readily interpretable in terms of strategies for I.
 
-The determination of \( G^N \) will be completed (and II's class of strategies implicitly circumscribed) by specifying the extent of II's knowledge of \( N \). Two alternative situations are envisaged:
-
-- In the weak sequence game, \( N \) is known to II at each component;
-- In the strong sequence game, \( N \) is completely unknown to II.
+The determination of \( G^N \) will be completed (and II's class of strategies implicitly circumscribed) 
+by specifying the extent of II's knowledge of \( N \). Two alternative situations are envisaged:
+\begin{itemize}
+    \item In the weak sequence game, \( N \) is known to II at each component;
+    \item In the strong sequence game, \( N \) is completely unknown to II.
+\end{itemize}
 
 The principal results of later sections will involve strong strategies and hence will apply to either form of \( G^N \). 
-In this connection it should be noted that the selection by II of a move sequence, \( \lambda_1^N \sigma^k \), in the strong sequence game can only be accomplished by the selection of a move sequence, \( \lambda_1^r \sigma^k \), in \( G^N \). Such selection is implicit in all results involving strong strategies.
+In this connection it should be noted that the selection by II of a move sequence, 
+\( \times_1^N \sigma^k \), in the strong sequence game can only be accomplished 
+by the selection of a move sequence, \( \times_1^\infty \sigma^k \), in \( G^\infty \). 
+Such selection is implicit in all results involving strong strategies.
+
+\bigbreak
+
+
+Non-randomized sequence strategies for II will be denoted by
+\[
+\underline{\sigma}(\underline{\epsilon}) = \times_{1}^{N} \sigma^{k}(\underline{\epsilon}^{k-1})
+\]
+and their risk given by the natural extension of (2). Because of the linearity of the loss in the component moves, 
+the sequence risks attainable by arbitrary randomization are attained by the class of randomized sequence strategies induced by product \( p \)-measures,
+\[
+\underline{y}(\epsilon) = \times_{1}^{N} y^{k}(\epsilon^{k-1}),
+\]
+on the possible \( \underline{\sigma} \). Letting
+\begin{equation}
+    s^{k}(\underline{\epsilon}^{k-1}) = \mathbb{E}_{\underline{y}(\underline{\epsilon})} \sigma^{k} = 
+    \mathbb{E}_{y^k(\underline{\epsilon}^{k-1})} \sigma^{k}
+\end{equation}
+
+such strategies will be denoted by
+
+\begin{equation*}
+    \underline{s}(\underline{\epsilon}) = \times_{1}^{N} s^{k}(\underline{\epsilon}^{k-1})
+\end{equation*}
+
+and their risk by
+
+\begin{equation}
+    R^{N}(\underline{\epsilon}, \underline{s}) = \mathbb{E}_{\underline{y}(\underline{\epsilon})}
+     \sum_{k=1}^{N} (\epsilon^{k})^T \sigma^{k} = \sum_{k=1}^{N} (\epsilon^{k})^T s^{k}(\underline{\epsilon}^{k-1}).
+\end{equation}
+
+\bigbreak
+
+The orderings induced by maximum risk and maximum regret in \( G^{N} \) will be considered briefly. Letting
+\[
+\underline{x} = \times_{1}^{N} x^{j}
+\]
+be a product \( p \)-measure on \( \underline{\epsilon} \),
+\[
+\mathbb{E}_{\underline{x}} \epsilon^{k} s^{k}(\underline{\epsilon}^{k-1}) = x^{k} \mathbb{E}_{\underline{x}} s^{k}(\underline{\epsilon}^{k-1}) \geq \varphi(x^{k}),
+\]
+and from this it follows that
+\[
+\max_{\underline{\epsilon}} R^{N}(\underline{\epsilon}, \underline{s}) \geq \max_{\underline{x}} \sum_{k=1}^{N} \varphi(x^{k}) = N \max_{\underline{x}} \varphi(x) = NR.
+\]
 
 
 
