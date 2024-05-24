@@ -57,6 +57,9 @@
 
 \theoremstyle{boldStyle}
 \newtheorem{example}{Example}[section]
+\newtheorem{question}{Question}[section]
+\newtheorem{answer}{Answer}[section]
+
 
 \newtheorem*{claim*}{Claim}
 \newtheorem*{lemma*}{Lemma}
@@ -65,7 +68,8 @@
 \newtheorem*{example*}{Example}
 \newtheorem*{examples*}{Examples}
 \newtheorem*{definition*}{Definition}
-
+\newtheorem*{question*}{Question}
+\newtheorem*{answer*}{Answer}
 
 
 \definecolor{blueColor}{rgb}{0, 0.611, 0.98} 
@@ -417,6 +421,17 @@
 
 \subsection{D-separation}
 
+\begin{question}
+    If $P$ factorizes over $\mathcal{G}$, then $\mathcal{G}$ is an I-map of $P$ ($P \models I_{LM}(\mathcal{G})$).
+
+    Can p satisfy more independencies than those implied by $\mathcal{G}$? Yes. 
+
+    Given $\textbf{X}, \textbf{Y}, \textbf{Z}\in \mathcal{X}$, we would like to characterize when does $P \models I_{LM}(\mathcal{G}) \implies P \models X \perp Y | Z$.
+
+    Or characterize the complement - Can we find $P$ that factorizes over $\mathcal{G}$ but $P \not\models X \perp Y | Z$?
+
+\end{question}
+
 \begin{definition}[Active Trail]
     A trail $X = X_1 - X_2 - \cdots - X_n$ between X and Y in a BN is active given a set of observed RVs $Z$,
     if whenever there is a v-structure along the trail $X_{i-1} \rightarrow X_{i} \leftarrow X_{i+1}$, then $X_{i}$ or one of its descendants is in $Z$, 
@@ -433,10 +448,18 @@
     \begin{equation*}
         I(\mathcal{G}) := I_{GM}(\mathcal{G}) := \{ (X \perp Y | Z) : \text{d-sep}_{\mathcal{G}}(X;Y | Z) \}
     \end{equation*}
+    d-separation characterizes precisely the full set of independencies that a BN structure encodes.
 \end{definition}
 
 \begin{theorem}[Soundness]
-    If a distribution $P$ factorizes over a BN structure $\mathcal{G}$, then $I(P) \subseteq I(\mathcal{G})$.
+    If a distribution $P$ factorizes over a BN structure $\mathcal{G}$, then $I(\mathcal{G}) \subseteq I(P)$.
+\end{theorem}
+Note - the other direction is not true. If a distribution $P$ factorizes over $\mathcal{G}$, then it is not necessarily true that $I(P) \subseteq I(\mathcal{G})$.
+
+\begin{theorem}[completness]
+    If $(X \perp Y | Z) \notin I(\mathcal{G})$, then there exists a distribution $P$ that factorizes over $\mathcal{G}$ in which 
+    
+    $P \not\models (X \perp Y | Z)$.
 \end{theorem}
 
 
