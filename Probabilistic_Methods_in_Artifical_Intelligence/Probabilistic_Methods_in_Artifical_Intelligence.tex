@@ -138,7 +138,9 @@
 
 \begin{document}
 \maketitle
+\tableofcontents
 
+\newpage
 \section{Probability Review}
 
 \begin{definition}[Probability Space]
@@ -478,6 +480,36 @@ Note - the other direction is not true. If a distribution $P$ factorizes over $\
 \end{definition}
 
 
+\subsection{Markov Blanket in Bayesian Networks}
+
+\begin{definition}[Markov Blanket in a Bayesian Network Structure]
+    The Markov Blanket of a node $X_i$ in a BN structure $\mathcal{G}$ is the mininal set of nodes that renders $X_i$ independent of all other nodes in the graph
+    \begin{equation*}
+        \text{MB}(X_i) := \argmin_{\textbf{Z} \in \mathcal{X}} \{ |\textbf{Z}| : X_i \perp \mathcal{X} / ({X_i} \cup \textbf{Z}) | \textbf{Z} \}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}[Spouses of a node]
+    The spouses of a node $X_i$ in a BN structure $\mathcal{G}$ are the parents of the children of $X_i$
+    \begin{equation*}
+        \text{Sp}(X_i) := \{ X_j \in \mathcal{X} : X_j \text{ is a parent of a child of } X_i \}
+    \end{equation*}
+\end{definition}
+
+\begin{theorem}[Markov Blanket Theorem (in Bayesian Networks)]
+    For any node $X_i$ in a BN structure $\mathcal{G}$, it holds that:
+    \begin{equation*}
+        MB(X_i) = Pa(X_i) \cup Ch(X_i) \cup Sp(X_i)
+    \end{equation*}
+\end{theorem}
+
+\begin{lemma}[Markov Blanket is not unique]
+    Let $P$ be a distribution over $\mathcal{X}$ and let $X_i \in \mathcal{X}$. $MB(X_i)$ is not unique.
+\end{lemma}
+
+
+
+
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
@@ -498,7 +530,6 @@ Note - the other direction is not true. If a distribution $P$ factorizes over $\
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 \newpage
-
 \section{Markov Chains}
 
 \subsection{Markov Chains Basics}
@@ -554,7 +585,30 @@ The transition diagram is a very different entity from the graph encoding the st
 
 
 
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+\newpage
 \section{Markov Networks}
+
+\subsection{Markov Networks Basics}
 
 \begin{definition}[Gibbs Distribution]
     A Gibbs distribution over a set of random variables $\mathcal{X}$ is a probability distribution of the form:
@@ -583,6 +637,9 @@ The transition diagram is a very different entity from the graph encoding the st
     A Markov Network is the tuple $\mathcal{M} = (\mathcal{H}, P_{\Phi})$.
 \end{definition}
 
+
+\subsection{Independencies and Factorization in Markov Networks}
+
 \begin{definition}[Seperating Set]
     A set of nodes $Z$ separates $X$ and $Y$ in an undirected graph $\mathcal{H}$ if every path between $X$ and $Y$ passes through $Z$, 
     denoted $sep_{\mathcal{H}}(X;Y | Z)$.
@@ -598,6 +655,14 @@ The transition diagram is a very different entity from the graph encoding the st
 \begin{lemma}[Monotonicity of seperation]
     If $Z \subseteq Z'$, then $sep_{\mathcal{H}}(X;Y | Z) \subseteq sep_{\mathcal{H}}(X;Y | Z')$.
 \end{lemma}
+
+\begin{definition}[Factorization]
+    We say that $P$ factorizes over $\mathcal{H}$ if there exist factors $\{ \phi_j \}_{j}$ and a normalization constant $\mathcal{Z}$ such that:
+    \begin{equation*}
+        P(X_1, X_2, \ldots, X_n) = \frac{1}{\mathcal{Z}} \prod_{j} \phi_j(X_{c_j})
+    \end{equation*}
+    such that every $c_j$ is a clique in $\mathcal{H}$.
+\end{definition}
 
 \begin{theorem}[Soundness]
     If a distribution $P$ factorizes over $\mathcal{H}$, then $\mathcal{H}$ is an I-map of $P$ ($P \models I(\mathcal{H})$).
@@ -615,6 +680,13 @@ The transition diagram is a very different entity from the graph encoding the st
         I_{pair}(\mathcal{H}) = \{ (X \perp Y | \mathcal{X} / \{ X,Y \}) : X - Y \notin \mathcal{H} \}
     \end{equation*}
     (i.e., $X$ and $Y$ are independent given all other nodes)
+\end{definition}
+
+\begin{definition}[Neighbors of a node ($Ne(X_i)$)]
+    The neighbors of a node $X_i$ in a MN structure $\mathcal{H}$ are the nodes that are connected to $X_i$ in the graph
+    \begin{equation*}
+        Ne(X_i) := \{ X_j \in \mathcal{X} : X_i - X_j \in \mathcal{H} \}
+    \end{equation*}
 \end{definition}
 
 \begin{definition}[$I_{local}(\mathcal{H})$]
@@ -639,12 +711,53 @@ The transition diagram is a very different entity from the graph encoding the st
 \end{theorem}
 
 
+\subsection{Markov Blanket in Markov Networks}
+
+\begin{definition}[Markov Blanket in a Markov Network Structure]
+    The Markov Blanket of a node $X_i$ in a MN structure $\mathcal{H}$ is the mininal set of nodes that renders $X_i$ independent of all other nodes in the graph
+    \begin{equation*}
+        \text{MB}(X_i) := \argmin_{\textbf{Z} \in \mathcal{X}} \{ |\textbf{Z}| : X_i \perp \mathcal{X} / ({X_i} \cup \textbf{Z}) | \textbf{Z} \} 
+        = \argmin_{\textbf{Z} \in \mathcal{X}} \{ |\textbf{Z}| : sep_{\mathcal{H}}(X_i; \mathcal{X} / ({X_i} \cup \textbf{Z}) | \textbf{Z}) \}
+    \end{equation*}
+\end{definition}
+
+\begin{theorem}[Markov Blanket Theorem (in Markov Networks)]
+    For strictly positive MN $(\mathcal{H}, P_{\Phi})$, for any node $X_i$ in $\mathcal{H}$, it holds that:
+    \begin{equation*}
+        MB(X_i) = Ne(X_i)
+    \end{equation*}
+\end{theorem}
 
 
+\subsection{Building a minimal I-map $\mathcal{H}$ for P}
+
+\begin{definition}[I-map]
+    An undirected graph $\mathcal{H}$ is an I-map of a distribution $P$ if all independencies assumptions of $\mathcal{H}$ hold in $P$:
+    \begin{equation*}
+        I(\mathcal{H}) \subseteq I(P)
+    \end{equation*}
+\end{definition}
 
 
+\begin{algorithm}[H]
+    \SetNoFillComment
+    \SetAlgoLined
+    \KwIn{An oracle that returns $\forall X,Y,Z \subseteq \mathcal{X}$ if $P \models X \perp Y | Z$} 
+    \KwOut{$\mathcal{H}$ - a minimal I-map of $P$}
+    \ForEach{$X_i \in {X_1, \ldots, X_n}$}{
+        \ForEach{$X_j \in \{ X_1, \ldots, X_n \} / \{X_i\} $}{
+            \If{$P \not\models X_i \perp X_j | \mathcal{X} / \{X_i, X_j\}$}{
+                $\mathcal{H}_e \leftarrow \mathcal{H}_e \cup \{ X_i - X_j \}$
+            }
+        }
+    }
+    \caption{Building a minimal I-map $\mathcal{H}$ for P} \label{algo:build_minimal_imap}
+\end{algorithm}
 
 
+\begin{theorem}[Uniqueness of minimal I-map]
+    There exists a unique undirected minimal I-map $\mathcal{H}$ of a distribution $P$.
+\end{theorem}
 
 
 
