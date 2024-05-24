@@ -419,7 +419,7 @@
 \end{figure}
 
 
-\subsection{D-separation}
+\subsection{D-separation and Global Markov Independencies}
 
 \begin{question}
     If $P$ factorizes over $\mathcal{G}$, then $\mathcal{G}$ is an I-map of $P$ ($P \models I_{LM}(\mathcal{G})$).
@@ -456,11 +456,205 @@
 \end{theorem}
 Note - the other direction is not true. If a distribution $P$ factorizes over $\mathcal{G}$, then it is not necessarily true that $I(P) \subseteq I(\mathcal{G})$.
 
-\begin{theorem}[completness]
+\begin{theorem}[Completness]
     If $(X \perp Y | Z) \notin I(\mathcal{G})$, then there exists a distribution $P$ that factorizes over $\mathcal{G}$ in which 
     
     $P \not\models (X \perp Y | Z)$.
 \end{theorem}
+
+
+\subsection{The relationship between Local and Global Markov Independencies}
+
+\begin{proposition}[$I_{LM}(\mathcal{G}) \subseteq I_{GM}(\mathcal{G})$]
+    For any BN structure $\mathcal{G}$, it holds that $I_{LM}(\mathcal{G}) \subseteq I_{GM}(\mathcal{G})$.
+\end{proposition}
+
+\begin{proposition}
+    For a DAG $\mathcal{G}$ and distribution $P$,  it holds that $P \models I_{LM}(\mathcal{G}) \iff P \models I_{GM}(\mathcal{G})$.
+\end{proposition}
+
+\begin{definition}[Perfect Map (P-map)]
+    A graph $\mathcal{G}$ is a P-map of a distribution $P$ if $I(\mathcal{G}) = I(P)$.
+\end{definition}
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+\newpage
+
+\section{Markov Chains}
+
+\subsection{Markov Chains Basics}
+
+\begin{definition}[Markov Property]
+    Given a random process $\{ X^{(t)} \}_{t\in \mathbb{N}}$, over a state space $\mathcal{S}$, we say it possess the Markov property, 
+    if $\forall t \geq 1$, 
+    \begin{equation*}
+        X^{(t+1)} \perp X^{(1)}, \ldots ,X^{(t-1)} | X^{(t)}
+    \end{equation*}
+    that is, 
+    \begin{equation*}
+        \forall t \in \mathbb{N} \quad P_t(X^{(t+1)} | X^{(1)}, \ldots ,X^{(t)}) = P(X^{(t+1)} | X^{(t)})
+    \end{equation*}
+\end{definition}
+
+\begin{definition}[Time-invariant assumption]
+    \begin{equation*}
+        \forall t \in \mathbb{N} \quad P_t(X^{(t+1)} | X^{(t)}) = P(X^{(t+1)} | X^{(t)})
+    \end{equation*}
+\end{definition}
+
+\begin{definition}[Markov Chain]
+    A Markov Chain is a random process $\{ X^{(t)} \}_{t\in \mathbb{N}}$ that possess the Markov property.
+\end{definition}
+
+Note: Markov Chains are often represented as a directed graph, where each node is a state in the state space, and each edge is a transition between states.
+The transition diagram is a very different entity from the graph encoding the structure of a Bayesian Network.
+
+\subsection{Hidden Markov Models (HMMs)}
+
+\begin{definition}[Hidden Markov Model]
+    A pair of random processes $( \{ X^{(t)} \}_{t\in \mathbb{N}}$ and $\{ O^{(t)} \}_{t\in \mathbb{N}} )$ is a Hidden Markov Model if:
+    \begin{enumerate}
+        \item $X^{(t)}$ is a Markov process whose behavior is not directly observable (hidden).
+        \item For each t,
+            \[
+                O^{(t)} \perp X^{(1:t-1)}, X^{(t+1:T)} | X^{(t)}  
+            \]
+            that is,
+            \[
+                P(O^{(t)} | X^{(1:t-1)}, X^{(t+1:T)}) = P(O^{(t)} | X^{(t)})
+            \]
+    \end{enumerate}
+    We call:  
+    \begin{itemize}
+        \item $X^{(t)}$ the \textbf{hidden states}, 
+        \item $O^{(t)}$ the \textbf{observed states},
+        \item $P(X^{(t+1)} | X^{(t)})$ the \textbf{transition probability}
+        \item $P(O^{(t)} | X^{(t)})$ the \textbf{emission probability}
+    \end{itemize}
+\end{definition}
+
+
+
+\section{Markov Networks}
+
+\begin{definition}[Gibbs Distribution]
+    A Gibbs distribution over a set of random variables $\mathcal{X}$ is a probability distribution of the form:
+    \begin{equation*}
+        P_{\mathcal{X}}(x_1, x_2, \ldots, x_n) = \frac{1}{\mathcal{Z}} \prod_{j} \phi_j(X_{c_j})
+    \end{equation*}
+    where
+    \begin{itemize}
+        \item $\mathcal{C} = \{ c_1, c_2, \ldots, c_m \}$ is a set of cliques in the graph. 
+        \item $X_{c_j}$ is the set of random variables in clique $c_j$
+        \item $\phi_j : Val(X_{c_j}) \rightarrow \mathbb{R}^+$ is a potential function / factor over the clique $c_j$
+        \item $\mathcal{Z}$ is the normalization constant (partition function)
+    \end{itemize}
+\end{definition}
+
+\begin{definition}[Markov Network]
+    A Markov Network $\mathcal{M}$ is:
+    \begin{enumerate}
+        \item \textbf{Markov Network Structure} - An undirected graph $\mathcal{H} = (\mathcal{X}, E)$  ($|\mathcal{X}| = n$)
+        \item \textbf{Set of Factors} - $\Phi = \{ \phi_j(X_{c_j}) \}_{j}$ such that every $X_{c_j}$ is a clique in $\mathcal{H}$
+    \end{enumerate}
+    the network defines a probability distribution: 
+    \begin{equation*}
+        P_{\Phi}(X_1, X_2, \ldots, X_n) = \frac{1}{\mathcal{Z}} \prod_{j} \phi_j(X_{c_j})
+    \end{equation*}
+    A Markov Network is the tuple $\mathcal{M} = (\mathcal{H}, P_{\Phi})$.
+\end{definition}
+
+\begin{definition}[Seperating Set]
+    A set of nodes $Z$ separates $X$ and $Y$ in an undirected graph $\mathcal{H}$ if every path between $X$ and $Y$ passes through $Z$, 
+    denoted $sep_{\mathcal{H}}(X;Y | Z)$.
+\end{definition}
+
+\begin{definition}[I($\mathcal{H}$)]
+    The set of independencies that hold in a MN structure $\mathcal{H}$ is 
+    \begin{equation*}
+        I(\mathcal{H}) = \{ (X \perp Y | Z) : \text{sep}_{\mathcal{H}}(X;Y | Z) \
+    \end{equation*}
+\end{definition}
+
+\begin{lemma}[Monotonicity of seperation]
+    If $Z \subseteq Z'$, then $sep_{\mathcal{H}}(X;Y | Z) \subseteq sep_{\mathcal{H}}(X;Y | Z')$.
+\end{lemma}
+
+\begin{theorem}[Soundness]
+    If a distribution $P$ factorizes over $\mathcal{H}$, then $\mathcal{H}$ is an I-map of $P$ ($P \models I(\mathcal{H})$).
+\end{theorem}
+
+\begin{theorem}[Completeness]
+    Let $\mathcal{H}$ be a MN structure. If $X, Y$ are not separated by $Z$ in $\mathcal{H}$, 
+    then there exists a distribution $P$ that factorizes over $\mathcal{H}$ in which $P \not\models X \perp Y | Z$.
+\end{theorem}
+
+
+\begin{definition}[$I_{pair}(\mathcal{H})$]
+    The \textbf{Pairwise Independencies Set} of a $\mathcal{H}$ is defined as:
+    \begin{equation*}
+        I_{pair}(\mathcal{H}) = \{ (X \perp Y | \mathcal{X} / \{ X,Y \}) : X - Y \notin \mathcal{H} \}
+    \end{equation*}
+    (i.e., $X$ and $Y$ are independent given all other nodes)
+\end{definition}
+
+\begin{definition}[$I_{local}(\mathcal{H})$]
+    The \textbf{Local Independencies Set} of a $\mathcal{H}$ is defined as:
+    \begin{equation*}
+        I_{local}(\mathcal{H}) = \{ (X_i \perp ( \mathcal{X} / ( \{ X_i \} \cup Ne(X_i) ) ) | Ne(X_i)) \}
+    \end{equation*}
+    (i.e., $X_i$ is independent of all other nodes given its neighbors)
+\end{definition}
+
+\begin{lemma}[Independence implies pairwise independence]
+    \[
+        P \models I(\mathcal{H}) \implies  P \models I_{local}(\mathcal{H}) \implies I_{pair}(\mathcal{H})  
+    \]
+\end{lemma}
+
+\begin{theorem}[For positive $P$, pairwise independence implies independence]
+    If $P$ is a strictly positive distribution, then
+    \[
+        P \models I_{pair}(\mathcal{H}) \Leftrightarrow P \models I(\mathcal{H})
+    \]
+\end{theorem}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -485,7 +679,6 @@ Note - the other direction is not true. If a distribution $P$ factorizes over $\
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 \newpage
-\section{Bayesian Networks}
-
+\section{The relationship between Bayesian Networks and Markov Networks}
 
 \end{document}
