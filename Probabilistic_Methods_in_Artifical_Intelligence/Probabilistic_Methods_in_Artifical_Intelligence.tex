@@ -277,59 +277,192 @@
 \newpage
 \section{Bayesian Networks}
 
+\subsection{Bayesian Networks Basics}
+
+\begin{definition}[Probabilistic Graphical Model (PGM)]
+    A probabilistic graphical model is a pair $(\mathcal{G}, P)$ where:
+    \begin{enumerate}
+        \item $\mathcal{G}$ is a graph
+        \item $P$ is a probability distribution
+    \end{enumerate}
+\end{definition}
 
 \begin{definition}[Bayesian Network]
-    A Bayesian Network $B$ is:
+    A Bayesian Network $\mathcal{B}$ is:
     \begin{enumerate}
-        \item A directed acyclic graph (DAG) $G = (V, E)$
-        \item A set of conditional probability distributions $P_i(X_i | \text{Pa}(X_i))$ for each node $X_i$ in the graph
+        \item \textbf{Bayesian Network Structure} - A directed acyclic graph (DAG) $\mathcal{G} = (\mathcal{X}, E)$  ($|\mathcal{X}| = n$)
+        \item \textbf{Set of CPDs} - $\{ P_i(X_i | \text{Pa}(X_i) ) \}_{i=1}^{n}$ 
     \end{enumerate}
     the network defines a probability distribution: 
     \begin{equation*}
-        P_B(X_1, X_2, \ldots, X_n) = \prod_{i=1}^{n} P_i(X_i | \text{Pa}(X_i))
+        P_{\mathcal{B}}(X_1, X_2, \ldots, X_n) = \prod_{i=1}^{n} P_i(X_i | \text{Pa}(X_i))
     \end{equation*}
+    A Bayesian Network is the tuple $\mathcal{B} = (\mathcal{G}, P_{\mathcal{B}})$.
 \end{definition}
 
 \begin{theorem}[Bayesian Network defines a probability distribution]
     For any Bayesian Network $B$, $P_B(X_1, X_2, \ldots, X_n)$ is a joint probability distribution over the variables $X_1, X_2, \ldots, X_n$.
 \end{theorem}
 
-\begin{definition}[$I_{LM}(G)$]
+\begin{definition}[Descendants of a node]
+    Let $G = (V, E)$ be a directed graph and let $X_i \in V$. The descendants of $X_i$ are: 
+    \begin{equation*}
+        D(X_i) = \{ X_j \in \mathcal{X} : \exists \text{ directed path } X_i \rightarrow \cdots \rightarrow  X_j \}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}[Naive Bayes Model]
+    A Naive Bayes Model is a Bayesian Network where all the features are non adjacent children of the class node.
+\end{definition}
+
+\begin{definition}[Naive Bayes Classifier]
+    A Naive Bayes Classifier is a classifier that uses the Naive Bayes Model to classify instances.
+    \[
+        \hat{c} = \argmax_{c \in C} { P(c | x_1, x_2, \ldots, x_n) } = \argmax_{c \in C} { P(c, x_1, x_2, \ldots, x_n) } = \argmax_{c \in C} { P(c) \prod_{i=1}^{n} P(x_i | c) }
+    \]
+\end{definition}
+
+\subsection{Independencies and Factorization in Bayesian Networks}
+
+\begin{definition}[$I_{LM}(\mathcal{G})$]
     The \textbf{Local Markov Independencies Set} of a Bayesian Network $B$ is the set of all independencies that hold in the network:
     \begin{equation*}
-        I_{LM}(G) = \{ (X_i \perp ND(X_i) | \text{Pa}(X_i)) \quad : i \in |V| \}
+        I_{LM}(\mathcal{G}) = \{ (X_i \perp ND(X_i) | \text{Pa}(X_i))\}_{i=1}^{|\mathcal{X}|}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}[I(P)]
+    The set of independencies that hold in a distribution $P$ over $\mathcal{X}$ is:
+    \begin{equation*}
+        I(P) = \{(X \perp Y | Z) :  (X,Y,Z) \subseteq \mathcal{X} , \quad  P \models (X \perp Y | Z)  \}
     \end{equation*}
 \end{definition}
 
 \begin{definition}[I-map]
-    A DAG $G$ is an I-map of a distribution $P$ if all independencies assumptions of $G$ hold in $P$:
+    A DAG $\mathcal{G}$ is an I-map of a distribution $P$ if all independencies assumptions of $\mathcal{G}$ hold in $P$:
     \begin{equation*}
-        I_{LM}(G) \subseteq I(P)
+        I_{LM}(\mathcal{G}) \subseteq I(P)
     \end{equation*}
 \end{definition}
 
-\begin{theorem}[If $G$ is an I-map of $P$, then $P$ factorizes according to $G$]
-    If $G$ is an I-map of $P$, then
+\begin{theorem}[Factorization]
+    If $G$ is an I-map of $P$, then we can write:
     \begin{equation*}
         P(X_1, X_2, \ldots, X_n) = \prod_{i=1}^{n} P(X_i | \text{Pa}(X_i))
     \end{equation*}
 \end{theorem}
 
+\begin{definition}[Factorization]
+    We say that $P$ factorizes over $\mathcal{G}$ if there exist CPDs $\{ P_i \}_{i=1}^{n}$ such that:
+    \begin{equation*}
+        P(X_1, X_2, \ldots, X_n) = \prod_{i=1}^{n} P_i(X_i | \text{Pa}(X_i))
+    \end{equation*}
+\end{definition}
+
+\begin{corollary}[Independencies implies Factorization]
+    If $\mathcal{G}$ is an I-map of $P$ ($P \models I_{LM}(\mathcal{G})$), then $P$ factorizes over $\mathcal{G}$.
+\end{corollary}
+
+\begin{corollary}[Independencies implies Factorization (2)]
+    If $\mathcal{G}$ is an I-map of $P$ ($P \models I_{LM}(\mathcal{G})$), then $(\mathcal{G}, P)$ is a Bayesian Network.
+\end{corollary}
+
 \begin{theorem}[Independencies in $P_B$]
-    For $P_B$ it holds for all $i$ that
+    For $P_\mathcal{B}$ it holds for all $i$ that
     \begin{enumerate}
-        \item $X_i \perp ND(X_i) | \text{Pa}(X_i)$  \quad  ($I_{LM}(G)$)
-        \item $P_B(X_i | ND(X_i)) = P_i(X_i | \text{Pa}(X_i))$
+        \item $X_i \perp ND(X_i) | \text{Pa}(X_i)$  \quad  ($I_{LM}(\mathcal{G})$)
+        \item $P_\mathcal{B}(X_i | ND(X_i)) = P_i(X_i | \text{Pa}(X_i))$
     \end{enumerate}
 \end{theorem}
 
+\begin{corollary}[Factorization implies Independencies]
+    If $P$ factorizes over $\mathcal{G}$, then $\mathcal{G}$ is an I-map of $P$ ($P \models I_{LM}(\mathcal{G})$).
+\end{corollary}
+
+\begin{theorem}[Fundmental Theorem of Bayesian Networks]
+    Let $\mathcal{G}$ be a BN structure over $\mathcal{X} = {X_1, X_2, \ldots, X_n}$ and let $P$ be a joint distribution over $\mathcal{X}$. 
+    
+    Then $\mathcal{G}$ is an I-map of $P$ $\Leftrightarrow$ $P$ factorizes over $\mathcal{G}$.
+\end{theorem}
+
 \begin{definition}[Minimal I-map]
-    A DAG $G$ is a minimal I-map of a distribution $P$ if 
+    A DAG $\mathcal{G}$ is a minimal I-map of a distribution $P$ if 
     \begin{enumerate}
-        \item $G$ is an I-map of $P$
-        \item If $G' \subset G$ then $G'$ is not an I-map of $P$
+        \item $\mathcal{G}$ is an I-map of $P$
+        \item If $\mathcal{G}' \subset \mathcal{G}$ then $\mathcal{G}'$ is not an I-map of $P$
     \end{enumerate}
 \end{definition}
+
+
+\subsection{Reasoning Patterns in Bayesian Networks}
+
+
+\begin{definition}[Reasoning Patterns in Bayesian Networks]
+    There are 4 main reasoning patterns in Bayesian Networks:
+    \begin{itemize}
+        \item \textbf{Downstream (causal) reasoning} - $X \rightarrow Z \rightarrow Y$
+        \item \textbf{Upstream (evidential) reasoning} - $X \leftarrow Z \leftarrow Y$
+        \item \textbf{Common Causal reasoning} - $X \leftarrow Z \rightarrow Y$
+        \item \textbf{Common Effect reasoning} - $X \rightarrow Z \leftarrow Y$
+    \end{itemize}
+\end{definition}
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[width=0.9\textwidth]{figs/reasoning_in_BN.png}
+    \label{fig:reasoning_in_BN}
+    \caption{Reasoning Patterns in Bayesian Networks}
+\end{figure}
+
+
+\subsection{D-separation}
+
+\begin{definition}[Active Trail]
+    A trail $X = X_1 - X_2 - \cdots - X_n$ between X and Y in a BN is active given a set of observed RVs $Z$,
+    if whenever there is a v-structure along the trail $X_{i-1} \rightarrow X_{i} \leftarrow X_{i+1}$, then $X_{i}$ or one of its descendants is in $Z$, 
+    and all other nodes along the trail are not in $Z$.
+\end{definition}
+
+\begin{definition}[d-separation]
+    The sets $\textbf{X}$ and $\textbf{Y}$ are d-separated given $\textbf{Z}$ in $\mathcal{G}$, denoted $\text{d-sep}_{\mathcal{G}}(\textbf{X};\textbf{Y} | \textbf{Z})$,
+    if there is no active trail between any node in $\textbf{X}$ and any node in $\textbf{Y}$ given $\textbf{Z}$.
+\end{definition}
+
+\begin{definition}[Global Markov Independencies]
+    The set of global Markov Independencies of a BN structure $\mathcal{G}$ is the set of all independencies that correspond to d-separation:
+    \begin{equation*}
+        I(\mathcal{G}) := I_{GM}(\mathcal{G}) := \{ (X \perp Y | Z) : \text{d-sep}_{\mathcal{G}}(X;Y | Z) \}
+    \end{equation*}
+\end{definition}
+
+\begin{theorem}[Soundness]
+    If a distribution $P$ factorizes over a BN structure $\mathcal{G}$, then $I(P) \subseteq I(\mathcal{G})$.
+\end{theorem}
+
+
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+\newpage
+\section{Bayesian Networks}
 
 
 \end{document}
