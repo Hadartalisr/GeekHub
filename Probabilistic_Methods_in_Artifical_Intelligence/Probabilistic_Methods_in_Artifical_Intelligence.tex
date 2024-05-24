@@ -133,28 +133,152 @@
 \begin{document}
 \maketitle
 
-\section{Bayesian Networks}
+\section{Probability Review}
 
-\begin{definition}[Bayesian Network]
-    A \textbf{Bayesian Network} is a directed acyclic graph (DAG) $G = (V, E)$, where each node $X_i \in V$ represents a random variable, and each edge $X_i \rightarrow X_j$ represents a direct dependency between the random variables $X_i$ and $X_j$. Each node $X_i$ is associated with a conditional probability distribution $P(X_i | \text{Pa}(X_i))$, where $\text{Pa}(X_i)$ denotes the parents of $X_i$ in the graph $G$.
-    
+\begin{definition}[Probability Space]
+    A probability space is a triple $(\Omega, \mathcal{F}, P)$ where:
+    \begin{enumerate}
+        \item $\Omega$ is the sample space
+        \item $\mathcal{F}$ is a $\sigma$-algebra of subsets of $\Omega$
+        \item $P$ is a probability measure on $\mathcal{F}$ such that $P(\Omega) = 1$
+    \end{enumerate}
 \end{definition}
 
-\begin{theorem}[Factorization Theorem]
-    The joint probability distribution of a Bayesian Network can be written as:
-    \begin{equation}
-        P(X_1, X_2, \ldots, X_n) = \prod_{i=1}^{n} P(X_i | \text{Pa}(X_i))
-    \end{equation}
+\begin{definition}[Joint Probability]
+    The joint probability of two events $A$ and $B$ is:
+    \begin{equation*}
+        P(A, B) := P(A \cap B) 
+    \end{equation*}
+\end{definition}
+
+\begin{definition}[Random Variable]
+    A random variable $X$ is a function $X: \Omega \rightarrow \mathbb{R}$. 
+
+    Val(X) = Image(X) = $\{ x \in \mathbb{R} : \exists \omega \in \Omega \text{ s.t. } X(\omega) = x \}$
+\end{definition}
+
+\begin{definition}[Probability Mass Function (PMF)]
+    The probability mass function of a random variable $X$ is:
+    \begin{equation*}
+        P(X = x) := P(\{ \omega \in \Omega : X(\omega) = x \})
+    \end{equation*}
+\end{definition}
+
+\begin{definition}[Joint Distribution]
+    A joint distribution over a set of RVs $\mathcal{X} = \{ X_1, X_2, \ldots, X_n \}$ is a probability distribution 
+    $P_{\mathcal{X}}: Val(X_1) \times Val(X_2) \times \ldots \times Val(X_n) \rightarrow [0, 1]$ defined by:
+    \begin{equation*}
+       \forall x_1, \ldots, x_n : x_i \in Val(X_i) \quad
+        P_{\mathcal{X}}(x_1, x_2, \ldots, x_n) := P(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n)
+    \end{equation*}
+\end{definition}
+
+\begin{theorem}[Law of Total Probability]
+    For X, Y random variables, we can write:
+    \begin{equation*}
+        P(X) = \sum_{y \in Val(Y)} P(X, Y = y) 
+    \end{equation*}
 \end{theorem}
 
-\begin{lemma}[Chain Rule]
-    The joint probability distribution of a set of random variables $X_1, X_2, \ldots, X_n$ can be written as:
-    \begin{equation}
+
+
+
+
+
+
+
+
+
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+\newpage
+\section{Bayesian Networks}
+
+\begin{theorem}[Chain Rule]
+    For any set of random variables $X_1, X_2, \ldots, X_n$:
+    \begin{equation*}
         P(X_1, X_2, \ldots, X_n) = P(X_1)P(X_2 | X_1)P(X_3 | X_1, X_2) \ldots P(X_n | X_1, X_2, \ldots, X_{n-1})
-    \end{equation}
-\end{lemma}
+    \end{equation*}
+\end{theorem}
 
+\begin{definition}[Conditional probability distribution]
+    The conditional probability distribution of a random variable $X$ given another random variable $Y$ is:
+    \begin{equation*}
+        P(X_i | Y) = \frac{P(X_i, Y)}{P(Y)} = \frac{P(X_i, Y)}{\sum_{i} P(X_i, Y)}
+    \end{equation*}
+\end{definition}
 
+\begin{definition}[Bayesian Network]
+    A Bayesian Network $B$ is:
+    \begin{enumerate}
+        \item A directed acyclic graph (DAG) $G = (V, E)$
+        \item A set of conditional probability distributions $P_i(X_i | \text{Pa}(X_i))$ for each node $X_i$ in the graph
+    \end{enumerate}
+    the network defines a probability distribution: 
+    \begin{equation*}
+        P_B(X_1, X_2, \ldots, X_n) = \prod_{i=1}^{n} P_i(X_i | \text{Pa}(X_i))
+    \end{equation*}
+\end{definition}
+
+\begin{theorem}[Bayesian Network defines a probability distribution]
+    For any Bayesian Network $B$, $P_B(X_1, X_2, \ldots, X_n)$ is a joint probability distribution over the variables $X_1, X_2, \ldots, X_n$.
+\end{theorem}
+
+\begin{definition}[$I_{LM}(G)$]
+    The \textbf{Local Markov Independencies Set} of a Bayesian Network $B$ is the set of all independencies that hold in the network:
+    \begin{equation*}
+        I_{LM}(G) = \{ (X_i \perp ND(X_i) | \text{Pa}(X_i)) \quad : i \in |V| \}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}[I-map]
+    A DAG $G$ is an I-map of a distribution $P$ if all independencies assumptions of $G$ hold in $P$:
+    \begin{equation*}
+        I_{LM}(G) \subseteq I(P)
+    \end{equation*}
+\end{definition}
+
+\begin{theorem}[If $G$ is an I-map of $P$, then $P$ factorizes according to $G$]
+    If $G$ is an I-map of $P$, then
+    \begin{equation*}
+        P(X_1, X_2, \ldots, X_n) = \prod_{i=1}^{n} P(X_i | \text{Pa}(X_i))
+    \end{equation*}
+\end{theorem}
+
+\begin{theorem}[Independencies in $P_B$]
+    For $P_B$ it holds for all $i$ that
+    \begin{enumerate}
+        \item $X_i \perp ND(X_i) | \text{Pa}(X_i)$  \quad  ($I_{LM}(G)$)
+        \item $P_B(X_i | ND(X_i)) = P_i(X_i | \text{Pa}(X_i))$
+    \end{enumerate}
+\end{theorem}
+
+\begin{definition}[Minimal I-map]
+    A DAG $G$ is a minimal I-map of a distribution $P$ if 
+    \begin{enumerate}
+        \item $G$ is an I-map of $P$
+        \item If $G' \subset G$ then $G'$ is not an I-map of $P$
+    \end{enumerate}
+\end{definition}
 
 
 \end{document}
