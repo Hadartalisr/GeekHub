@@ -83,6 +83,8 @@
 \newtheorem{lemma}{Lemma}[section]
 \newtheorem{corollary}{Corollary}[section]
 \newtheorem{claim}{claim}[section]
+\newtheorem{proposition}{Proposition}[section]
+
 
 
 \definecolor{purpleColor}{rgb}{0.59, 0.223, 0.6} 
@@ -173,17 +175,79 @@
     \end{equation*}
 \end{definition}
 
-\begin{theorem}[Law of Total Probability]
+\begin{proposition}[Law of Total Probability]
     For X, Y random variables, we can write:
     \begin{equation*}
         P(X) = \sum_{y \in Val(Y)} P(X, Y = y) 
     \end{equation*}
+\end{proposition}
+
+\begin{definition}[Conditional distribution]
+    For X, Y RVs, and for any $y \in Val(Y)$ where $P(Y = y) > 0$ the conditional distribution of X given Y=y is:
+    \begin{equation*}
+        P(X| y) := \frac{P_{X,Y}(X = x, Y = y)}{P_Y(Y = y)}
+    \end{equation*}
+\end{definition}
+
+\begin{proposition}[Chain Rule]
+    For any set of random variables $X_1, X_2, \ldots, X_n$:
+    \begin{equation*}
+        P(X_1, X_2, \ldots, X_n) = P(X_1)P(X_2 | X_1)P(X_3 | X_1, X_2) \ldots P(X_n | X_1, X_2, \ldots, X_{n-1})
+    \end{equation*}
+\end{proposition}
+
+\begin{proposition}[Bayes' Rule]
+    For any two random variables $H, E$:
+    \begin{equation*}
+       P(H = h | E = e) = \frac{P(E = e | H = h)P(H = h)}{P(E = e)}
+    \end{equation*}
+    where we often call:
+    \begin{itemize}
+        \item $P(H = h)$ the \textbf{prior} probability
+        \item $P(H = h | E = e)$ the \textbf{posterior} probability in light of evidence $E = e$
+        \item $P(E = e | H = h)$ the \textbf{likelihood} of the evidence $E = e$ given the hypothesis $H = h$
+    \end{itemize}
+\end{proposition}
+
+\begin{definition}[Marginal Independence]
+    Let $P$ be a probability distribution over a set of random variables $\mathcal{X}$ and let $X, Y \in \mathcal{X}$.
+    We say that $X$ is independent of $Y$, denoted $P \models X \perp Y$, if
+    \begin{equation*}
+        P(X | Y) = P(X)
+    \end{equation*}
+\end{definition}
+
+\begin{definition}[Conditional Independence]
+    Let $P$ be a probability distribution over a set of random variables $\mathcal{X}$ and let $X, Y, Z \in \mathcal{X}$.
+    We say that $X$ is independent of $Y$ given $Z$, denoted $P \models X \perp Y | Z$, if
+    \begin{equation*}
+        P(X | Y, Z) = P(X | Z)
+    \end{equation*}
+\end{definition}
+
+\begin{lemma}[Equivalent Definitions of Conditional Independence]
+    Let $P$ be a probability distribution over a set of random variables $\mathcal{X}$ and let $X, Y, Z \in \mathcal{X}$.
+    The following are equivalent:
+    \begin{enumerate}
+        \item $P \models X \perp Y | Z$
+        \item $P(X, Y | Z) = P(X | Z) P(Y | Z)$
+        \item $P(X, Y, Z) = P(X | Z) P(Y , Z)$
+        \item $\exists f, g : P(X, Y, Z) = f(X, Z)g(Y, Z)$
+    \end{enumerate}
+\end{lemma}
+
+\begin{theorem}[Properties of Conditional Independence]
+    Let $P$ be a probability distribution over a set of random variables $\mathcal{X}$ and let $X, Y, Z, W \in \mathcal{X}$.
+    The following hold:
+    \begin{enumerate}
+        \item \textbf{Symmetry} - $(X \perp Y | Z) \implies (Y \perp X | Z)$
+        \item \textbf{Decomposition} - $(X \perp Y, W | Z) \implies (X \perp Y | Z) \land (X \perp W | Z)$
+        \item \textbf{Weak Union} - $(X \perp Y, W | Z) \implies (X \perp Y | W, Z)$
+        \item \textbf{Contraction} - $(X \perp Y | Z) \land (X \perp W | Y, Z) \implies (X \perp Y, W | Z)$
+        \item \textbf{Intersection} - For \textit{strictly positive} distributions, 
+            \[(X \perp Y | W, Z) \land (X \perp W | Y, Z) \implies (X \perp Y, W | Z)\]
+    \end{enumerate}
 \end{theorem}
-
-
-
-
-
 
 
 
@@ -213,19 +277,6 @@
 \newpage
 \section{Bayesian Networks}
 
-\begin{theorem}[Chain Rule]
-    For any set of random variables $X_1, X_2, \ldots, X_n$:
-    \begin{equation*}
-        P(X_1, X_2, \ldots, X_n) = P(X_1)P(X_2 | X_1)P(X_3 | X_1, X_2) \ldots P(X_n | X_1, X_2, \ldots, X_{n-1})
-    \end{equation*}
-\end{theorem}
-
-\begin{definition}[Conditional probability distribution]
-    The conditional probability distribution of a random variable $X$ given another random variable $Y$ is:
-    \begin{equation*}
-        P(X_i | Y) = \frac{P(X_i, Y)}{P(Y)} = \frac{P(X_i, Y)}{\sum_{i} P(X_i, Y)}
-    \end{equation*}
-\end{definition}
 
 \begin{definition}[Bayesian Network]
     A Bayesian Network $B$ is:
