@@ -760,11 +760,53 @@ The transition diagram is a very different entity from the graph encoding the st
 \end{theorem}
 
 
+\subsection{The transitions between Bayesian Networks and Markov Networks}
+
+\subsubsection{BM $\rightarrow$ MN}
+
+\begin{definition}[Immorality]
+    An immorality in a BN structure $\mathcal{G}$ is a pair of nodes $X_i, X_j$ that have a common child $X_k$ but are not connected by an edge.
+\end{definition}
+
+\begin{definition}[The Moral Graph M($\mathcal{G}$)]
+    The moral graph of a BN structure $\mathcal{G}$ is the undirected graph that is created in the following way:
+    \begin{enumerate}
+        \item $M(\mathcal{G})$ contains all the nodes of $\mathcal{G}$
+        \item $M(\mathcal{G})$ contains all the edges in $\mathcal{G}$ undirected
+        \item For every pair of nodes $X_i, X_j$ that have a common child in $\mathcal{G}$, add an edge between $X_i$ and $X_j$ in $M(\mathcal{G})$
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}[$M(\mathcal{G})$ is a minimal I-map of $G$]  
+    The moral graph $M(\mathcal{G})$ is a minimal I-map of the distribution $P$ that has exactly the same independencies as $\mathcal{G}$.
+\end{theorem}
 
 
+\begin{theorem}
+    If $\mathcal{G}$ is a moral graph, then $M[\mathcal{G}]$ is a P-map of $G$; i.e.,
+    \[
+        I(\mathcal{G}) = I(M[\mathcal{G}])
+    \]
+\end{theorem}
 
 
+\subsubsection{MN $\rightarrow$ BM}
 
+\begin{definition}[Triangulated Graph]
+    A graph $\mathcal{H}$ is triangulated if every cycle of length $\geq 4$ has a chord.
+\end{definition}
+
+\begin{definition}[Skeleton of a Bayesian Network]
+    The skelleton of a Bayesian Network $\mathcal{G}$ is the undirected graph that is created by removing the directions of the edges in $\mathcal{G}$.
+\end{definition}
+
+\begin{theorem}
+    If $\mathcal{G}$ is an I-map of $\mathcal{H}$, then the skeleton of $\mathcal{G}$ is a triangulation of $\mathcal{H}$.
+\end{theorem}
+
+\begin{lemma}
+    If $\mathcal{G}$ is a moral graph, then the skeleton of $\mathcal{G}$ is a triangulated graph.
+\end{lemma}
 
 
 
@@ -792,6 +834,6 @@ The transition diagram is a very different entity from the graph encoding the st
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 \newpage
-\section{The relationship between Bayesian Networks and Markov Networks}
+\section{Networks}
 
 \end{document}
