@@ -687,6 +687,72 @@ and we have seen in $(*)$ a case where the inequality holds with equality. There
 
 
 
+Let \(X_1, X_2, \ldots, X_n\) be independent strictly sub-Gaussian random variables, and let \(a_1, a_2, \ldots, a_n\) be real coefficients. 
+We need to show that the linear combination \(Y = \sum_{i=1}^n a_i X_i\) is strictly sub-Gaussian.
+
+Since \(X_i\) are strictly sub-Gaussian, we have \(\|X_i\|_{vp} = \sqrt{\mathrm{var}(X_i)}\) for all \(i\). By definition, this means that for each \(X_i\),
+\[
+\mathbb{E}[e^{\lambda X_i}] \leq e^{\frac{\lambda^2 \mathrm{var}(X_i)}{2}} \quad \text{for all } \lambda \in \mathbb{R}
+\]
+
+Because the \(X_i\) are independent, the moment generating function (MGF) of their linear combination \(Y\) is:
+\begin{align*}
+M_Y(\lambda) = \mathbb{E}[e^{\lambda Y}] = \mathbb{E}\left[e^{\lambda \sum_{i=1}^n a_i X_i}\right] = \mathbb{E}\left[e^{\sum_{i=1}^n \lambda a_i X_i}\right] = 
+\mathbb{E}\left[ \prod_{i=1}^n e^ {\lambda a_i X_i}\right] \stackrel{independency}{=} \prod_{i=1}^n \mathbb{E}\left[e^{\lambda a_i X_i}\right].
+\end{align*}
+
+For each \(X_i\), since it is strictly sub-Gaussian, we have:
+\[
+\mathbb{E}\left[e^{\lambda a_i X_i}\right] \leq e^{\frac{\lambda^2 a_i^2 \mathrm{var}(X_i)}{2}}
+\]
+
+Therefore,
+\[
+M_Y(\lambda) \leq \prod_{i=1}^n e^{\frac{\lambda^2 a_i^2 \mathrm{var}(X_i)}{2}} = e^{\frac{\lambda^2}{2} \sum_{i=1}^n a_i^2 \mathrm{var}(X_i)}.
+\]
+
+From question 1.1, being $\sigma$-SubGaussian is equivalent to having an MGF that is bounded by the MGF of a centered Gaussian with variance $\sigma^2$. 
+Therefore, \(Y\) is sub-Gaussian with variance parameter \(\sum_{i=1}^n a_i^2 \mathrm{var}(X_i)\)
+
+Next, we need to show that \(Y\) is strictly sub-Gaussian. To do this, we calculate the variance of \(Y\):
+\[
+\mathrm{var}(Y) = \mathrm{var}\left(\sum_{i=1}^n a_i X_i\right)
+\]
+
+Since the \(X_i\) are independent, the variance of their linear combination is:
+\[
+\mathrm{var}(Y) = \sum_{i=1}^n a_i^2 \mathrm{var}(X_i).
+\]
+
+Since we already showed that:
+\[
+M_Y(\lambda) \leq e^{\frac{\lambda^2 \mathrm{var}(Y)}{2}},
+\]
+
+we have:
+\[
+\mathbb{E}[e^{\lambda Y}] \leq e^{\frac{\lambda^2 \mathrm{var}(Y)}{2}} \quad \text{for all } \lambda \in \mathbb{R}.
+\]
+
+Therefore, the variance proxy norm of \(Y\) is:
+\[
+\|Y\|_{vp} = \sqrt{\mathrm{var}(Y)}.
+\]
+
+Hence, \(Y\) is strictly sub-Gaussian.
+
+
+
+
+
+
+
+
+
+
+
+
+
 \newpage
 \item \textcolor{blueColor}{Show that for any \(M \geq 1\), there is a random variable \(X\) with \(\mathrm{var}(X) = 1\) and \(\|X\|_{vp} = M\).}
 
