@@ -520,7 +520,65 @@ Since the Proxy Variance operator \(\|\cdot\|_{vp}\) satisfies positivity, homog
 \begin{enumerate}
 \item \textcolor{blueColor}{Let \(X\) be a \(\sigma\)-SubGaussian random variable. Show that
 \footnote{Hint: You can use the fact that for twice differentiable \( f \) and \( g \), we have that if \( f(0) = g(0) \), \( f'(0) = g'(0) \) and \( f(x) \leq g(x) \) then \( f''(0) \leq g''(0) \)}
-\(2\sigma \geq \sqrt{\mathrm{var}(X)}\).}
+\(\sigma \geq \sqrt{\mathrm{var}(X)}\).}
+
+\bigbreak
+
+
+Let \(Y = X - \mathbb{E}[X]\). Note that \(Y\) is a centered random variable, i.e., \(\mathbb{E}[Y] = 0\), and since \(X\) is \(\sigma\)-SubGaussian, \(Y\) is also \(\sigma\)-SubGaussian. This is because the sub-Gaussian property is invariant under shifts by the mean. Hence,
+\[
+\mathbb{E}\left[e^{\lambda Y}\right] \leq e^{\frac{\lambda^2 \sigma^2}{2}} \quad \text{for all } \lambda \in \mathbb{R}.
+\]
+
+Define the function \(f(\lambda) = \mathbb{E}[e^{\lambda Y}]\) and \(g(\lambda) = e^{\frac{\lambda^2 \sigma^2}{2}}\). 
+
+We need to show that:
+\[
+\sqrt{\mathrm{var}(X)} \leq \sigma.
+\]
+
+To do this, consider the Taylor expansions of \(f(\lambda)\) and \(g(\lambda)\) around \(\lambda = 0\).
+
+The Taylor expansions of \(f(\lambda)\) and \(g(\lambda)\) are:
+\begin{align*}
+f(\lambda) &= f(0) + f'(0) \lambda + \frac{f''(0)}{2} \lambda^2 + O(\lambda^3) \\
+g(\lambda) &= g(0) + g'(0) \lambda + \frac{g''(0)}{2} \lambda^2 + O(\lambda^3)
+\end{align*}
+
+Now, calculate the derivatives at \(\lambda = 0\), utilizing the result from question 1.1:
+
+\begin{align*}
+f(0) &= \mathbb{E}[e^{0}] = 1 \\
+f'(0) &= \frac{d}{d\lambda} \mathbb{E}[e^{\lambda Y}] \bigg|_{\lambda=0} \stackrel{\text{1.1}}{=} \mathbb{E}[Y] = 0 \\
+f''(0) &= \frac{d^2}{d\lambda^2} \mathbb{E}[e^{\lambda Y}] \bigg|_{\lambda=0} = \mathbb{E}[Y^2] = \mathrm{var}(Y)  \stackrel{\text{Shifting R.V by constant}}{=} \mathrm{var}(X) \\
+g(0) &= e^{0} = 1 \\
+g'(0) &= \frac{d}{d\lambda} e^{\frac{\lambda^2 \sigma^2}{2}} \bigg|_{\lambda=0} = \lambda \sigma^2 e^{\frac{\lambda^2 \sigma^2}{2}} \bigg|_{\lambda=0} = 0 \\
+g''(0) &= \frac{d^2}{d\lambda^2} e^{\frac{\lambda^2 \sigma^2}{2}} \bigg|_{\lambda=0} = \frac{d}{d\lambda} \left( \lambda \sigma^2 e^{\frac{\lambda^2 \sigma^2}{2}} \right) \bigg|_{\lambda=0} = \sigma^2 e^{\frac{\lambda^2 \sigma^2}{2}} + \lambda \sigma^2 \left( \sigma^2 e^{\frac{\lambda^2 \sigma^2}{2}} \right) \bigg|_{\lambda=0} = \sigma^2
+\end{align*}
+
+From the given hint, since \(f(0) = g(0)\), \(f'(0) = g'(0)\), and \(f(\lambda) \leq g(\lambda)\) for all \(\lambda \in \mathbb{R}\), we have:
+\[
+f''(0) \leq g''(0).
+\]
+
+Therefore,
+\[
+\mathrm{var}(X) \leq \sigma^2.
+\]
+
+Taking the square root of both sides, we get:
+\[
+\sqrt{\mathrm{var}(X)} \leq \sigma.
+\]
+
+This completes the proof.
+
+
+
+
+
+
+
 
 
 
