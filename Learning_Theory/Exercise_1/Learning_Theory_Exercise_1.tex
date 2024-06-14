@@ -45,7 +45,7 @@
 
 
 \setlength{\parindent}{0pt}
-\numberwithin{equation}{section}
+% \numberwithin{equation}
 
 
 \newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
@@ -594,6 +594,86 @@ This completes the proof.
 \newpage
 \item \textcolor{blueColor}{If \(\|X\|_{vp} = \sqrt{\mathrm{var}(X)}\), then \(X\) is called strictly sub-Gaussian. 
 Show that if \(X\) is uniform on \(\{-1, 1\}\), then it is strictly sub-Gaussian. Conclude that the bound in Hoeffding's lemma is optimal.}
+
+\bigbreak
+
+First, let's show that if \(X\) is uniform on \(\{-1, 1\}\), then it is strictly sub-Gaussian.
+
+Given \(X\) is uniform on \(\{-1, 1\}\), the probability mass function is:
+\[
+\mathbb{P}(X = -1) = \mathbb{P}(X = 1) = \frac{1}{2}.
+\]
+
+The mean and variance of \(X\) are:
+\[
+\mathbb{E}[X] = 0, \quad \mathrm{var}(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2 = 1.
+\]
+
+The moment generating function (MGF) of \(X\) is:
+\[
+M_X(\lambda) = \mathbb{E}[e^{\lambda X}] = \frac{1}{2} e^{\lambda} + \frac{1}{2} e^{-\lambda} = \cosh(\lambda).
+\]
+
+For \(X\) to be \(\sigma\)-SubGaussian, we need for all \(\lambda \in \mathbb{R}\):
+\[
+\cosh(\lambda) \leq e^{\frac{\lambda^2 \sigma^2}{2}}.
+\]
+
+For this inequality to hold for all \(\lambda\), we need to equate the exponents on both sides. Consider \(\lambda = 0\):
+\[
+\cosh(0) = e^{0} = 1.
+\]
+
+Next, consider the general case for \(\lambda \neq 0\). Use the Taylor series expansions to equate terms:
+
+1. The Taylor series expansion for \(\cosh(\lambda)\) is:
+\[
+\cosh(\lambda) = 1 + \frac{\lambda^2}{2!} + \frac{\lambda^4}{4!} + \cdots.
+\]
+
+2. The Taylor series expansion for \(e^{\frac{\lambda^2 \sigma^2}{2}}\) is:
+\[
+e^{\frac{\lambda^2 \sigma^2}{2}} = 1 + \frac{\lambda^2 \sigma^2}{2!} + \frac{(\lambda^2 \sigma^2)^2}{4!} + \cdots.
+\]
+
+For the series to be equal for all \(\lambda\), each term in the expansion must match. Let's equate the coefficients of \(\lambda^2\):
+\[
+\frac{\lambda^2}{2} = \frac{\lambda^2 \sigma^2}{2}.
+\]
+
+Solving for \(\sigma\):
+\[
+\frac{1}{2} = \frac{\sigma^2}{2} \quad \Rightarrow \quad \sigma^2 = 1 \quad \Rightarrow \quad \sigma = 1.
+\]
+
+Therefore, the equality $(*)$:
+\[
+\frac{e^{\lambda} + e^{-\lambda}}{2} = e^{\frac{\lambda^2 \sigma^2}{2}}
+\]
+holds for all \(\lambda\) if and only if \(\sigma = 1\).
+
+Thus, \(X\) is strictly sub-Gaussian with \(\sigma = 1\), meaning \(\|X\|_{vp} = \sqrt{\mathrm{var}(X)} = 1\). This shows that if \(X\) is uniform on \(\{-1, 1\}\), then it is strictly sub-Gaussian.
+
+
+Let $a \leq X \leq b$ be a random variable. Hoeffding's lemma states that $X$ is \(\frac{(a-b)}{2}\)-SubGaussian, i.e., for all \(\lambda \in \mathbb{R}\),
+\[
+\mathbb{E}\left[e^{\lambda (X - \mathbb{E}[X])}\right] \leq e^{\frac{\lambda^2 (b-a)^2}{8}}.
+\]
+
+Lets substitute $X$ to both sides of the inequality:
+
+The left side becomes:
+\[
+\mathbb{E}\left[e^{\lambda (X - \mathbb{E}[X])}\right] = \mathbb{E}\left[e^{\lambda X}\right] = cosh(\lambda)
+\]
+The right side becomes:
+\[
+e^{\frac{\lambda^2 (b-a)^2}{8}} = e^{\frac{\lambda^2 (1-(-1))^2 }{8}} = e^{\frac{\lambda^2 4}{8}} = e^{\frac{\lambda^2 (\text{Var}(X))}{2}}
+\]
+and we have seen in $(*)$ a case where the inequality holds with equality. Therefore, the bound in Hoeffding's lemma is optimal.
+
+
+
 
 
 
