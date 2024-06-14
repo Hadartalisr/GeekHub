@@ -488,41 +488,21 @@ Combining both steps, we have shown that \(\|aX\|_{vp} = |a| \|X\|_{vp}\).
 
 
 \paragraph{Triangle Inequality}
-Let \(X\) and \(Y\) be centered sub-Gaussian random variables with \(\|X\|_{vp} = \sigma_X\) and \(\|Y\|_{vp} = \sigma_Y\). We need to show that \(X + Y\) is \((\sigma_X + \sigma_Y)\)-SubGaussian.
+Let \(X\) and \(Y\) be centered sub-Gaussian random variables with \(\|X\|_{vp} = \sigma_X\) and \(\|Y\|_{vp} = \sigma_Y\). 
 
-Using the properties of sub-Gaussian random variables, we know that:
-\[
-\mathbb{E}\left[e^{\lambda (X + Y)}\right] = \mathbb{E}\left[e^{\lambda X} e^{\lambda Y}\right].
-\]
+From Exercise 2.1, we know that if \(X\) is \(\sigma_X\)-SubGaussian and \(Y\) is \(\sigma_Y\)-SubGaussian, 
+then \(X + Y\) is \((\sigma_X + \sigma_Y)\)-SubGaussian. Therefore, the proxy variance norm satisfies the triangle inequality:
+\begin{align*}
+\mathbb{E}\left[e^{\lambda (X + Y)}\right] &\leq e^{\frac{\lambda^2 (\sigma_X + \sigma_Y)^2}{2} }  \Rightarrow \\
+\|X + Y\|_{vp} &:= \min\{\sigma \mid \forall \lambda \in \mathbb{R}, \quad \mathbb{E}\left[e^{\lambda (X + Y)}\right] \leq e^{\frac{\lambda^2 \sigma^2}{2}}\} \leq \sigma_X + \sigma_Y \Rightarrow \\
+\|X + Y\|_{vp} &\leq \|X\|_{vp} + \|Y\|_{vp}
+\end{align*}
 
-Using Hölder's inequality with \(p = q = 2\) (since \(\frac{1}{p} + \frac{1}{q} = 1\)), we get:
-\[
-\mathbb{E}\left[e^{\lambda X} e^{\lambda Y}\right] \leq \left(\mathbb{E}\left[e^{2\lambda X}\right]\right)^{1/2} \left(\mathbb{E}\left[e^{2\lambda Y}\right]\right)^{1/2}.
-\]
+\bigbreak
 
-Since \(X\) is \(\sigma_X\)-SubGaussian and \(Y\) is \(\sigma_Y\)-SubGaussian, we have:
-\[
-\mathbb{E}\left[e^{2\lambda X}\right] \leq e^{2\lambda^2 \sigma_X^2} \quad \text{and} \quad \mathbb{E}\left[e^{2\lambda Y}\right] \leq e^{2\lambda^2 \sigma_Y^2}.
-\]
 
-Therefore,
-\[
-\mathbb{E}\left[e^{\lambda (X + Y)}\right] \leq \left(e^{2\lambda^2 \sigma_X^2}\right)^{1/2} \left(e^{2\lambda^2 \sigma_Y^2}\right)^{1/2} = e^{\lambda^2 \sigma_X^2} e^{\lambda^2 \sigma_Y^2} = e^{\lambda^2 (\sigma_X^2 + \sigma_Y^2)}.
-\]
+Since the Proxy Variance operator \(\|\cdot\|_{vp}\) satisfies positivity, homogeneity, and the triangle inequality, it is a norm on the space of centered sub-Gaussian random variables.
 
-To show that \(X + Y\) is \((\sigma_X + \sigma_Y)\)-SubGaussian, we use the inequality:
-\[
-\sigma_X^2 + \sigma_Y^2 \leq (\sigma_X + \sigma_Y)^2.
-\]
-
-Thus,
-\[
-\mathbb{E}\left[e^{\lambda (X + Y)}\right] \leq e^{\lambda^2 (\sigma_X + \sigma_Y)^2}.
-\]
-
-Therefore, \(\|X + Y\|_{vp} \leq \|X\|_{vp} + \|Y\|_{vp}\).
-
-Since \(\|\cdot\|_{vp}\) satisfies positivity, homogeneity, and the triangle inequality, it is a norm on the space of centered sub-Gaussian random variables. This norm is called the Proxy Variance norm and \(\|X\|_{vp}\) is called the optimal proxy variance of \(X\).
 
 
 
