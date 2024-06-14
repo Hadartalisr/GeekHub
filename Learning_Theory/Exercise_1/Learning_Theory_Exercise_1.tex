@@ -1,0 +1,193 @@
+\documentclass[a4 paper]{article}
+\usepackage[inner=2.0cm,outer=2.0cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{setspace}
+\usepackage[rgb]{xcolor}
+\usepackage{verbatim}
+\usepackage{subcaption}
+\usepackage{amsgen,amsmath,amstext,amsbsy,amsopn,tikz,amssymb}
+\usepackage{fancyhdr}
+\usepackage[colorlinks=true, urlcolor=blue,  linkcolor=blue, citecolor=blue]{hyperref}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{rotating}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing} 
+\usetikzlibrary{positioning}
+\usepackage{float}
+\usepackage{minted}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{graphicx}
+% \usepackage[hidelinks]{hyperref}
+\usepackage{dsfont}
+\usepackage{graphicx}
+\usepackage{mathdesign}
+\usepackage{float}
+\usepackage{todonotes} 
+\usepackage{empheq}
+\usepackage{array}
+\usepackage[ruled,vlined]{algorithm2e} 
+\usepackage[many]{tcolorbox}    	% for COLORED BOXES (tikz and xcolor included)
+\usepackage{bookmark}
+
+\usepackage{pgfplots} 
+\pgfplotsset{compat=1.18}
+
+
+\newtcolorbox{boxA}{
+    fontupper = \bf,
+    boxrule = 1.5pt,
+    colframe = black % frame color
+}
+
+
+\setlength{\parindent}{0pt}
+\numberwithin{equation}{section}
+
+
+\newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
+\newcommand\defeq{\stackrel{\mathclap{\normalfont\mbox{def}}}{=}}
+\SetCommentSty{mycommfont}
+
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+
+
+
+\newtheoremstyle{boldStyle}%                % Name
+  {}%                                     % Space above
+  {}%                                     % Space below
+  {\itshape}%                                     % Body font
+  {}%                                     % Indent amount
+  {\bfseries}%                            % Theorem head font
+  {}%                                    % Punctuation after theorem head
+  {\newline}                              % Space after theorem head, new line
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}%                                     % Theorem head spec (can be left empty, meaning `normal')
+
+
+\theoremstyle{boldStyle}
+\newtheorem{example}{Example}[section]
+\newtheorem{question}{Question}[section]
+\newtheorem{answer}{Answer}[section]
+
+
+\newtheorem*{claim*}{Claim}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem*{corollary*}{Corollary}
+\newtheorem*{remark*}{Remark}
+\newtheorem*{example*}{Example}
+\newtheorem*{examples*}{Examples}
+\newtheorem*{definition*}{Definition}
+\newtheorem*{question*}{Question}
+\newtheorem*{answer*}{Answer}
+
+
+\definecolor{blueColor}{rgb}{0, 0.611, 0.98} 
+\newtheoremstyle{boldBlueStyle}%                % Name
+  {}%                                          % Space above
+  {}%                                          % Space below
+  {\itshape}%                                  % Body font
+  {}%                                          % Indent amount
+  {\color{blueColor}\bfseries}%          % Theorem head font in red
+  {}%                                          % Punctuation after theorem head
+  {\newline}%                                  % Space after theorem head, new line
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}} % Theorem head spec (can be left empty, meaning `normal')
+
+\theoremstyle{boldBlueStyle}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{claim}{claim}[section]
+\newtheorem{proposition}{Proposition}[section]
+
+
+
+\definecolor{purpleColor}{rgb}{0.59, 0.223, 0.6} 
+\newtheoremstyle{boldPurpleStyle}%                % Name
+  {}%                                          % Space above
+  {}%                                          % Space below
+  {\itshape}%                                  % Body font
+  {}%                                          % Indent amount
+  {\color{purpleColor}\bfseries}%          % Theorem head font in red
+  {}%                                          % Punctuation after theorem head
+  {\newline}%                                  % Space after theorem head, new line
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}} % Theorem head spec (can be left empty, meaning `normal')
+
+\theoremstyle{boldPurpleStyle}
+\newtheorem{theorem}{Theorem}[section]
+
+
+\definecolor{redColor}{rgb}{1, 0.219, 0.219} 
+\newtheoremstyle{boldRedStyle}%                % Name
+  {}%                                          % Space above
+  {}%                                          % Space below
+  {\itshape}%                                  % Body font
+  {}%                                          % Indent amount
+  {\color{redColor}\bfseries}%          % Theorem head font in red
+  {}%                                          % Punctuation after theorem head
+  {\newline}%                                  % Space after theorem head, new line
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}} % Theorem head spec (can be left empty, meaning `normal')
+
+\theoremstyle{boldRedStyle}
+\newtheorem{definition}{Definition}[section]
+
+
+
+
+%\usetikzlibrary{through,backgrounds}
+\hypersetup{%
+pdfauthor={Ashudeep Singh},%
+pdftitle={Homework},%
+pdfkeywords={Tikz,latex,bootstrap,uncertaintes},%
+pdfcreator={PDFLaTeX},%
+pdfproducer={PDFLaTeX},%
+}
+%\usetikzlibrary{shadows}
+% \usepackage[francais]{babel}
+\usepackage{booktabs}
+\input{../../Latex_Utils/macros.tex}
+
+\setlength{\parindent}{0pt}
+
+
+\begin{document}
+\homework{67939 - Topics in Learning Theory}{Exercise 1}{Due: 16/06/24}{Prof. Amit Daniely}{}{Hadar Tal}{}
+
+
+
+\section*{Exercise 1}
+The moment generating function (MGF) of a random variable \(X\) is \(M_X(\lambda) = \mathbb{E}[e^{\lambda X}]\). Assume that \(M_X\) is defined for any \(\lambda\) in a non-empty segment \((-a, a)\). Show that
+
+\begin{enumerate}
+    \item \(M_X^{(k)}(0) = \mathbb{E}[X^k]\)
+    \item Show that for a centered Gaussian \(X\) with variance \(\sigma^2\), \(M_X(\lambda) = e^{\frac{\lambda^2 \sigma^2}{2}}\). In other words, being \(\sigma\)-SubGaussian is equivalent to having MGF that is bounded by the MGF of a centered Gaussian with variance \(\sigma^2\).
+    \item Show that if \(X\) is uniform over \([a, b]\) then \(M_X(\lambda) = \frac{e^{\lambda b} - e^{\lambda a}}{\lambda (b - a)}\).
+\end{enumerate}
+
+\section*{Exercise 2}
+\begin{enumerate}
+    \item Show that if \(X_i\) is \(\sigma_i\)-SubGaussian for \(i = 1, 2\) then \(X_1 + X_2\) is \((\sigma_1 + \sigma_2)\)-SubGaussian\footnote{Use the Hölder inequality \((\mathbb{E}[XY] \leq (\mathbb{E}[X^p])^{1/p} (\mathbb{E}[Y^q])^{1/q} \text{ if } \frac{1}{p} + \frac{1}{q} = 1 \text{ and } p, q \geq 0)\) on \(\mathbb{E}[e^{\lambda (X - \mathbb{E}[X])} e^{\lambda (Y - \mathbb{E}[Y])}]\)}.
+    \item For a sub-Gaussian random variable \(X\), define \(\|X\|_{vp}\) as the minimal \(\sigma\) for which \(X\) is \(\sigma\)-SubGaussian. Show that \(\|\cdot\|_{vp}\) is a norm on the space of centered sub-Gaussian random variables. This norm is called the Proxy Variance norm and \(\|X\|_{vp}\) is called the optimal proxy variance of \(X\).
+\end{enumerate}
+
+\section*{Exercise 3}
+\begin{enumerate}
+    \item Let \(X\) be a \(\sigma\)-SubGaussian random variable. Show that \(2\sigma \geq \sqrt{\mathrm{var}(X)}\).
+    \item If \(\|X\|_{vp} = \sqrt{\mathrm{var}(X)}\), then \(X\) is called strictly sub-Gaussian. Show that if \(X\) is uniform on \(\{-1, 1\}\), then it is strictly sub-Gaussian. Conclude that the bound in Hoeffding's lemma is optimal.
+    \item Show that a linear combination of independent strictly sub-Gaussians is strictly sub-Gaussian.
+    \item Show that for any \(M \geq 1\), there is a random variable \(X\) with \(\mathrm{var}(X) = 1\) and \(\|X\|_{vp} = M\).
+\end{enumerate}
+
+\section*{Exercise 4}
+Show that there is a universal constant \(C > 0\) for which the following holds. If \(X\) is a random variable such that for any \(t \geq 0\),
+
+\[
+\Pr(X - \mathbb{E}[X] \geq t) \leq e^{-\frac{t^2}{2\sigma^2}} \quad \text{and} \quad \Pr(X - \mathbb{E}[X] \leq -t) \leq e^{-\frac{t^2}{2\sigma^2}}
+\]
+
+then \(X\) is \((C\sigma)\)-SubGaussian\footnote{Hint: You may use the fact that for a non-negative random variable \(Y\), \(\mathbb{E}[Y] = \int_0^\infty \Pr(Y \geq x)dx\)}.
+
+
+\end{document}

@@ -1,0 +1,163 @@
+\documentclass[a4 paper]{article}
+\usepackage[inner=2.0cm,outer=2.0cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{setspace}
+\usepackage[rgb]{xcolor}
+\usepackage{verbatim}
+\usepackage{subcaption}
+\usepackage{amsgen,amsmath,amstext,amsbsy,amsopn,tikz,amssymb}
+\usepackage{fancyhdr}
+\usepackage[colorlinks=true, urlcolor=blue,  linkcolor=blue, citecolor=blue]{hyperref}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{rotating}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing} 
+\usetikzlibrary{positioning}
+\usepackage{float}
+\usepackage{minted}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{graphicx}
+% \usepackage[hidelinks]{hyperref}
+\usepackage{dsfont}
+\usepackage{graphicx}
+\usepackage{mathdesign}
+\usepackage{float}
+\usepackage{todonotes} 
+\usepackage{empheq}
+\usepackage{array}
+\usepackage[ruled,vlined]{algorithm2e} 
+\usepackage[many]{tcolorbox}    	% for COLORED BOXES (tikz and xcolor included)
+\usepackage{bookmark}
+
+\usepackage{pgfplots} 
+\pgfplotsset{compat=1.18}
+
+
+\newtcolorbox{boxA}{
+    fontupper = \bf,
+    boxrule = 1.5pt,
+    colframe = black % frame color
+}
+
+
+\setlength{\parindent}{0pt}
+\numberwithin{equation}{section}
+
+
+\newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
+\newcommand\defeq{\stackrel{\mathclap{\normalfont\mbox{def}}}{=}}
+\SetCommentSty{mycommfont}
+
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+
+
+
+\newtheoremstyle{boldStyle}%                % Name
+  {}%                                     % Space above
+  {}%                                     % Space below
+  {\itshape}%                                     % Body font
+  {}%                                     % Indent amount
+  {\bfseries}%                            % Theorem head font
+  {}%                                    % Punctuation after theorem head
+  {\newline}                              % Space after theorem head, new line
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}%                                     % Theorem head spec (can be left empty, meaning `normal')
+
+
+\theoremstyle{boldStyle}
+\newtheorem{example}{Example}[section]
+\newtheorem{question}{Question}[section]
+\newtheorem{answer}{Answer}[section]
+
+
+\newtheorem*{claim*}{Claim}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem*{corollary*}{Corollary}
+\newtheorem*{remark*}{Remark}
+\newtheorem*{example*}{Example}
+\newtheorem*{examples*}{Examples}
+\newtheorem*{definition*}{Definition}
+\newtheorem*{question*}{Question}
+\newtheorem*{answer*}{Answer}
+
+
+\definecolor{blueColor}{rgb}{0, 0.611, 0.98} 
+\newtheoremstyle{boldBlueStyle}%                % Name
+  {}%                                          % Space above
+  {}%                                          % Space below
+  {\itshape}%                                  % Body font
+  {}%                                          % Indent amount
+  {\color{blueColor}\bfseries}%          % Theorem head font in red
+  {}%                                          % Punctuation after theorem head
+  {\newline}%                                  % Space after theorem head, new line
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}} % Theorem head spec (can be left empty, meaning `normal')
+
+\theoremstyle{boldBlueStyle}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{claim}{claim}[section]
+\newtheorem{proposition}{Proposition}[section]
+
+
+
+\definecolor{purpleColor}{rgb}{0.59, 0.223, 0.6} 
+\newtheoremstyle{boldPurpleStyle}%                % Name
+  {}%                                          % Space above
+  {}%                                          % Space below
+  {\itshape}%                                  % Body font
+  {}%                                          % Indent amount
+  {\color{purpleColor}\bfseries}%          % Theorem head font in red
+  {}%                                          % Punctuation after theorem head
+  {\newline}%                                  % Space after theorem head, new line
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}} % Theorem head spec (can be left empty, meaning `normal')
+
+\theoremstyle{boldPurpleStyle}
+\newtheorem{theorem}{Theorem}[section]
+
+
+\definecolor{redColor}{rgb}{1, 0.219, 0.219} 
+\newtheoremstyle{boldRedStyle}%                % Name
+  {}%                                          % Space above
+  {}%                                          % Space below
+  {\itshape}%                                  % Body font
+  {}%                                          % Indent amount
+  {\color{redColor}\bfseries}%          % Theorem head font in red
+  {}%                                          % Punctuation after theorem head
+  {\newline}%                                  % Space after theorem head, new line
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}} % Theorem head spec (can be left empty, meaning `normal')
+
+\theoremstyle{boldRedStyle}
+\newtheorem{definition}{Definition}[section]
+
+
+
+
+%\usetikzlibrary{through,backgrounds}
+\hypersetup{%
+pdfauthor={Ashudeep Singh},%
+pdftitle={Homework},%
+pdfkeywords={Tikz,latex,bootstrap,uncertaintes},%
+pdfcreator={PDFLaTeX},%
+pdfproducer={PDFLaTeX},%
+}
+%\usetikzlibrary{shadows}
+% \usepackage[francais]{babel}
+\usepackage{booktabs}
+\input{macros.tex}
+
+\setlength{\parindent}{0pt}
+
+
+\begin{document}
+\homework{67939 - Topics in Learning Theory}{Exercise 1}{Due: 16/06/24}{Prof. Amit Daniely}{}{Hadar Tal}{}
+
+\begin{theorem}[hello]
+    \label{thm:1}
+    This is a theorem. dddd ddddd
+\end{theorem}
+
+\end{document}
