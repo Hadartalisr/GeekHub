@@ -158,14 +158,15 @@ pdfproducer={PDFLaTeX},%
 
 
 \section*{Exercise 1}
+\textcolor{blueColor}{
 The moment generating function (MGF) of a random variable \(X\) is \(M_X(\lambda) = \mathbb{E}[e^{\lambda X}]\). 
 Assume that \(M_X\) is defined for any \(\lambda\) in a non-empty segment \((-a, a)\). Show that
+}
 
 \begin{enumerate}
-\item \(M_X^{(k)}(0) = \mathbb{E}[X^k]\)
 
-\bigbreak
-    
+\item \textcolor{blueColor}{ \(M_X^{(k)}(0) = \mathbb{E}[X^k]\) }
+
 Using the definition of the moment-generating function, we can write:
 \[
 M_X^{(k)}(t) = \frac{d^k}{d\lambda^k} \mathbb{E}[e^{\lambda X}] 
@@ -218,8 +219,8 @@ which completes the proof.
 
     
 \newpage
-\item Show that for a centered Gaussian \(X\) with variance \(\sigma^2\), \(M_X(\lambda) = e^{\frac{\lambda^2 \sigma^2}{2}}\). 
-In other words, being \(\sigma\)-SubGaussian is equivalent to having MGF that is bounded by the MGF of a centered Gaussian with variance \(\sigma^2\).
+\item \textcolor{blueColor}{Show that for a centered Gaussian \(X\) with variance \(\sigma^2\), \(M_X(\lambda) = e^{\frac{\lambda^2 \sigma^2}{2}}\). 
+In other words, being \(\sigma\)-SubGaussian is equivalent to having MGF that is bounded by the MGF of a centered Gaussian with variance \(\sigma^2\).}
     
 
 
@@ -274,11 +275,51 @@ This shows that being \(\sigma\)-SubGaussian is equivalent to having an MGF that
 
 
 
-
     
     
 \newpage
-\item Show that if \(X\) is uniform over \([a, b]\) then \(M_X(\lambda) = \frac{e^{\lambda b} - e^{\lambda a}}{\lambda (b - a)}\).
+\item \textcolor{blueColor}{Show that if \(X\) is uniform over \([a, b]\) then \(M_X(\lambda) = \frac{e^{\lambda b} - e^{\lambda a}}{\lambda (b - a)}\).}
+
+Let \(X\) be a random variable uniformly distributed over the interval \([a, b]\). The probability density function of \(X\) is:
+\[
+f_X(x) = \frac{1}{b-a}, \quad \text{for } a \leq x \leq b
+\]
+
+The moment generating function (MGF) of \(X\) is defined as:
+\[
+M_X(\lambda) = \mathbb{E}[e^{\lambda X}] = \int_{a}^{b} e^{\lambda x} f_X(x) \, dx
+\]
+
+Substituting the PDF of \(X\):
+\[
+M_X(\lambda) = \int_{a}^{b} e^{\lambda x} \frac{1}{b-a} \, dx
+\]
+
+Since \(\frac{1}{b-a}\) is a constant, we can factor it out:
+\[
+M_X(\lambda) = \frac{1}{b-a} \int_{a}^{b} e^{\lambda x} \, dx
+\]
+
+To solve the integral, we use the antiderivative of \(e^{\lambda x}\):
+\[
+\int e^{\lambda x} \, dx = \frac{1}{\lambda} e^{\lambda x} + C
+\]
+
+Evaluating this from \(a\) to \(b\), we get:
+\[
+\int_{a}^{b} e^{\lambda x} \, dx = \left. \frac{1}{\lambda} e^{\lambda x} + C \right|_{a}^{b} = \frac{1}{\lambda} \left( e^{\lambda b} - e^{\lambda a} \right).
+\]
+
+Therefore,
+\[
+M_X(\lambda) = \frac{1}{b-a} \cdot \frac{1}{\lambda} \left( e^{\lambda b} - e^{\lambda a} \right) = \frac{e^{\lambda b} - e^{\lambda a}}{\lambda (b - a)}.
+\]
+
+This completes the proof that the moment generating function of a uniform random variable over \([a, b]\) is:
+\[
+M_X(\lambda) = \frac{e^{\lambda b} - e^{\lambda a}}{\lambda (b - a)}
+\]
+
 
 
 
@@ -302,16 +343,193 @@ This shows that being \(\sigma\)-SubGaussian is equivalent to having an MGF that
 \newpage
 \section*{Exercise 2}
 \begin{enumerate}
-\item Show that if \(X_i\) is \(\sigma_i\)-SubGaussian for \(i = 1, 2\) then \(X_1 + X_2\) is \((\sigma_1 + \sigma_2)\)-SubGaussian
+\item \textcolor{blueColor}{
+  Show that if \(X_i\) is \(\sigma_i\)-SubGaussian for \(i = 1, 2\) then \(X_1 + X_2\) is \((\sigma_1 + \sigma_2)\)-SubGaussian
 \footnote{Use the Hölder inequality \((\mathbb{E}[XY] \leq (\mathbb{E}[X^p])^{1/p} (\mathbb{E}[Y^q])^{1/q} \text{ if } \frac{1}{p} + \frac{1}{q} = 1 \text{ and } p, q \geq 0)\) 
-on \(\mathbb{E}[e^{\lambda (X - \mathbb{E}[X])} e^{\lambda (Y - \mathbb{E}[Y])}]\)}.
+on \(\mathbb{E}[e^{\lambda (X - \mathbb{E}[X])} e^{\lambda (Y - \mathbb{E}[Y])}]\)}.} 
+
+Let \(X_1\) and \(X_2\) be \(\sigma_1\)-SubGaussian and \(\sigma_2\)-SubGaussian random variables, respectively. 
+
+This means that for any \(\lambda \in \mathbb{R}\),
+\[
+\mathbb{E}\left[e^{\lambda (X_1 - \mathbb{E}[X_1])}\right] \leq e^{\frac{\lambda^2 \sigma_1^2}{2}} \quad \text{and} 
+\quad \mathbb{E}\left[e^{\lambda (X_2 - \mathbb{E}[X_2])}\right] \leq e^{\frac{\lambda^2 \sigma_2^2}{2}}
+\]
+
+We need to show that \(X_1 + X_2\) is \((\sigma_1 + \sigma_2)\)-SubGaussian, i.e.,
+\[
+\mathbb{E}\left[e^{\lambda (X_1 + X_2 - \mathbb{E}[X_1 + X_2])}\right] \leq e^{\frac{\lambda^2 (\sigma_1 + \sigma_2)^2}{2}}
+\]
+
+Consider the expectation:
+\[
+\mathbb{E}\left[e^{\lambda (X_1 + X_2 - \mathbb{E}[X_1] - \mathbb{E}[X_2])}\right] = \mathbb{E}\left[e^{\lambda (X_1 - \mathbb{E}[X_1])} e^{\lambda (X_2 - \mathbb{E}[X_2])}\right]
+\]
+
+Using Hölder's inequality with \(p = q = 2\) (since \(\frac{1}{p} + \frac{1}{q} = 1\) and \(p, q \geq 0\)), we get:
+\[
+\mathbb{E}\left[e^{\lambda (X_1 - \mathbb{E}[X_1])} e^{\lambda (X_2 - \mathbb{E}[X_2])}\right] \leq 
+\left(\mathbb{E}\left[e^{2\lambda (X_1 - \mathbb{E}[X_1])}\right]\right)^{1/2} \left(\mathbb{E}\left[e^{2\lambda (X_2 - \mathbb{E}[X_2])}\right]\right)^{1/2}
+\]
+
+Since \(X_1\) is \(\sigma_1\)-SubGaussian and \(X_2\) is \(\sigma_2\)-SubGaussian, we have:
+\[
+\mathbb{E}\left[e^{2\lambda (X_1 - \mathbb{E}[X_1])}\right] \leq e^{2\lambda^2 \sigma_1^2} \quad \text{and} 
+\quad \mathbb{E}\left[e^{2\lambda (X_2 - \mathbb{E}[X_2])}\right] \leq e^{2\lambda^2 \sigma_2^2}
+\]
+
+Therefore,
+\[
+\mathbb{E}\left[e^{\lambda (X_1 + X_2 - \mathbb{E}[X_1 + X_2])}\right] \leq \left(e^{2\lambda^2 \sigma_1^2}\right)^{1/2} \left(e^{2\lambda^2 \sigma_2^2}\right)^{1/2} = e^{\lambda^2 \sigma_1^2} e^{\lambda^2 \sigma_2^2} = e^{\lambda^2 (\sigma_1^2 + \sigma_2^2)}.
+\]
+
+To show that \(X_1 + X_2\) is \((\sigma_1 + \sigma_2)\)-SubGaussian, we use the triangle inequality for the variance:
+\[
+\sigma_1^2 + \sigma_2^2 \leq (\sigma_1 + \sigma_2)^2
+\]
+
+Thus,
+\[
+\mathbb{E}\left[e^{\lambda (X_1 + X_2 - \mathbb{E}[X_1 + X_2])}\right] \leq e^{\lambda^2 (\sigma_1 + \sigma_2)^2}.
+\]
+
+Hence, \(X_1 + X_2\) is \((\sigma_1 + \sigma_2)\)-SubGaussian.
+
+
+
+
+
+
+
+
 
 
 
 \newpage
+\textcolor{blueColor}{
 \item For a sub-Gaussian random variable \(X\), define \(\|X\|_{vp}\) as the minimal \(\sigma\) for which \(X\) is \(\sigma\)-SubGaussian. 
 Show that \(\|\cdot\|_{vp}\) is a norm on the space of centered sub-Gaussian random variables. This norm is called the Proxy Variance norm and \(\|X\|_{vp}\) 
 is called the optimal proxy variance of \(X\).
+}
+
+\bigbreak
+
+To show that \(\|\cdot\|_{vp}\) is a norm, we need to verify the following properties for all centered sub-Gaussian random variables \(X\) and \(Y\):
+\begin{enumerate}
+  \item \textbf{Positivity}: \(\|X\|_{vp} \geq 0\) and \(\|X\|_{vp} = 0\) if and only if \(X = 0\) almost surely.
+  \item \textbf{Homogeneity}: \(\|aX\|_{vp} = |a| \|X\|_{vp}\).
+  \item \textbf{Triangle Inequality}: \(\|X + Y\|_{vp} \leq \|X\|_{vp} + \|Y\|_{vp}\).
+\end{enumerate}
+
+\paragraph{Positivity} 
+
+By definition, \(\|X\|_{vp}\) is the minimal \(\sigma\) such that \(X\) is \(\sigma\)-SubGaussian. 
+
+Since the variance of \(X\) is non-negative, \(\sigma\) must also be non-negative. Therefore, \(\|X\|_{vp} \geq 0\). 
+
+
+If \(X = 0\) almost surely, then \(X\) is deterministically zero, meaning it has no variability and does not deviate from its mean. 
+Therefore, it is trivially \(\sigma\)-SubGaussian for any \(\sigma\), and hence \(\|X\|_{vp} = 0\). 
+
+Conversely, if \(\|X\|_{vp} = 0\), then by definition, for all \(\lambda \in \mathbb{R}\),
+\[
+\mathbb{E}\left[e^{\lambda X}\right] \leq e^{\frac{\lambda^2 \cdot 0^2}{2}} = 1
+\]
+The moment generating function of \(X\), \(\mathbb{E}\left[e^{\lambda X}\right]\), being less than or equal to 1 for all \(\lambda\) implies that \(X\) must be zero almost surely. This is because the only random variable with this property is the constant zero. If \(X\) had any non-zero value with non-zero probability, the expectation \(\mathbb{E}\left[e^{\lambda X}\right]\) would exceed 1 for some \(\lambda\). Hence, \(\|X\|_{vp} = 0\) implies that \(X = 0\) almost surely.
+
+
+
+
+\paragraph{Homogeneity}
+Let \(a \in \mathbb{R}\) and \(X\) be a centered sub-Gaussian random variable. We need to show that \(\|aX\|_{vp} = |a| \|X\|_{vp}\).
+
+\textbf{Step 1: \(\|aX\|_{vp} \leq |a| \|X\|_{vp}\)}
+
+Assume \(\|X\|_{vp} = \sigma\). This means that for all \(\lambda \in \mathbb{R}\),
+\[
+\mathbb{E}\left[e^{\lambda X}\right] \leq e^{\frac{\lambda^2 \sigma^2}{2}}
+\]
+
+We need to show that \(aX\) is \(|a|\sigma\)-SubGaussian. Consider the moment generating function of \(aX\):
+\[
+\mathbb{E}\left[e^{\lambda (aX)}\right] = \mathbb{E}\left[e^{a\lambda X}\right]
+\]
+
+Using the sub-Gaussian property of \(X\) and the fact that \(a\) is a constant and $a\lambda$ spans that same range as $\lambda$, we have:
+\[
+\mathbb{E}\left[e^{a\lambda X}\right] \leq e^{\frac{(a\lambda)^2 \sigma^2}{2}} = e^{\frac{\lambda^2 a^2 \sigma^2}{2}} = e^{\frac{\lambda^2 (|a|\sigma)^2}{2}}
+\]
+
+This shows that \(aX\) is \(|a|\sigma\)-SubGaussian. Therefore, $\|aX\|_{vp} \leq |a| \|X\|_{vp}$. 
+
+\textbf{Step 2: \(\|aX\|_{vp} \geq |a| \|X\|_{vp}\)}
+
+If $a = 0$, then $aX = 0$ almost surely, and $\|aX\|_{vp} = 0 = |a| \|X\|_{vp}$.
+
+Otherwise, Assume \(aX\) is \(\tau\)-SubGaussian for some \(\tau \geq 0\). This means that for all \(\lambda \in \mathbb{R}\),
+\[
+\mathbb{E}\left[e^{\lambda (aX)}\right] \leq e^{\frac{\lambda^2 \tau^2}{2}}.
+\]
+
+Consider \(\lambda' = \frac{\lambda}{a}\):
+\[
+\mathbb{E}\left[e^{\lambda X}\right] = \mathbb{E}\left[e^{\lambda' aX}\right] \leq e^{\frac{(\lambda')^2 \tau^2}{2}} = e^{\frac{\lambda^2 \tau^2}{2a^2}}
+\]
+
+By the definition of the sub-Gaussian property of \(X\), we must have:
+\[
+\frac{\tau^2}{a^2} \geq \sigma^2 \quad \Rightarrow \quad \tau \geq |a| \sigma.
+\]
+
+Therefore, $\|aX\|_{vp} \geq |a| \|X\|_{vp}$.
+
+Combining both steps, we have shown that \(\|aX\|_{vp} = |a| \|X\|_{vp}\).
+
+
+
+\paragraph{Triangle Inequality}
+Let \(X\) and \(Y\) be centered sub-Gaussian random variables with \(\|X\|_{vp} = \sigma_X\) and \(\|Y\|_{vp} = \sigma_Y\). We need to show that \(X + Y\) is \((\sigma_X + \sigma_Y)\)-SubGaussian.
+
+Using the properties of sub-Gaussian random variables, we know that:
+\[
+\mathbb{E}\left[e^{\lambda (X + Y)}\right] = \mathbb{E}\left[e^{\lambda X} e^{\lambda Y}\right].
+\]
+
+Using Hölder's inequality with \(p = q = 2\) (since \(\frac{1}{p} + \frac{1}{q} = 1\)), we get:
+\[
+\mathbb{E}\left[e^{\lambda X} e^{\lambda Y}\right] \leq \left(\mathbb{E}\left[e^{2\lambda X}\right]\right)^{1/2} \left(\mathbb{E}\left[e^{2\lambda Y}\right]\right)^{1/2}.
+\]
+
+Since \(X\) is \(\sigma_X\)-SubGaussian and \(Y\) is \(\sigma_Y\)-SubGaussian, we have:
+\[
+\mathbb{E}\left[e^{2\lambda X}\right] \leq e^{2\lambda^2 \sigma_X^2} \quad \text{and} \quad \mathbb{E}\left[e^{2\lambda Y}\right] \leq e^{2\lambda^2 \sigma_Y^2}.
+\]
+
+Therefore,
+\[
+\mathbb{E}\left[e^{\lambda (X + Y)}\right] \leq \left(e^{2\lambda^2 \sigma_X^2}\right)^{1/2} \left(e^{2\lambda^2 \sigma_Y^2}\right)^{1/2} = e^{\lambda^2 \sigma_X^2} e^{\lambda^2 \sigma_Y^2} = e^{\lambda^2 (\sigma_X^2 + \sigma_Y^2)}.
+\]
+
+To show that \(X + Y\) is \((\sigma_X + \sigma_Y)\)-SubGaussian, we use the inequality:
+\[
+\sigma_X^2 + \sigma_Y^2 \leq (\sigma_X + \sigma_Y)^2.
+\]
+
+Thus,
+\[
+\mathbb{E}\left[e^{\lambda (X + Y)}\right] \leq e^{\lambda^2 (\sigma_X + \sigma_Y)^2}.
+\]
+
+Therefore, \(\|X + Y\|_{vp} \leq \|X\|_{vp} + \|Y\|_{vp}\).
+
+Since \(\|\cdot\|_{vp}\) satisfies positivity, homogeneity, and the triangle inequality, it is a norm on the space of centered sub-Gaussian random variables. This norm is called the Proxy Variance norm and \(\|X\|_{vp}\) is called the optimal proxy variance of \(X\).
+
+
+
+
+
+
+
 
 
 
@@ -320,36 +538,65 @@ is called the optimal proxy variance of \(X\).
 \newpage
 \section*{Exercise 3}
 \begin{enumerate}
-\item Let \(X\) be a \(\sigma\)-SubGaussian random variable. Show that
+\item \textcolor{blueColor}{Let \(X\) be a \(\sigma\)-SubGaussian random variable. Show that
 \footnote{Hint: You can use the fact that for twice differentiable \( f \) and \( g \), we have that if \( f(0) = g(0) \), \( f'(0) = g'(0) \) and \( f(x) \leq g(x) \) then \( f''(0) \leq g''(0) \)}
-\(2\sigma \geq \sqrt{\mathrm{var}(X)}\).
+\(2\sigma \geq \sqrt{\mathrm{var}(X)}\).}
+
+
+
+
+
+
+
+
+
 
 
 
 \newpage
-\item If \(\|X\|_{vp} = \sqrt{\mathrm{var}(X)}\), then \(X\) is called strictly sub-Gaussian. 
-Show that if \(X\) is uniform on \(\{-1, 1\}\), then it is strictly sub-Gaussian. Conclude that the bound in Hoeffding's lemma is optimal.
+\item \textcolor{blueColor}{If \(\|X\|_{vp} = \sqrt{\mathrm{var}(X)}\), then \(X\) is called strictly sub-Gaussian. 
+Show that if \(X\) is uniform on \(\{-1, 1\}\), then it is strictly sub-Gaussian. Conclude that the bound in Hoeffding's lemma is optimal.}
+
+
+
 
 
 
 \newpage
-\item Show that a linear combination of independent strictly sub-Gaussians is strictly sub-Gaussian.
+\item \textcolor{blueColor}{Show that a linear combination of independent strictly sub-Gaussians is strictly sub-Gaussian.}
+
+
 
 
 
 \newpage
-\item Show that for any \(M \geq 1\), there is a random variable \(X\) with \(\mathrm{var}(X) = 1\) and \(\|X\|_{vp} = M\).
+\item \textcolor{blueColor}{Show that for any \(M \geq 1\), there is a random variable \(X\) with \(\mathrm{var}(X) = 1\) and \(\|X\|_{vp} = M\).}
+
+
+
+
+
+
+
+
 \end{enumerate}
 
 \newpage
 \section*{Exercise 4}
+\textcolor{blueColor}{
 Show that there is a universal constant \(C > 0\) for which the following holds. If \(X\) is a random variable such that for any \(t \geq 0\),
-
 \[
 \Pr(X - \mathbb{E}[X] \geq t) \leq e^{-\frac{t^2}{2\sigma^2}} \quad \text{and} \quad \Pr(X - \mathbb{E}[X] \leq -t) \leq e^{-\frac{t^2}{2\sigma^2}}
 \]
-
 then \(X\) is \((C\sigma)\)-SubGaussian\footnote{Hint: You may use the fact that for a non-negative random variable \(Y\), \(\mathbb{E}[Y] = \int_0^\infty \Pr(Y \geq x)dx\)}.
+}
+
+
+
+
+
+
+
 
 
 \end{document}
