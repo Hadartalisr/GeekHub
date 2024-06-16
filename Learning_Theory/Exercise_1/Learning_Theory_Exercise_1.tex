@@ -1108,12 +1108,12 @@ For \(\lambda > 0\), we consider the moment generating function (MGF) of \(Z\):
 Using the definition of the expectation and properties of the probability, we have:
 
 \begin{align*}
-\mathbb{E}[e^{\lambda Z}] &= \int_0^\infty \Pr(e^{\lambda Z} \geq t) \, dt \\
-&= \int_0^\infty \Pr(\lambda Z \geq \log t) \, dt \\
-&= \int_0^\infty \Pr\left(Z \geq \frac{\log t}{\lambda}\right) \, dt.
+\mathbb{E}[e^{\lambda Z}] \stackrel{\text{step 1}}{=} &\int_0^\infty \Pr(e^{\lambda Z} \geq t) \, dt \\
+\stackrel{\text{log is monotone increasing}}{=} &\int_0^\infty \Pr(\lambda Z \geq \log t) \, dt \\
+\stackrel{\lambda > 0}{=} &\int_0^\infty \Pr\left(Z \geq \frac{\log t}{\lambda}\right) \, dt.
 \end{align*}
 
-Given that \(\Pr(Y \geq t) \leq e^{-\frac{t^2}{2\sigma^2}}\), we can bound the probability:
+Given that \(\Pr(Z \geq t) \leq e^{-\frac{t^2}{2\sigma^2}}\), we can bound the probability:
 
 \[
 \mathbb{E}[e^{\lambda Z}] \leq \int_0^\infty e^{-\frac{(\log t)^2}{2\lambda^2 \sigma^2}} \, dt.
@@ -1129,14 +1129,17 @@ To simplify the integral, we perform a change of variables. Let \(u = \log t\), 
 &= e^{\frac{\lambda^2 \sigma^2}{2}} \int_{-\infty}^{\infty} e^{-\frac{1}{2\lambda^2 \sigma^2}(u - \lambda^2 \sigma^2)^2} \, du.
 \end{align*}
 
-The integral now represents the Gaussian integral with mean \(\lambda^2 \sigma^2\) and variance \(\lambda^2 \sigma^2\). Since the Gaussian integral over the entire real line is \(\sqrt{2\pi}\) times the standard deviation, we get:
+The integral now represents the Gaussian integral with mean \(\lambda^2 \sigma^2\) and variance \(\lambda^2 \sigma^2\). 
+Since the Gaussian integral over the entire real line is \(\sqrt{2\pi}\) times the standard deviation, we get:
 
 \begin{align*}
 \mathbb{E}[e^{\lambda Z}] &\leq e^{\frac{\lambda^2 \sigma^2}{2}} \cdot \sqrt{2\pi \lambda^2 \sigma^2} \\
 &= e^{\frac{\lambda^2 \sigma^2}{2}} \cdot \lambda \sigma \sqrt{2\pi}.
 \end{align*}
 
-At this point, we need to ensure that this expression fits the form \(e^{\frac{\lambda^2 C^2 \sigma^2}{2}}\). This means we need to show that:
+At this point, we need to ensure that this expression fits the form \(e^{\frac{\lambda^2 C^2 \sigma^2}{2}}\). 
+
+This means we need to show that \(\exists C > 0\) such that \(\forall \lambda, \sigma > 0\):
 
 \[
 \sqrt{2\pi} \cdot \lambda \sigma \leq e^{\frac{\lambda^2 (C^2 - 1) \sigma^2}{2}}.
@@ -1151,8 +1154,8 @@ We get the following inequality:
 \begin{align*}  
 &\exists D > 0 \quad {s.t} \quad \forall \lambda , \sigma >0 \quad &\sqrt{2\pi} \cdot \lambda \sigma \leq e^{\frac{\lambda^2 D \sigma^2}{2}} \iff \\
 &\exists D > 0 \quad {s.t} \quad \forall \lambda , \sigma >0 \quad &\log(\sqrt{2\pi} \cdot \lambda \sigma) \leq \frac{\lambda^2 D \sigma^2}{2} \iff \\
-&\exists D > 0 \quad {s.t} \quad \forall \lambda , \sigma >0 \quad &2\log(\sqrt{2\pi}) + 2\log(\lambda * \sigma) \leq \lambda^2 D \sigma^2 \iff \\
-&\exists D > 0 \quad {s.t} \quad \forall \lambda , \sigma >0 \quad &\frac{2\log(\sqrt{2\pi}) + 2\log(\lambda * \sigma)}{(\lambda \sigma)^2} \leq D \iff \\
+&\exists D > 0 \quad {s.t} \quad \forall \lambda , \sigma >0 \quad &2\log(\sqrt{2\pi}) + 2\log(\lambda \sigma) \leq \lambda^2 D \sigma^2 \iff \\
+&\exists D > 0 \quad {s.t} \quad \forall \lambda , \sigma >0 \quad &\frac{2\log(\sqrt{2\pi}) + 2\log(\lambda \sigma)}{(\lambda \sigma)^2} \leq D \iff \\
 &\exists D > 0 \quad {s.t} \quad \forall x >0  &\frac{2\log(\sqrt{2\pi}) + 2\log(x)}{x^2} \leq D.
 \end{align*}
 
@@ -1209,5 +1212,57 @@ Therefore, the function is bounded above by the value at this point:
   f\left(\sqrt{\frac{e}{2\pi}}\right) &= \frac{2\log(\sqrt{2\pi}) + 2\log\left(\sqrt{\frac{e}{2\pi}}\right)}{\left(\sqrt{\frac{e}{2\pi}}\right)^2} 
   = \frac{2\log(\sqrt{2\pi}) + 2\log\left(\sqrt{e}\right) - 2\log\left(\sqrt{2\pi}\right)}{\frac{e}{2\pi}} = \frac{2\pi}{e} \approx 2.31
 \end{align*}
+
+Therefore, we have shown that for all $\lambda, \sigma > 0$:
+
+\[
+\mathbb{E}[e^{\lambda Z}] \leq  e^{\frac{\lambda^2 (1 + 2\pi/e) \sigma^2}{2}}.
+\]
+
+This implies that \(Z\) is \((\sqrt{1 + 2\pi/e} \sigma)\)-SubGaussian for \(\lambda > 0\).
+
+\subsubsection*{Case 2: \(\lambda < 0\)}
+
+For \(\lambda < 0\), we consider the moment generating function (MGF) of \(Z\):
+
+\[
+\mathbb{E}[e^{\lambda Z}].
+\]
+
+Using the definition of the expectation and properties of the probability, we have:
+
+\begin{align*}
+\mathbb{E}[e^{\lambda Z}] \stackrel{\text{step 1}}{=} &\int_0^\infty \Pr(e^{\lambda Z} \geq t) \, dt \\
+\stackrel{\text{log is monotone increasing}}{=} &\int_0^\infty \Pr(\lambda Z \geq \log t) \, dt \\
+\stackrel{\lambda < 0}{=} &\int_0^\infty \Pr\left(Z \leq \frac{\log t}{\lambda}\right) \, dt.
+\end{align*}
+
+Given that \(\Pr(Z \leq -t) \leq e^{-\frac{t^2}{2\sigma^2}}\), we can bound the probability:
+
+\[
+\mathbb{E}[e^{\lambda Z}] \leq \int_0^\infty e^{-\frac{(\log t)^2}{2\lambda^2 \sigma^2}} \, dt.
+\]
+
+And we have already shown that this integral is bounded by \(e^{\frac{\lambda^2 (1 + 2\pi/e) \sigma^2}{2}}\) 
+(as in the previous case - the sign of \(\lambda\) does not affect the bound since it is squared).
+
+Therefore, we have shown that \(Z\) is \((\sqrt{1 + 2\pi/e} \sigma)\)-SubGaussian for all \(\lambda \neq 0\).
+
+
+\subsubsection*{Case 3: \(\lambda = 0\)}
+
+For \(\lambda = 0\), the MGF of \(Z\) is:
+
+\[
+\mathbb{E}[e^{\lambda Z}] = \mathbb{E}[1] = 1 = e^0 \leq e^{\frac{\lambda^2 (1 + 2\pi/e) \sigma^2}{2}}.
+\]
+
+This implies that \(Z\) is \((\sqrt{1 + 2\pi/e} \sigma)\)-SubGaussian.
+
+
+\subsubsection*{Conclusion}
+
+We have shown that for any random variable \(X\) satisfying the given conditions, the random variable \(Z = X - \mathbb{E}[X]\) is \((\sqrt{1 + 2\pi/e} \sigma)\)-SubGaussian. 
+Therefore, there exists a universal constant \(C = \sqrt{1 + 2\pi/e}\) such that the given conditions imply that \(X\) is \((C\sigma)\)-SubGaussian.
 
 \end{document}
