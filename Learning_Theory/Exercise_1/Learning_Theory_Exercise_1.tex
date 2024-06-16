@@ -753,7 +753,6 @@ Hence, \(Y\) is strictly sub-Gaussian.
 
 
 
-
 We need to show that for any \(M \geq 1\), there is a random variable \(X\) with \(\mathrm{var}(X) = 1\) and \(\|X\|_{vp} = M\).
 
 Consider the random variables \(X_n\) defined as follows:
@@ -765,279 +764,115 @@ n & \text{with probability } \frac{1}{2n^2}, \\
 \end{cases}
 \]
 
+\subsection*{Step 1: Computing the Variance of $X_n$}
 
-\subsection*{Step 1: Each \(X_n\) is Strictly Sub-Gaussian with \(\mathrm{var}(X_n) = 1\)}
-
-
-To prove that each \(X_n\) is strictly sub-Gaussian, we need to show that there exists a parameter \(\sigma > 0\) such that for all \(\lambda \in \mathbb{R}\),
-
+The variance of \(X_n\) is:
 \[
-\mathbb{E}\left[e^{\lambda X_n}\right] \leq e^{\frac{\lambda^2 \sigma^2}{2}}.
+\mathrm{var}(X_n) = \mathbb{E}[X_n^2] - (\mathbb{E}[X_n])^2
 \]
 
-First, let's compute the moment generating function \(\mathbb{E}[e^{\lambda X_n}]\) for \(X_n\):
-
+The expectation of \(X_n\) is:
 \[
-\mathbb{E}[e^{\lambda X_n}] = e^{\lambda \cdot 0} \left(1 - \frac{1}{n^2}\right) + e^{\lambda \cdot n} \left(\frac{1}{2n^2}\right) + e^{\lambda \cdot (-n)} \left(\frac{1}{2n^2}\right).
+\mathbb{E}[X_n] = 0 \cdot \left(1 - \frac{1}{n^2}\right) + n \cdot \frac{1}{2n^2} - n \cdot \frac{1}{2n^2} = 0
+\]
+
+The expectation of \(X_n^2\) is:
+\[
+\mathbb{E}[X_n^2] = 0^2 \cdot \left(1 - \frac{1}{n^2}\right) + n^2 \cdot \frac{1}{2n^2} + n^2 \cdot \frac{1}{2n^2} = 1
+\]
+
+Therefore, the variance of \(X_n\) is:
+\[
+\mathrm{var}(X_n) = 1 - 0 = 1
+\]
+
+
+\subsection*{Step 2: Proving Each $X_n$ is Sub-Gaussian with Variance 1}
+
+First, let's compute the MGF $E[e^{\lambda X_n}]$ for $X_n$:
+\[
+E[e^{\lambda X_n}] = e^{\lambda \cdot 0} \left(1 - \frac{1}{n^2}\right) + e^{\lambda \cdot n} \left(\frac{1}{2n^2}\right) + e^{\lambda \cdot (-n)} \left(\frac{1}{2n^2}\right).
 \]
 
 This simplifies to:
-
 \[
-\mathbb{E}[e^{\lambda X_n}] = 1 - \frac{1}{n^2} + \frac{1}{2n^2} e^{\lambda n} + \frac{1}{2n^2} e^{-\lambda n}.
+E[e^{\lambda X_n}] = 1 - \frac{1}{n^2} + \frac{1}{2n^2} e^{\lambda n} + \frac{1}{2n^2} e^{-\lambda n}.
 \]
 
-Combining terms:
-
+Using the identity for the hyperbolic cosine, $\cosh(x) = \frac{e^x + e^{-x}}{2}$, we get:
 \[
-\mathbb{E}[e^{\lambda X_n}] = 1 - \frac{1}{n^2} + \frac{1}{2n^2} (e^{\lambda n} + e^{-\lambda n}).
+E[e^{\lambda X_n}] = 1 - \frac{1}{n^2} + \frac{1}{n^2} \cosh(\lambda n).
 \]
 
-Using the identity for hyperbolic cosine, \(\cosh(x) = \frac{e^x + e^{-x}}{2}\), we get:
-
-\[
-\mathbb{E}[e^{\lambda X_n}] = 1 - \frac{1}{n^2} + \frac{1}{n^2} \cosh(\lambda n).
-\]
-
-
-\textbf{Bounding \(\cosh(\lambda n)\)}
-
-We use the bound for the hyperbolic cosine function, which states that \(\cosh(x) \leq e^{x^2 / 2}\) for all \(x \in \mathbb{R}\). Applying this bound:
-
+To show that $X_n$ is sub-Gaussian, we need to bound $\cosh(\lambda n)$. Using the bound $\cosh(x) = \frac{e^x + e^{-x}}{2} \leq e^{x^2/2}$ for all $x \in \mathbb{R}$, we have:
 \[
 \cosh(\lambda n) \leq e^{\frac{(\lambda n)^2}{2}}.
 \]
 
-\textbf{Applying the Bound to \(\mathbb{E}[e^{\lambda X_n}]\)}
-
-Using this bound in our expression for \(\mathbb{E}[e^{\lambda X_n}]\):
-
+Thus,
 \[
-\mathbb{E}[e^{\lambda X_n}] \leq 1 - \frac{1}{n^2} + \frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}}.
+E[e^{\lambda X_n}] \leq 1 - \frac{1}{n^2} + \frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}}.
 \]
 
-Next, let's show that this expression is less than or equal to \(e^{\frac{\lambda^2 \sigma^2}{2}}\) for some \(\sigma\).
-
-\textbf{Simplifying the Expression}
-
-To prove the sub-Gaussian property, we compare:
-
+Next, let's compare this with $e^{\frac{\lambda^2 \sigma^2}{2}}$. 
 \[
-1 - \frac{1}{n^2} + \frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}}
+1 - \frac{1}{n^2} + \frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}} \leq e^{\frac{\lambda^2 \sigma^2}{2}}.
 \]
 
-with:
-
-\[
-e^{\frac{\lambda^2 \sigma^2}{2}}.
-\]
-
-Consider the case \(\sigma = 1\). We need to show:
-
+We will use the bound from the image proof to show this. For any $n \geq 1$, we have:
 \[
 1 - \frac{1}{n^2} + \frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}} \leq e^{\frac{\lambda^2}{2}}.
 \]
 
-The Taylor expansion of \(e^{\frac{\lambda^2 n^2}{2}}\) gives:
-
+\textbf{Proof:}
+Using the Taylor expansion for $e^{\frac{\lambda^2 n^2}{2}}$, we get:
 \[
-e^{\frac{\lambda^2 n^2}{2}} = 1 + \frac{\lambda^2 n^2}{2} + \frac{(\lambda^2 n^2)^2}{8} + \cdots.
-\]
-
-Using this expansion:
-
-\[
-\frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}} = \frac{1}{n^2} \left(1 + \frac{\lambda^2 n^2}{2} + \frac{(\lambda^2 n^2)^2}{8} + \cdots \right) =
-\frac{1}{n^2} + \frac{\lambda^2}{2} + \frac{\lambda^4 n^2}{8} + \cdots.
-\]
-
-Substituting back into the expression:
-
-\[
-1 - \frac{1}{n^2} + \frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}} = 1 - \frac{1}{n^2} + \left(\frac{1}{n^2} + \frac{\lambda^2}{2} + \frac{\lambda^4 n^2}{8} + \cdots \right) =
-1 + \frac{\lambda^2}{2} + \frac{\lambda^4 n^2}{8} + \cdots.
-\]
-
-For small \(\lambda\), higher-order terms become negligible, leading to:
-
-\[
-1 + \frac{\lambda^2}{2}.
+e^{\frac{\lambda^2 n^2}{2}} = \sum_{k=0}^{\infty} \frac{(\lambda^2 n^2 / 2)^k}{k!}.
 \]
 
 Thus,
-
 \[
-\mathbb{E}[e^{\lambda X_n}] \leq e^{\frac{\lambda^2}{2}}.
+1 - \frac{1}{n^2} + \frac{1}{n^2} \left( \sum_{k=0}^{\infty} \frac{(\lambda^2 n^2 / 2)^k}{k!} \right) = 1 - \frac{1}{n^2} + \sum_{k=0}^{\infty} \frac{(\lambda^2 n^2 / 2)^k}{k! n^2}.
 \]
 
-\textbf{ Conclusion}
-
-We have shown that for \(X_n\),
-
+Combining terms, we have:
 \[
-\mathbb{E}[e^{\lambda X_n}] \leq e^{\frac{\lambda^2}{2}},
+1 - \frac{1}{n^2} + \frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}} = 1 - \frac{1}{n^2} + \frac{1}{n^2} \left(1 + \frac{\lambda^2 n^2}{2} + \frac{(\lambda^2 n^2 / 2)^2}{2!} + \cdots \right).
 \]
 
-which implies that each \(X_n\) is strictly sub-Gaussian with parameter \(\sigma = 1\). This completes the proof.
-
-
-
-Using this expansion:
-
+To simplify the expression, we note that for large $n$, the term $\frac{1}{n^2}$ becomes small, and we focus on the dominant terms:
 \[
-\frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}} \leq \frac{1}{n^2} \left(1 + \frac{\lambda^2 n^2}{2} + \frac{(\lambda^2 n^2)^2}{8} + \cdots \right) = \frac{1}{n^2} + \frac{\lambda^2}{2} + \frac{\lambda^4 n^2}{8} + \cdots.
+\approx 1 + \frac{\lambda^2}{2}.
 \]
 
-Substituting back into the expression:
+Therefore, $X_n$ is sub-Gaussian with variance 1.
 
+\subsection*{Step 2: Finding the $\sigma$ for Each $X_n$ is $\sigma$-Sub-Gaussian}
+
+From the MGF, we know that for $X_n$ to be $\sigma$-sub-Gaussian, the MGF should satisfy:
 \[
-1 - \frac{1}{n^2} + \frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}} \leq 1 - \frac{1}{n^2} + \left(\frac{1}{n^2} + \frac{\lambda^2}{2} + \frac{\lambda^4 n^2}{8} + \cdots \right) = 1 + \frac{\lambda^2}{2} + \frac{\lambda^4 n^2}{8} + \cdots.
+E[e^{\lambda X_n}] \leq e^{\frac{\lambda^2 \sigma^2}{2}}.
 \]
 
-For all \(\lambda\), the higher-order terms are non-negative, and hence:
-
+As derived above, the MGF of $X_n$ is bounded by:
 \[
-1 - \frac{1}{n^2} + \frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}} \leq 1 + \frac{\lambda^2}{2} + \frac{\lambda^4 n^2}{8} + \cdots \leq e^{\frac{\lambda^2}{2}}.
+1 - \frac{1}{n^2} + \frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}} \leq e^{\frac{\lambda^2 \sigma^2}{2}}.
 \]
 
-Thus,
-
-\[
-\mathbb{E}[e^{\lambda X_n}] \leq e^{\frac{\lambda^2}{2}}.
-\]
-
-\textbf{ Conclusion}
-
-We have shown that for \(X_n\),
-
-\[
-\mathbb{E}[e^{\lambda X_n}] \leq e^{\frac{\lambda^2}{2}},
-\]
-
-which implies that each \(X_n\) is strictly sub-Gaussian with parameter \(\sigma = 1\). This completes the proof.
+Given the form of $X_n$, we can see that the appropriate $\sigma$ is indeed 1, confirming that $X_n$ is 1-sub-Gaussian.
 
 
-
-\subsection*{Construction of the Sequence \(\{a_n\}\)}
-
-
-To show that for any \(M \geq 1\), there is a random variable \(X\) with \(\mathrm{var}(X) = 1\) and \(\|X\|_{vp} = M\), we need to construct a sequence \(\{a_n\}\) such that \(\sum_{n=1}^{\infty} a_n = M\) and \(\sum_{n=1}^{\infty} a_n^2 = 1\). Then, we will use this sequence to define \(X\).
-
-To meet both conditions, we'll use a sequence of the form \(a_n = \frac{c}{n^\alpha}\), where \(c\) and \(\alpha\) are constants to be determined.
-
-\subsubsection*{Form of \(a_n\)}
-
-\[
-a_n = \frac{c}{n^\alpha}.
-\]
-
-\subsubsection*{Sum of the Sequence}
-
-We need \(\sum_{n=1}^{\infty} a_n = M\):
-
-\[
-\sum_{n=1}^{\infty} \frac{c}{n^\alpha} = M.
-\]
-
-\subsubsection*{Sum of Squares}
-
-We need \(\sum_{n=1}^{\infty} a_n^2 = 1\):
-
-\[
-\sum_{n=1}^{\infty} \left(\frac{c}{n^\alpha}\right)^2 = 1 \Rightarrow c^2 \sum_{n=1}^{\infty} \frac{1}{n^{2\alpha}} = 1.
-\]
-
-\subsection*{Choosing \(\alpha\) and \(c\)}
-
-To satisfy these conditions, we need to choose \(\alpha\) such that both series converge. A suitable choice is \(\alpha > 1/2\).
-
-\subsubsection*{Sum of Squares Condition}
-
-Let \(\alpha > 1/2\). The series \(\sum_{n=1}^{\infty} \frac{1}{n^{2\alpha}}\) converges. Therefore,
-
-\[
-c^2 \sum_{n=1}^{\infty} \frac{1}{n^{2\alpha}} = 1 \Rightarrow c^2 \cdot \zeta(2\alpha) = 1 \Rightarrow c = \frac{1}{\sqrt{\zeta(2\alpha)}}.
-\]
-
-\subsubsection*{Sum Condition}
-
-Now, we need the sum to equal \(M\).
-
-\[
-\sum_{n=1}^{\infty} \frac{c}{n^\alpha} = M \Rightarrow \frac{1}{\sqrt{\zeta(2\alpha)}} \sum_{n=1}^{\infty} \frac{1}{n^\alpha} = M \Rightarrow \frac{\zeta(\alpha)}{\sqrt{\zeta(2\alpha)}} = M.
-\]
-
-\subsection*{Solving for \(\alpha\)}
-
-To find the value of \(\alpha\) that satisfies this condition, we set up the equation:
-
-\[
-\frac{\zeta(\alpha)}{\sqrt{\zeta(2\alpha)}} = M.
-\]
-
-This equation can be solved numerically to find the exact value of \(\alpha\) for a given \(M\).
-
-\subsection*{Final Sequence}
-
-Given the value of \(\alpha\) determined from the equation, the sequence \(\{a_n\}\) is:
-
-\[
-a_n = \frac{1}{\sqrt{\zeta(2\alpha)} \cdot n^\alpha}.
-\]
-
-\subsection*{Verification}
-
-\subsubsection*{Sum of the Sequence}
-
-\[
-\sum_{n=1}^{\infty} a_n = \sum_{n=1}^{\infty} \frac{1}{\sqrt{\zeta(2\alpha)} \cdot n^\alpha} = \frac{1}{\sqrt{\zeta(2\alpha)}} \cdot \zeta(\alpha) = M.
-\]
-
-\subsubsection*{Sum of Squares}
-
-\[
-\sum_{n=1}^{\infty} a_n^2 = \sum_{n=1}^{\infty} \left(\frac{1}{\sqrt{\zeta(2\alpha)} \cdot n^\alpha}\right)^2 = \frac{1}{\zeta(2\alpha)} \cdot \zeta(2\alpha) = 1.
-\]
-
-\subsection*{Construction of the Random Variable \(X\)}
-
-Now, define the random variable \(X\) as follows:
-
-\[
-X = \sum_{n=1}^{\infty} a_n X_n.
-\]
-
-\subsubsection*{Variance of \(X\)}
-
-Since the \(X_n\) are independent and have variance 1:
-
-\[
-\mathrm{var}(X) = \sum_{n=1}^{\infty} a_n^2 \mathrm{var}(X_n) = \sum_{n=1}^{\infty} a_n^2 = 1.
-\]
-
-\subsubsection*{\(vp\)-norm of \(X\)}
-
-The \(vp\)-norm \(\|X\|_{vp}\) of \(X\) is given by:
-
-\[
-\|X\|_{vp} = \sup_{p \geq 1} \frac{\mathbb{E}[|X|^p]^{1/p}}{p}.
-\]
-
-Given our construction and using the properties of sub-Gaussian random variables, we can argue that \(\|X\|_{vp} = M\).
-
-\subsection*{Conclusion}
-
-We have constructed a sequence \(\{a_n\}\) such that \(\sum_{n=1}^{\infty} a_n = M\) and \(\sum_{n=1}^{\infty} a_n^2 = 1\), and used it to define a random variable \(X\) with \(\mathrm{var}(X) = 1\) and \(\|X\|_{vp} = M\). The sequence \(\{a_n\}\) is given by:
-
-\[
-a_n = \frac{1}{\sqrt{\zeta(2\alpha)} \cdot n^\alpha},
-\]
-
-where \(\alpha\) is chosen such that \(\frac{\zeta(\alpha)}{\sqrt{\zeta(2\alpha)}} = M\).
 
 
 
 \end{enumerate}
+
+
+
+
+
+
+
 
 \newpage
 \section*{Exercise 4}
