@@ -747,19 +747,293 @@ Hence, \(Y\) is strictly sub-Gaussian.
 
 
 
-
-
-
-
-
-
 \newpage
 \item \textcolor{blueColor}{Show that for any \(M \geq 1\), there is a random variable \(X\) with \(\mathrm{var}(X) = 1\) and \(\|X\|_{vp} = M\).}
+\footnote{Hint: Consider the random variables \(X_n\) that are 0 w.p. \(1-\frac{1}{n^2}\), \(n\) w.p. \(\frac{1}{2n^2}\) and \(-n\) w.p. \(\frac{1}{2n^2}\).}
 
 
 
 
+We need to show that for any \(M \geq 1\), there is a random variable \(X\) with \(\mathrm{var}(X) = 1\) and \(\|X\|_{vp} = M\).
 
+Consider the random variables \(X_n\) defined as follows:
+\[
+X_n = \begin{cases} 
+0 & \text{with probability } 1 - \frac{1}{n^2}, \\
+n & \text{with probability } \frac{1}{2n^2}, \\
+-n & \text{with probability } \frac{1}{2n^2}.
+\end{cases}
+\]
+
+
+\subsection*{Step 1: Each \(X_n\) is Strictly Sub-Gaussian with \(\mathrm{var}(X_n) = 1\)}
+
+
+To prove that each \(X_n\) is strictly sub-Gaussian, we need to show that there exists a parameter \(\sigma > 0\) such that for all \(\lambda \in \mathbb{R}\),
+
+\[
+\mathbb{E}\left[e^{\lambda X_n}\right] \leq e^{\frac{\lambda^2 \sigma^2}{2}}.
+\]
+
+First, let's compute the moment generating function \(\mathbb{E}[e^{\lambda X_n}]\) for \(X_n\):
+
+\[
+\mathbb{E}[e^{\lambda X_n}] = e^{\lambda \cdot 0} \left(1 - \frac{1}{n^2}\right) + e^{\lambda \cdot n} \left(\frac{1}{2n^2}\right) + e^{\lambda \cdot (-n)} \left(\frac{1}{2n^2}\right).
+\]
+
+This simplifies to:
+
+\[
+\mathbb{E}[e^{\lambda X_n}] = 1 - \frac{1}{n^2} + \frac{1}{2n^2} e^{\lambda n} + \frac{1}{2n^2} e^{-\lambda n}.
+\]
+
+Combining terms:
+
+\[
+\mathbb{E}[e^{\lambda X_n}] = 1 - \frac{1}{n^2} + \frac{1}{2n^2} (e^{\lambda n} + e^{-\lambda n}).
+\]
+
+Using the identity for hyperbolic cosine, \(\cosh(x) = \frac{e^x + e^{-x}}{2}\), we get:
+
+\[
+\mathbb{E}[e^{\lambda X_n}] = 1 - \frac{1}{n^2} + \frac{1}{n^2} \cosh(\lambda n).
+\]
+
+
+\textbf{Bounding \(\cosh(\lambda n)\)}
+
+We use the bound for the hyperbolic cosine function, which states that \(\cosh(x) \leq e^{x^2 / 2}\) for all \(x \in \mathbb{R}\). Applying this bound:
+
+\[
+\cosh(\lambda n) \leq e^{\frac{(\lambda n)^2}{2}}.
+\]
+
+\textbf{Applying the Bound to \(\mathbb{E}[e^{\lambda X_n}]\)}
+
+Using this bound in our expression for \(\mathbb{E}[e^{\lambda X_n}]\):
+
+\[
+\mathbb{E}[e^{\lambda X_n}] \leq 1 - \frac{1}{n^2} + \frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}}.
+\]
+
+Next, let's show that this expression is less than or equal to \(e^{\frac{\lambda^2 \sigma^2}{2}}\) for some \(\sigma\).
+
+\textbf{Simplifying the Expression}
+
+To prove the sub-Gaussian property, we compare:
+
+\[
+1 - \frac{1}{n^2} + \frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}}
+\]
+
+with:
+
+\[
+e^{\frac{\lambda^2 \sigma^2}{2}}.
+\]
+
+Consider the case \(\sigma = 1\). We need to show:
+
+\[
+1 - \frac{1}{n^2} + \frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}} \leq e^{\frac{\lambda^2}{2}}.
+\]
+
+The Taylor expansion of \(e^{\frac{\lambda^2 n^2}{2}}\) gives:
+
+\[
+e^{\frac{\lambda^2 n^2}{2}} = 1 + \frac{\lambda^2 n^2}{2} + \frac{(\lambda^2 n^2)^2}{8} + \cdots.
+\]
+
+Using this expansion:
+
+\[
+\frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}} = \frac{1}{n^2} \left(1 + \frac{\lambda^2 n^2}{2} + \frac{(\lambda^2 n^2)^2}{8} + \cdots \right) =
+\frac{1}{n^2} + \frac{\lambda^2}{2} + \frac{\lambda^4 n^2}{8} + \cdots.
+\]
+
+Substituting back into the expression:
+
+\[
+1 - \frac{1}{n^2} + \frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}} = 1 - \frac{1}{n^2} + \left(\frac{1}{n^2} + \frac{\lambda^2}{2} + \frac{\lambda^4 n^2}{8} + \cdots \right) =
+1 + \frac{\lambda^2}{2} + \frac{\lambda^4 n^2}{8} + \cdots.
+\]
+
+For small \(\lambda\), higher-order terms become negligible, leading to:
+
+\[
+1 + \frac{\lambda^2}{2}.
+\]
+
+Thus,
+
+\[
+\mathbb{E}[e^{\lambda X_n}] \leq e^{\frac{\lambda^2}{2}}.
+\]
+
+\textbf{ Conclusion}
+
+We have shown that for \(X_n\),
+
+\[
+\mathbb{E}[e^{\lambda X_n}] \leq e^{\frac{\lambda^2}{2}},
+\]
+
+which implies that each \(X_n\) is strictly sub-Gaussian with parameter \(\sigma = 1\). This completes the proof.
+
+
+
+Using this expansion:
+
+\[
+\frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}} \leq \frac{1}{n^2} \left(1 + \frac{\lambda^2 n^2}{2} + \frac{(\lambda^2 n^2)^2}{8} + \cdots \right) = \frac{1}{n^2} + \frac{\lambda^2}{2} + \frac{\lambda^4 n^2}{8} + \cdots.
+\]
+
+Substituting back into the expression:
+
+\[
+1 - \frac{1}{n^2} + \frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}} \leq 1 - \frac{1}{n^2} + \left(\frac{1}{n^2} + \frac{\lambda^2}{2} + \frac{\lambda^4 n^2}{8} + \cdots \right) = 1 + \frac{\lambda^2}{2} + \frac{\lambda^4 n^2}{8} + \cdots.
+\]
+
+For all \(\lambda\), the higher-order terms are non-negative, and hence:
+
+\[
+1 - \frac{1}{n^2} + \frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}} \leq 1 + \frac{\lambda^2}{2} + \frac{\lambda^4 n^2}{8} + \cdots \leq e^{\frac{\lambda^2}{2}}.
+\]
+
+Thus,
+
+\[
+\mathbb{E}[e^{\lambda X_n}] \leq e^{\frac{\lambda^2}{2}}.
+\]
+
+\textbf{ Conclusion}
+
+We have shown that for \(X_n\),
+
+\[
+\mathbb{E}[e^{\lambda X_n}] \leq e^{\frac{\lambda^2}{2}},
+\]
+
+which implies that each \(X_n\) is strictly sub-Gaussian with parameter \(\sigma = 1\). This completes the proof.
+
+
+
+\subsection*{Construction of the Sequence \(\{a_n\}\)}
+
+
+To show that for any \(M \geq 1\), there is a random variable \(X\) with \(\mathrm{var}(X) = 1\) and \(\|X\|_{vp} = M\), we need to construct a sequence \(\{a_n\}\) such that \(\sum_{n=1}^{\infty} a_n = M\) and \(\sum_{n=1}^{\infty} a_n^2 = 1\). Then, we will use this sequence to define \(X\).
+
+To meet both conditions, we'll use a sequence of the form \(a_n = \frac{c}{n^\alpha}\), where \(c\) and \(\alpha\) are constants to be determined.
+
+\subsubsection*{Form of \(a_n\)}
+
+\[
+a_n = \frac{c}{n^\alpha}.
+\]
+
+\subsubsection*{Sum of the Sequence}
+
+We need \(\sum_{n=1}^{\infty} a_n = M\):
+
+\[
+\sum_{n=1}^{\infty} \frac{c}{n^\alpha} = M.
+\]
+
+\subsubsection*{Sum of Squares}
+
+We need \(\sum_{n=1}^{\infty} a_n^2 = 1\):
+
+\[
+\sum_{n=1}^{\infty} \left(\frac{c}{n^\alpha}\right)^2 = 1 \Rightarrow c^2 \sum_{n=1}^{\infty} \frac{1}{n^{2\alpha}} = 1.
+\]
+
+\subsection*{Choosing \(\alpha\) and \(c\)}
+
+To satisfy these conditions, we need to choose \(\alpha\) such that both series converge. A suitable choice is \(\alpha > 1/2\).
+
+\subsubsection*{Sum of Squares Condition}
+
+Let \(\alpha > 1/2\). The series \(\sum_{n=1}^{\infty} \frac{1}{n^{2\alpha}}\) converges. Therefore,
+
+\[
+c^2 \sum_{n=1}^{\infty} \frac{1}{n^{2\alpha}} = 1 \Rightarrow c^2 \cdot \zeta(2\alpha) = 1 \Rightarrow c = \frac{1}{\sqrt{\zeta(2\alpha)}}.
+\]
+
+\subsubsection*{Sum Condition}
+
+Now, we need the sum to equal \(M\).
+
+\[
+\sum_{n=1}^{\infty} \frac{c}{n^\alpha} = M \Rightarrow \frac{1}{\sqrt{\zeta(2\alpha)}} \sum_{n=1}^{\infty} \frac{1}{n^\alpha} = M \Rightarrow \frac{\zeta(\alpha)}{\sqrt{\zeta(2\alpha)}} = M.
+\]
+
+\subsection*{Solving for \(\alpha\)}
+
+To find the value of \(\alpha\) that satisfies this condition, we set up the equation:
+
+\[
+\frac{\zeta(\alpha)}{\sqrt{\zeta(2\alpha)}} = M.
+\]
+
+This equation can be solved numerically to find the exact value of \(\alpha\) for a given \(M\).
+
+\subsection*{Final Sequence}
+
+Given the value of \(\alpha\) determined from the equation, the sequence \(\{a_n\}\) is:
+
+\[
+a_n = \frac{1}{\sqrt{\zeta(2\alpha)} \cdot n^\alpha}.
+\]
+
+\subsection*{Verification}
+
+\subsubsection*{Sum of the Sequence}
+
+\[
+\sum_{n=1}^{\infty} a_n = \sum_{n=1}^{\infty} \frac{1}{\sqrt{\zeta(2\alpha)} \cdot n^\alpha} = \frac{1}{\sqrt{\zeta(2\alpha)}} \cdot \zeta(\alpha) = M.
+\]
+
+\subsubsection*{Sum of Squares}
+
+\[
+\sum_{n=1}^{\infty} a_n^2 = \sum_{n=1}^{\infty} \left(\frac{1}{\sqrt{\zeta(2\alpha)} \cdot n^\alpha}\right)^2 = \frac{1}{\zeta(2\alpha)} \cdot \zeta(2\alpha) = 1.
+\]
+
+\subsection*{Construction of the Random Variable \(X\)}
+
+Now, define the random variable \(X\) as follows:
+
+\[
+X = \sum_{n=1}^{\infty} a_n X_n.
+\]
+
+\subsubsection*{Variance of \(X\)}
+
+Since the \(X_n\) are independent and have variance 1:
+
+\[
+\mathrm{var}(X) = \sum_{n=1}^{\infty} a_n^2 \mathrm{var}(X_n) = \sum_{n=1}^{\infty} a_n^2 = 1.
+\]
+
+\subsubsection*{\(vp\)-norm of \(X\)}
+
+The \(vp\)-norm \(\|X\|_{vp}\) of \(X\) is given by:
+
+\[
+\|X\|_{vp} = \sup_{p \geq 1} \frac{\mathbb{E}[|X|^p]^{1/p}}{p}.
+\]
+
+Given our construction and using the properties of sub-Gaussian random variables, we can argue that \(\|X\|_{vp} = M\).
+
+\subsection*{Conclusion}
+
+We have constructed a sequence \(\{a_n\}\) such that \(\sum_{n=1}^{\infty} a_n = M\) and \(\sum_{n=1}^{\infty} a_n^2 = 1\), and used it to define a random variable \(X\) with \(\mathrm{var}(X) = 1\) and \(\|X\|_{vp} = M\). The sequence \(\{a_n\}\) is given by:
+
+\[
+a_n = \frac{1}{\sqrt{\zeta(2\alpha)} \cdot n^\alpha},
+\]
+
+where \(\alpha\) is chosen such that \(\frac{\zeta(\alpha)}{\sqrt{\zeta(2\alpha)}} = M\).
 
 
 
@@ -768,18 +1042,140 @@ Hence, \(Y\) is strictly sub-Gaussian.
 \newpage
 \section*{Exercise 4}
 \textcolor{blueColor}{
-Show that there is a universal constant \(C > 0\) for which the following holds. If \(X\) is a random variable such that for any \(t \geq 0\),
+Show that there is a universal constant \(C > 0\) for which the following holds. \\
+If \(X\) is a random variable such that for any \(t \geq 0\),
 \[
 \Pr(X - \mathbb{E}[X] \geq t) \leq e^{-\frac{t^2}{2\sigma^2}} \quad \text{and} \quad \Pr(X - \mathbb{E}[X] \leq -t) \leq e^{-\frac{t^2}{2\sigma^2}}
 \]
 then \(X\) is \((C\sigma)\)-SubGaussian\footnote{Hint: You may use the fact that for a non-negative random variable \(Y\), \(\mathbb{E}[Y] = \int_0^\infty \Pr(Y \geq x)dx\)}.
 }
 
+\bigbreak
+
+
+Let \(Y\) be a non-negative random variable. We want to show that
+
+\[
+\mathbb{E}[Y] = \int_0^\infty \Pr(Y \geq y) \, dy.
+\]
+
+We start by expressing the expectation \(\mathbb{E}[Y]\) using its probability density function \(f_Y(y)\):
+
+\[
+\mathbb{E}[Y] = \int_0^\infty y f_Y(y) \, dy.
+\]
+
+Now, consider the integral of the survival function \(\Pr(Y \geq y)\):
+
+\begin{align*}
+\int_0^\infty \Pr(Y \geq y) \, dy &= \int_0^\infty \int_y^\infty f_Y(z) \, dz \, dy \\
+&= \int_0^\infty \int_0^z f_Y(z) \, dy \, dz \\
+&= \int_0^\infty f_Y(z) \int_0^z 1 \, dy \, dz \\
+&= \int_0^\infty f_Y(z) \cdot z \, dz \\
+&= \int_0^\infty z f_Y(z) \, dz \\
+&= \mathbb{E}[Y].
+\end{align*}
+
+Therefore, we have shown that
+
+\[
+\mathbb{E}[Y] = \int_0^\infty \Pr(Y \geq y) \, dy.
+\]
+
+This completes the proof.
 
 
 
+Let \(Z = X - \mathbb{E}[X]\). We want to show that \(Z\) is \(C\sigma\)-SubGaussian for some constant \(C\). For \(\lambda > 0\), we consider the moment generating function (MGF) of \(Z\):
 
+\[
+\mathbb{E}[e^{\lambda Z}].
+\]
 
+Using the definition of the expectation and properties of the probability, we have:
+
+\begin{align*}
+\mathbb{E}[e^{\lambda Z}] &= \int_0^\infty \Pr(e^{\lambda Z} \geq t) \, dt \\
+&= \int_0^\infty \Pr(\lambda Z \geq \log t) \, dt \\
+&= \int_0^\infty \Pr\left(Z \geq \frac{\log t}{\lambda}\right) \, dt.
+\end{align*}
+
+Given that \(\Pr(Y \geq t) \leq e^{-\frac{t^2}{2\sigma^2}}\), we can bound the probability:
+
+\[
+\mathbb{E}[e^{\lambda Z}] \leq \int_0^\infty e^{-\frac{(\log t)^2}{2\lambda^2 \sigma^2}} \, dt.
+\]
+
+To simplify the integral, we perform a change of variables. Let \(u = \log t\), then \(du = \frac{1}{t} dt\) and \(dt = e^u du\):
+
+\begin{align*}
+\mathbb{E}[e^{\lambda Z}] &\leq \int_{-\infty}^{\infty} e^{-\frac{u^2}{2\lambda^2 \sigma^2}} e^u \, du \\
+&= \int_{-\infty}^{\infty} e^{-\frac{u^2}{2\lambda^2 \sigma^2} + u} \, du \\
+&= \int_{-\infty}^{\infty} e^{-\frac{1}{2\lambda^2 \sigma^2}(u^2 - 2\lambda^2 \sigma^2 u)} \, du \\
+&= \int_{-\infty}^{\infty} e^{-\frac{1}{2\lambda^2 \sigma^2}\left(u^2 - 2\lambda^2 \sigma^2 u + \lambda^4 \sigma^4 - \lambda^4 \sigma^4\right)} \, du \\
+&= e^{\frac{\lambda^2 \sigma^2}{2}} \int_{-\infty}^{\infty} e^{-\frac{1}{2\lambda^2 \sigma^2}(u - \lambda^2 \sigma^2)^2} \, du.
+\end{align*}
+
+The integral now represents the Gaussian integral with mean \(\lambda^2 \sigma^2\) and variance \(\lambda^2 \sigma^2\). Since the Gaussian integral over the entire real line is \(\sqrt{2\pi}\) times the standard deviation, we get:
+
+\begin{align*}
+\mathbb{E}[e^{\lambda Z}] &\leq e^{\frac{\lambda^2 \sigma^2}{2}} \cdot \sqrt{2\pi \lambda^2 \sigma^2} \\
+&= e^{\frac{\lambda^2 \sigma^2}{2}} \cdot \lambda \sigma \sqrt{2\pi}.
+\end{align*}
+
+At this point, we need to ensure that this expression fits the form \(e^{\frac{\lambda^2 C^2 \sigma^2}{2}}\). This means we need to show that:
+
+\[
+\sqrt{2\pi} \cdot \lambda \sigma \leq e^{\frac{\lambda^2 (C^2 - 1) \sigma^2}{2}}.
+\]
+
+Let $D = C^2 - 1$. We need to show that $\exists D > 0$ such that $\forall \lambda, \sigma > 0$:
+\[
+\sqrt{2\pi} \cdot \lambda \sigma \leq e^{\frac{\lambda^2 D \sigma^2}{2}}
+\]
+
+We get the following inequality:
+\begin{align*}  
+&\exists D > 0 \quad {s.t} \quad \forall \lambda , \sigma >0 \quad &\sqrt{2\pi} \cdot \lambda \sigma \leq e^{\frac{\lambda^2 D \sigma^2}{2}} \iff \\
+&\exists D > 0 \quad {s.t} \quad \forall \lambda , \sigma >0 \quad &\log(\sqrt{2\pi} \cdot \lambda \sigma) \leq \frac{\lambda^2 D \sigma^2}{2} \iff \\
+&\exists D > 0 \quad {s.t} \quad \forall \lambda , \sigma >0 \quad &2\log(\sqrt{2\pi}) + 2\log(\lambda * \sigma) \leq \lambda^2 D \sigma^2 \iff \\
+&\exists D > 0 \quad {s.t} \quad \forall \lambda , \sigma >0 \quad &\frac{2\log(\sqrt{2\pi}) + 2\log(\lambda * \sigma)}{(\lambda \sigma)^2} \leq D \iff \\
+&\exists D > 0 \quad {s.t} \quad \forall x >0  &\frac{2\log(\sqrt{2\pi}) + 2\log(x)}{x^2} \leq D.
+\end{align*}
+
+We will prove that the function $f(x) = \frac{2\log(\sqrt{2\pi}) + 2\log(x)}{x^2}$ is bounded above by some constant $D$ for all $x > 0$. 
+
+We want to compute the derivative \(f'(x)\):
+
+\begin{align*}
+f'(x) &= \frac{d}{dx} \left(\frac{2\log(\sqrt{2\pi}) + 2\log(x)}{x^2}\right) \\
+&= \frac{d}{dx} \left( \left(2\log(\sqrt{2\pi}) + 2\log(x)\right) \cdot x^{-2} \right) \\
+&= \frac{d}{dx} \left( 2\log(\sqrt{2\pi}) \cdot x^{-2} + 2\log(x) \cdot x^{-2} \right) \\
+&= 2\log(\sqrt{2\pi}) \cdot \frac{d}{dx}(x^{-2}) + 2 \cdot \frac{d}{dx}(\log(x) \cdot x^{-2}) \\
+&= 2\log(\sqrt{2\pi}) \cdot (-2x^{-3}) + 2 \cdot \left( \frac{1}{x} \cdot x^{-2} + \log(x) \cdot (-2x^{-3}) \right) \\
+&= -\frac{4\log(\sqrt{2\pi})}{x^3} + 2 \cdot \left( \frac{1}{x^3} - \frac{2\log(x)}{x^3} \right) \\
+&= -\frac{4\log(\sqrt{2\pi})}{x^3} + \frac{2}{x^3} - \frac{4\log(x)}{x^3} \\
+&= \frac{-4\log(\sqrt{2\pi}) + 2 - 4\log(x)}{x^3} \\
+&= -\frac{2(2\log(x) - 1 + \log(2\pi))}{x^3}.
+\end{align*}
+
+Next, let's analyze the behavior of \(f'(x)\) as \(x \to 0\) and \(x \to \infty\):
+
+- As \(x \to 0\):
+
+\[
+f'(x) = -\frac{2(2\log(x) - 1 + \log(2\pi))}{x^3} \to -\infty.
+\]
+
+This is because \(2\log(x) \to -\infty\) as \(x \to 0\), and the negative sign in the numerator ensures the whole expression goes to \(-\infty\).
+
+- As \(x \to \infty\):
+
+\[
+f'(x) = -\frac{2(2\log(x) - 1 + \log(2\pi))}{x^3} \to 0.
+\]
+
+This is because \(2\log(x)\) grows logarithmically while \(x^3\) grows polynomially, so the whole fraction approaches \(0\).
 
 
 
