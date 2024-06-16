@@ -1052,6 +1052,8 @@ then \(X\) is \((C\sigma)\)-SubGaussian\footnote{Hint: You may use the fact that
 
 \bigbreak
 
+\subsection*{Step 1: Proof of the Hint}
+
 
 Let \(Y\) be a non-negative random variable. We want to show that
 
@@ -1084,9 +1086,20 @@ Therefore, we have shown that
 
 This completes the proof.
 
+\subsection*{Step 2 : Proof of the Main Statement}
 
 
-Let \(Z = X - \mathbb{E}[X]\). We want to show that \(Z\) is \(C\sigma\)-SubGaussian for some constant \(C\). For \(\lambda > 0\), we consider the moment generating function (MGF) of \(Z\):
+
+Let \(Z = X - \mathbb{E}[X]\). We want to show that \(Z\) is \(C\sigma\)-SubGaussian for some constant \(C\). 
+
+If $\sigma = 0$, then $X$ is a constant random variable and is trivially $0$-SubGaussian. Therefore, we can assume that $\sigma > 0$.
+
+We will split the proof into cases based on the sign of \(\lambda\).
+
+\subsubsection*{Case 1: \(\lambda > 0\)}
+
+
+For \(\lambda > 0\), we consider the moment generating function (MGF) of \(Z\):
 
 \[
 \mathbb{E}[e^{\lambda Z}].
@@ -1155,28 +1168,46 @@ f'(x) &= \frac{d}{dx} \left(\frac{2\log(\sqrt{2\pi}) + 2\log(x)}{x^2}\right) \\
 &= 2\log(\sqrt{2\pi}) \cdot (-2x^{-3}) + 2 \cdot \left( \frac{1}{x} \cdot x^{-2} + \log(x) \cdot (-2x^{-3}) \right) \\
 &= -\frac{4\log(\sqrt{2\pi})}{x^3} + 2 \cdot \left( \frac{1}{x^3} - \frac{2\log(x)}{x^3} \right) \\
 &= -\frac{4\log(\sqrt{2\pi})}{x^3} + \frac{2}{x^3} - \frac{4\log(x)}{x^3} \\
-&= \frac{-4\log(\sqrt{2\pi}) + 2 - 4\log(x)}{x^3} \\
 &= -\frac{2(2\log(x) - 1 + \log(2\pi))}{x^3}.
 \end{align*}
 
-Next, let's analyze the behavior of \(f'(x)\) as \(x \to 0\) and \(x \to \infty\):
-
-- As \(x \to 0\):
+To find the critical points, we set \(f'(x) = 0\):
 
 \[
-f'(x) = -\frac{2(2\log(x) - 1 + \log(2\pi))}{x^3} \to -\infty.
+-\frac{2(2\log(x) - 1 + \log(2\pi))}{x^3} = 0 \iff 2\log(x) - 1 + \log(2\pi) = 0 \iff \log(x^2 2\pi) = 1 \iff x = \sqrt{\frac{e}{2\pi}}.
 \]
 
-This is because \(2\log(x) \to -\infty\) as \(x \to 0\), and the negative sign in the numerator ensures the whole expression goes to \(-\infty\).
+We want to compute the second derivative \(f''(x)\):
 
-- As \(x \to \infty\):
+\begin{align*}
+\frac{d}{dx} \left( -\frac{2(2\log(x) - 1 + \log(2\pi))}{x^3} \right) &= \frac{d}{dx} \left( -2 (2\log(x) - 1 + \log(2\pi)) \cdot x^{-3} \right) \\
+&= -2 \left( \frac{d}{dx} \left( 2\log(x) - 1 + \log(2\pi) \right) \cdot x^{-3} + (2\log(x) - 1 + \log(2\pi)) \frac{d}{dx} \left( x^{-3} \right) \right) \\
+&= -2 \left( \frac{2}{x} \cdot x^{-3} + (2\log(x) - 1 + \log(2\pi)) \cdot (-3 x^{-4}) \right) \\
+&= -2 \left( 2x^{-4} - 3(2\log(x) - 1 + \log(2\pi)) x^{-4} \right) \\
+&= -2 \left( 2 - 3(2\log(x) - 1 + \log(2\pi)) \right) x^{-4} \\
+&= -2 \left( 2 - 6\log(x) + 3 - 3\log(2\pi) \right) x^{-4} \\
+&= -2 \left( 5 - 6\log(x) - 3\log(2\pi) \right) x^{-4} \\
+&= 2 \left( 6\log(x) - 5 + 3\log(2\pi) \right) x^{-4}.
+\end{align*}
+
+Therefore, the second derivative is:
 
 \[
-f'(x) = -\frac{2(2\log(x) - 1 + \log(2\pi))}{x^3} \to 0.
+\frac{d}{dx} \left( -\frac{2(2\log(x) - 1 + \log(2\pi))}{x^3} \right) = \frac{2(6\log(x) - 5 + 3\log(2\pi))}{x^4}.
 \]
 
-This is because \(2\log(x)\) grows logarithmically while \(x^3\) grows polynomially, so the whole fraction approaches \(0\).
+Next, we analyze the sign of the second derivative at the critical point \(x = \sqrt{\frac{e}{2\pi}}\):
 
+\[
+  f''\left(\sqrt{\frac{e}{2\pi}}\right) = \frac{2(6\log(\sqrt{\frac{e}{2\pi}}) - 5 + 3\log(2\pi))}{\left(\sqrt{\frac{e}{2\pi}}\right)^4} \approx -21.3 < 0
+\]
 
+Since the second derivative is negative at the critical point, the function \(f(x)\) has a local maximum at \(x = \sqrt{\frac{e}{2\pi}}\). 
+Therefore, the function is bounded above by the value at this point:
+
+\begin{align*}
+  f\left(\sqrt{\frac{e}{2\pi}}\right) &= \frac{2\log(\sqrt{2\pi}) + 2\log\left(\sqrt{\frac{e}{2\pi}}\right)}{\left(\sqrt{\frac{e}{2\pi}}\right)^2} 
+  = \frac{2\log(\sqrt{2\pi}) + 2\log\left(\sqrt{e}\right) - 2\log\left(\sqrt{2\pi}\right)}{\frac{e}{2\pi}} = \frac{2\pi}{e} \approx 2.31
+\end{align*}
 
 \end{document}
