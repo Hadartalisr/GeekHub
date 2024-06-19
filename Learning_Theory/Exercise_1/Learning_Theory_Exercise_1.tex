@@ -764,7 +764,7 @@ n & \text{with probability } \frac{1}{2n^2}, \\
 \end{cases}
 \]
 
-\subsection*{Step 1: Computing the Variance of $X_n$}
+\subsection*{Computing the Variance of $X_n$}
 
 The variance of \(X_n\) is:
 \[
@@ -787,7 +787,7 @@ Therefore, the variance of \(X_n\) is:
 \]
 
 
-\subsection*{Step 2: Proving Each $X_n$ is Sub-Gaussian with Variance 1}
+\subsection*{Proving Each $X_n$ is $n$-SubGaussian}
 
 First, let's compute the MGF $E[e^{\lambda X_n}]$ for $X_n$:
 \[
@@ -804,65 +804,267 @@ Using the identity for the hyperbolic cosine, $\cosh(x) = \frac{e^x + e^{-x}}{2}
 E[e^{\lambda X_n}] = 1 - \frac{1}{n^2} + \frac{1}{n^2} \cosh(\lambda n).
 \]
 
-To show that $X_n$ is sub-Gaussian, we need to bound $\cosh(\lambda n)$. Using the bound $\cosh(x) = \frac{e^x + e^{-x}}{2} \leq e^{x^2/2}$ for all $x \in \mathbb{R}$, we have:
+\subsubsection*{Bound $cosh(x)$ by $e^{x^2/2}$}
+
+
+The infinite product representation of the hyperbolic cosine function is given by:
+
 \[
-\cosh(\lambda n) \leq e^{\frac{(\lambda n)^2}{2}}.
+  \cosh(x) = \prod_{k=1}^{\infty} \left( 1 + \frac{4x^2}{\pi^2 (2k - 1)^2} \right).
 \]
 
-Thus,
+We aim to show that:
+
 \[
-E[e^{\lambda X_n}] \leq 1 - \frac{1}{n^2} + \frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}}.
+\cosh(x) \leq e^{x^2 / 2}.
 \]
 
-Next, let's compare this with $e^{\frac{\lambda^2 \sigma^2}{2}}$. 
+Step 1: Infinite Product Representation
+
+First, we write the infinite product representation of  $\cosh(x)$ :
+
 \[
-1 - \frac{1}{n^2} + \frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}} \leq e^{\frac{\lambda^2 \sigma^2}{2}}.
+\cosh(x) = \prod_{k=1}^{\infty} \left( 1 + \frac{4x^2}{\pi^2 (2k - 1)^2} \right).
 \]
 
-We will use the bound from the image proof to show this. For any $n \geq 1$, we have:
+Step 2: Exponential Form
+
+We can use the fact that for any real number  y :
+
 \[
-1 - \frac{1}{n^2} + \frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}} \leq e^{\frac{\lambda^2}{2}}.
+1 + y \leq e^y.
 \]
 
-\textbf{Proof:}
-Using the Taylor expansion for $e^{\frac{\lambda^2 n^2}{2}}$, we get:
+Applying this to our product term-by-term:
+
 \[
-e^{\frac{\lambda^2 n^2}{2}} = \sum_{k=0}^{\infty} \frac{(\lambda^2 n^2 / 2)^k}{k!}.
+1 + \frac{4x^2}{\pi^2 (2k - 1)^2} \leq \exp\left( \frac{4x^2}{\pi^2 (2k - 1)^2} \right).
 \]
 
-Thus,
+Thus, we can bound  $\cosh(x)$  as follows:
+
 \[
-1 - \frac{1}{n^2} + \frac{1}{n^2} \left( \sum_{k=0}^{\infty} \frac{(\lambda^2 n^2 / 2)^k}{k!} \right) = 1 - \frac{1}{n^2} + \sum_{k=0}^{\infty} \frac{(\lambda^2 n^2 / 2)^k}{k! n^2}.
+\cosh(x) = \prod_{k=1}^{\infty} \left( 1 + \frac{4x^2}{\pi^2 (2k - 1)^2} \right) \leq \prod_{k=1}^{\infty} \exp\left( \frac{4x^2}{\pi^2 (2k - 1)^2} \right).
 \]
 
-Combining terms, we have:
+Step 3: Simplifying the Product of Exponentials
+
+The product of exponentials can be simplified to a single exponential:
+
 \[
-1 - \frac{1}{n^2} + \frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}} = 1 - \frac{1}{n^2} + \frac{1}{n^2} \left(1 + \frac{\lambda^2 n^2}{2} + \frac{(\lambda^2 n^2 / 2)^2}{2!} + \cdots \right).
+\prod_{k=1}^{\infty} \exp\left( \frac{4x^2}{\pi^2 (2k - 1)^2} \right) = \exp\left( \sum_{k=1}^{\infty} \frac{4x^2}{\pi^2 (2k - 1)^2} \right).
 \]
 
-To simplify the expression, we note that for large $n$, the term $\frac{1}{n^2}$ becomes small, and we focus on the dominant terms:
+Step 4: Evaluating the Series
+
+Now, we need to evaluate the sum inside the exponential:
+
 \[
-\approx 1 + \frac{\lambda^2}{2}.
+\sum_{k=1}^{\infty} \frac{4x^2}{\pi^2 (2k - 1)^2}.
 \]
 
-Therefore, $X_n$ is sub-Gaussian with variance 1.
+Using the known series result:
 
-\subsection*{Step 2: Finding the $\sigma$ for Each $X_n$ is $\sigma$-Sub-Gaussian}
-
-From the MGF, we know that for $X_n$ to be $\sigma$-sub-Gaussian, the MGF should satisfy:
 \[
-E[e^{\lambda X_n}] \leq e^{\frac{\lambda^2 \sigma^2}{2}}.
+\sum_{k=1}^{\infty} \frac{1}{(2k - 1)^2} = \frac{\pi^2}{8},
 \]
 
-As derived above, the MGF of $X_n$ is bounded by:
+we get:
+
 \[
-1 - \frac{1}{n^2} + \frac{1}{n^2} e^{\frac{\lambda^2 n^2}{2}} \leq e^{\frac{\lambda^2 \sigma^2}{2}}.
+\sum_{k=1}^{\infty} \frac{4x^2}{\pi^2 (2k - 1)^2} = 4x^2 \cdot \frac{1}{8} = \frac{x^2}{2}.
 \]
 
-Given the form of $X_n$, we can see that the appropriate $\sigma$ is indeed 1, confirming that $X_n$ is 1-sub-Gaussian.
+Step 5: Final Exponential Form
+
+Substituting this back into our exponential expression, we have:
+
+\[
+\exp\left( \sum_{k=1}^{\infty} \frac{4x^2}{\pi^2 (2k - 1)^2} \right) = \exp\left( \frac{x^2}{2} \right).
+\]
+
+Thus, we have shown that:
+
+\[
+\cosh(x) \leq \exp\left( \frac{x^2}{2} \right).
+\]
+
+\subsubsection*{Substitute the Bound into $E[e^{\lambda X_n}]$}
+
+Substitute the bound into the expression for $E[e^{\lambda X_n}]$:
+
+\[
+E[e^{\lambda X_n}] = 1 - \frac{1}{n^2} + \frac{1}{n^2} \cosh(\lambda n) \leq 1 - \frac{1}{n^2} + \frac{1}{n^2} \exp\left( \frac{\lambda^2 n^2}{2} \right).
+\]
+
+\subsubsection*{Prove that for every $n \geq 1$, $\lambda \in \mathbb{R}$,  $E[e^{\lambda X_n}] \leq e^{\frac{\lambda^2 n^2}{2}}$}
+
+We aim to prove that for every $n \geq 1$ and $\lambda \in \mathbb{R}$,
+\[
+1 - \frac{1}{n^2} + \frac{1}{n^2} \exp\left( \frac{\lambda^2 n^2}{2} \right) \leq \exp\left( \frac{\lambda^2 n^2}{2} \right).
+\]
+
+Let's denote $A = \exp\left( \frac{\lambda^2 n^2}{2} \right)$. The inequality can then be rewritten as:
+\[
+1 - \frac{1}{n^2} + \frac{1}{n^2} A \leq A.
+\]
+
+Subtracting $1$ from both sides, we get:
+\[
+-\frac{1}{n^2} + \frac{1}{n^2} A \leq A - 1.
+\]
+
+Combining the terms on the left-hand side, we get:
+\[
+\frac{A - 1}{n^2} \leq A - 1.
+\]
+
+Assuming $A \neq 1$, divide both sides by $A - 1$:
+\[
+\frac{1}{n^2} \leq 1.
+\]
+
+Since $n \geq 1$, we have $\frac{1}{n^2} \leq 1$, which is true for all $n \geq 1$. Therefore, the original inequality holds.
+
+In the case where $A = 1$, which occurs when $\lambda = 0$, the inequality simplifies to:
+\[
+1 - \frac{1}{n^2} + \frac{1}{n^2} \leq 1,
+\]
+which is clearly true for all $n \geq 1$.
+
+Thus, we have proven that for every $n \geq 1$ and $\lambda \in \mathbb{R}$,
+\[
+1 - \frac{1}{n^2} + \frac{1}{n^2} \exp\left( \frac{\lambda^2 n^2}{2} \right) \leq \exp\left( \frac{\lambda^2 n^2}{2} \right).
+\]
+
+And therefore, $X_n$ is $n$-SubGaussian.
+
+Since $X_n$ is $n$-SubGaussian, we have:
+
+\[
+\mathbb{E}[e^{\lambda X_n}] \leq e^{\frac{\lambda^2 n^2}{2}} \quad \text{for all } \lambda \in \mathbb{R}.
+\]
+
+This means that $\|X_n\|_{vp} \leq n$.
+
+Therefore, $X_1$ is strictly sub-Gaussian with $\|X_1\|_{vp} = 1$  ( $ 1 = Var(X_1) \leq \|X_1\|_{vp} \leq 1$).
+
+\subsection*{Construction of the Sequence \(\{a_n\}\)}
 
 
+To show that for any \(M \geq 1\), there is a random variable \(X\) with \(\mathrm{var}(X) = 1\) and \(\|X\|_{vp} = M\), we will 
+construct a sequence \(\{a_n\}\) such that \(\sum_{n=1}^{\infty} a_n = M\) and \(\sum_{n=1}^{\infty} a_n^2 = 1\). Then, we will use this sequence to define \(X\).
 
+To meet both conditions, we'll use a sequence of the form \(a_n = \frac{c}{n^\alpha}\), where \(c\) and \(\alpha\) are constants to be determined.
+
+\subsubsection*{Form of \(a_n\)}
+
+\[
+a_n = \frac{c}{n^\alpha}.
+\]
+
+\subsubsection*{Sum of the Sequence}
+
+We need \(\sum_{n=1}^{\infty} a_n = M\):
+
+\[
+\sum_{n=1}^{\infty} \frac{c}{n^\alpha} = M.
+\]
+
+\subsubsection*{Sum of Squares}
+
+We need \(\sum_{n=1}^{\infty} a_n^2 = 1\):
+
+\[
+\sum_{n=1}^{\infty} \left(\frac{c}{n^\alpha}\right)^2 = 1 \Rightarrow c^2 \sum_{n=1}^{\infty} \frac{1}{n^{2\alpha}} = 1.
+\]
+
+\subsection*{Choosing \(\alpha\) and \(c\)}
+
+To satisfy these conditions, we need to choose \(\alpha\) such that both series converge. A suitable choice is \(\alpha > 1/2\).
+
+\subsubsection*{Sum of Squares Condition}
+
+Let \(\alpha > 1/2\). The series \(\sum_{n=1}^{\infty} \frac{1}{n^{2\alpha}}\) converges. Therefore,
+
+\[
+c^2 \sum_{n=1}^{\infty} \frac{1}{n^{2\alpha}} = 1 \Rightarrow c^2 \cdot \zeta(2\alpha) = 1 \Rightarrow c = \frac{1}{\sqrt{\zeta(2\alpha)}}.
+\]
+
+\subsubsection*{Sum Condition}
+
+Now, we need the sum to equal \(M\).
+
+\[
+\sum_{n=1}^{\infty} \frac{c}{n^\alpha} = M \Rightarrow \frac{1}{\sqrt{\zeta(2\alpha)}} \sum_{n=1}^{\infty} \frac{1}{n^\alpha} = M \Rightarrow \frac{\zeta(\alpha)}{\sqrt{\zeta(2\alpha)}} = M.
+\]
+
+\subsection*{Solving for \(\alpha\)}
+
+To find the value of \(\alpha\) that satisfies this condition, we set up the equation:
+
+\[
+\frac{\zeta(\alpha)}{\sqrt{\zeta(2\alpha)}} = M.
+\]
+
+This equation can be solved numerically to find the exact value of \(\alpha\) for a given \(M\).
+
+\subsection*{Final Sequence}
+
+Given the value of \(\alpha\) determined from the equation, the sequence \(\{a_n\}\) is:
+
+\[
+a_n = \frac{1}{\sqrt{\zeta(2\alpha)} \cdot n^\alpha}.
+\]
+
+\subsection*{Verification}
+
+\subsubsection*{Sum of the Sequence}
+
+\[
+\sum_{n=1}^{\infty} a_n = \sum_{n=1}^{\infty} \frac{1}{\sqrt{\zeta(2\alpha)} \cdot n^\alpha} = \frac{1}{\sqrt{\zeta(2\alpha)}} \cdot \zeta(\alpha) = M.
+\]
+
+\subsubsection*{Sum of Squares}
+
+\[
+\sum_{n=1}^{\infty} a_n^2 = \sum_{n=1}^{\infty} \left(\frac{1}{\sqrt{\zeta(2\alpha)} \cdot n^\alpha}\right)^2 = \frac{1}{\zeta(2\alpha)} \cdot \zeta(2\alpha) = 1.
+\]
+
+
+\subsection*{Construction of the Random Variable \(X\)}
+
+Now, define the random variable \(X\) as follows:
+
+\[
+X = \sum_{n=1}^{\infty} a_n X_{n}.
+\]
+
+Where ${X_{n}}$ are independent random variables defined as above.
+
+\subsection*{Verification of the Properties of \(X\)}
+
+\subsubsection*{Variance of \(X\)}
+
+The variance of \(X\) is:
+
+\[
+\mathrm{var}(X) = \sum_{n=1}^{\infty} a_n^2 \mathrm{var}(X_n) = \sum_{n=1}^{\infty} \left(\frac{1}{\sqrt{\zeta(2\alpha)} \cdot n^\alpha}\right)^2 \cdot 1 = 1.
+\]
+
+\subsubsection*{Variance Proxy Norm of \(X\)}
+
+The variance proxy norm of \(X\) equals M since:
+
+\[
+\|X\|_{vp} \stackrel{\text{question 2.1}}{\geq} \sum_{n=1}^{\infty} a_n \|X_n\|_{vp} \geq \sum_{n=1}^{\infty} \frac{1}{\sqrt{\zeta(2\alpha)} \cdot n^\alpha} = M.
+\]
+
+After finding R.V. $X$ with $\mathrm{var}(X) = 1$ and $\|X\|_{vp} \geq M$, 
+we can create a convex combination of $X$ and strictly sub-Gaussian random variables with variance $1$ 
+to get a random variable with $\mathrm{var}(X) = 1$ and $\|X\|_{vp} = M$ (the set of strictly sub-Gaussian random variables is convex).
+
+Therefore, for any \(M \geq 1\), there is a random variable \(X\) with \(\mathrm{var}(X) = 1\) and \(\|X\|_{vp} = M\).
 
 
 \end{enumerate}
