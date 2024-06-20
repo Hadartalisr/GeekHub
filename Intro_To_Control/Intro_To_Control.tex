@@ -561,7 +561,71 @@ u_t = -K x_t.
 \end{definition}
 
 
+\begin{lemma}[LQR matrix formulation]
+  \[
+\begin{bmatrix}
+x_0 \\
+\vdots \\
+x_N
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 & 0 & \cdots & 0 \\
+B & 0 & \cdots & 0 \\
+AB & B & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+A^{N-1}B & A^{N-2}B & \cdots & B
+\end{bmatrix}
+\begin{bmatrix}
+u_0 \\
+\vdots \\
+u_{N-1}
+\end{bmatrix}
++
+\begin{bmatrix}
+I \\
+A \\
+\vdots \\
+A^N
+\end{bmatrix}
+x_0
+\]
+\[
+\text{The matrices above can be written in short as} \quad x = Gu + Hx_0.
+\]
+\end{lemma}
 
+\begin{lemma}[LQR Closed-Form Solution]
+  The optimal control input \( \mathbf{u} \) that minimizes the cost function \( \mathbf{u}^T \mathbf{u} + \mathbf{x}^T \mathbf{x} \) can be achieved with
+  \[
+  \mathbf{u} = -(I + G^T G)^{-1} G^T H x_0.
+  \]
+\end{lemma}
+
+\begin{proof}
+  \begin{align*}
+  \min_{\mathbf{u}} \mathbf{x}^T \mathbf{x} + \mathbf{u}^T \mathbf{u} &= \min_{\mathbf{u}} (G\mathbf{u} + H x_0)^T (G\mathbf{u} + H x_0) + \mathbf{u}^T \mathbf{u} \\
+  &= \min_{\mathbf{u}} \left[ \mathbf{u}^T G^T G \mathbf{u} + 2 x_0^T H^T G \mathbf{u} + x_0^T H^T H x_0 + \mathbf{u}^T \mathbf{u} \right] \\
+  &= \min_{\mathbf{u}} \left[ \mathbf{u}^T (I + G^T G) \mathbf{u} + 2 x_0^T H^T G \mathbf{u} + x_0^T H^T H x_0 \right] \\
+  &= \min_{\mathbf{u}} \left[ (\mathbf{u} + (I + G^T G)^{-1} G^T H x_0)^T (I + G^T G) (\mathbf{u} + (I + G^T G)^{-1} G^T H x_0) \right. \\
+  & \quad \left. - x_0^T H^T G (I + G^T G)^{-1} G^T H x_0 + x_0^T H^T H x_0 \right] \\
+  &= \min_{\mathbf{u}} \left[ (\mathbf{u} + (I + G^T G)^{-1} G^T H x_0)^T (I + G^T G) (\mathbf{u} + (I + G^T G)^{-1} G^T H x_0) \right] \\
+  & \quad + x_0^T H^T (I - G (I + G^T G)^{-1} G^T) H x_0 \\
+  &= x_0^T H^T (I - G (I + G^T G)^{-1} G^T) H x_0 \\
+  &= x_0^T H^T (I + G G^T)^{-1} H x_0,
+  \end{align*}
+  where the optimal control input is
+  \[
+  \mathbf{u} = -(I + G^T G)^{-1} G^T H x_0.
+  \]
+\end{proof}
+      
+  
+\begin{remark}
+  This solution is the optimal solution. However, it is not efficient since we should compute the inverse of
+  \( I + G G^T \) that grows linearly with \( N \), i.e., \( O(N^3) \) computations. 
+\end{remark}
+  
 
 
 
