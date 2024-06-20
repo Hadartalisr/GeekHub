@@ -158,6 +158,72 @@ pdfproducer={PDFLaTeX},%
 % \maketitle
 \tableofcontents
 
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+\newpage
+\section{Mathematical Tools}
+
+\subsection{Completing The Square}
+
+\begin{lemma}[Completing the Square (scalars)]
+  To complete the square for a quadratic equation of the form
+  \[
+  ax^2 + bx + c = 0,
+  \]
+  we can rewrite it as
+  \[
+  a(x + d)^2 + e = 0,
+  \]
+  where
+  \[
+  d = \frac{b}{2a} \quad \text{and} \quad e = c - \frac{b^2}{4a}.
+  \]
+\end{lemma}
+
+\begin{proof}
+  \begin{align*}
+    ax^2 + bx + c &= 0 &\rightarrow\quad & x^2 + \frac{b}{a}x + \frac{c}{a} = 0 &\rightarrow\quad& x^2 + 
+    \frac{b}{a}x = -\frac{c}{a} \quad \rightarrow \\
+    x^2 + \frac{b}{a}x + \left( \frac{b}{2a} \right)^2 &= -\frac{c}{a} + \left( \frac{b}{2a} \right)^2 
+    &\rightarrow\quad& \left( x + \frac{b}{2a} \right)^2 = \frac{b^2}{4a^2} - \frac{c}{a} &\rightarrow\quad& 
+    \left( x + \frac{b}{2a} \right)^2 = \frac{b^2 - 4ac}{4a^2} \quad \rightarrow \\
+    a\left( x + \frac{b}{2a} \right)^2 &= a\left( \frac{b^2 - 4ac}{4a^2} \right) 
+    &\rightarrow\quad& a\left( x + \frac{b}{2a} \right)^2 = \frac{b^2 - 4ac}{4a} 
+    &\rightarrow\quad& a\left( x + \frac{b}{2a} \right)^2 + c - \frac{b^2}{4a} = 0
+    \end{align*}
+\end{proof}
+
+\begin{lemma}[Completing the Square for Quadratic Forms]
+  Given a quadratic form \( x^T A x + b^T x + c \), where \( A \) is a symmetric positive definite matrix, \( b \) is a vector, and \( c \) is a scalar, the expression can be completed to a perfect square as follows:
+  \begin{align*}
+    x^T A x + b^T x + c &= (x + \tblu{A^{-1} b/2})^T A (x + \tblu{A^{-1} b/2}) + c \text{ } \tred{ - \frac{1}{4} b^T A^{-1} b}
+  \end{align*}
+  \end{lemma}
+
+
+
+
+
+
+
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
@@ -490,9 +556,12 @@ u_t = -K x_t.
   where \( u^N \triangleq u_0, u_1, \ldots, u_{N-1} \), and
   \begin{enumerate}
       \item \( Q, Q_f \succeq 0 \) are state weights
-      \item \( R \succ 0 \) is the input/action/control weight. (Reminder: \( R \succ 0 \iff x^T R x > 0 \ \forall x \)).
+      \item \( R \succ 0 \) is the input/action/control weight. 
   \end{enumerate}
 \end{definition}
+
+
+
 
 
 
