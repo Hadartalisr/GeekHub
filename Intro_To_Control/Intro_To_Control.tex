@@ -1,0 +1,277 @@
+\documentclass[a4 paper]{article}
+\usepackage[inner=2.0cm,outer=2.0cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{setspace}
+\usepackage[rgb]{xcolor}
+\usepackage{verbatim}
+\usepackage{subcaption}
+\usepackage{amsgen,amsmath,amstext,amsbsy,amsopn,tikz,amssymb}
+\usepackage{fancyhdr}
+\usepackage[colorlinks=true, urlcolor=blue,  linkcolor=blue, citecolor=blue]{hyperref}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{rotating}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing} 
+\usetikzlibrary{positioning}
+\usepackage{float}
+\usepackage{minted}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{graphicx}
+% \usepackage[hidelinks]{hyperref}
+\usepackage{dsfont}
+\usepackage{graphicx}
+\usepackage{mathdesign}
+\usepackage{float}
+\usepackage{todonotes} 
+\usepackage{empheq}
+\usepackage{array}
+\usepackage[ruled,vlined]{algorithm2e} 
+\usepackage[many]{tcolorbox}    	% for COLORED BOXES (tikz and xcolor included)
+\usepackage{bookmark}
+
+\usepackage{pgfplots} 
+\pgfplotsset{compat=1.18}
+
+
+\newtcolorbox{boxA}{
+    fontupper = \bf,
+    boxrule = 1.5pt,
+    colframe = black % frame color
+}
+
+
+\setlength{\parindent}{0pt}
+\numberwithin{equation}{section}
+
+
+\newcommand\mycommfont[1]{\footnotesize\ttfamily\tblu{#1}}
+\newcommand\defeq{\stackrel{\mathclap{\normalfont\mbox{def}}}{=}}
+\SetCommentSty{mycommfont}
+
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+
+
+
+\newtheoremstyle{boldStyle}%                % Name
+  {}%                                     % Space above
+  {}%                                     % Space below
+  {\itshape}%                                     % Body font
+  {}%                                     % Indent amount
+  {\bfseries}%                            % Theorem head font
+  {}%                                    % Punctuation after theorem head
+  {\newline}                              % Space after theorem head, new line
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}%                                     % Theorem head spec (can be left empty, meaning `normal')
+
+
+\theoremstyle{boldStyle}
+\newtheorem{example}{Example}[section]
+\newtheorem{question}{Question}[section]
+\newtheorem{answer}{Answer}[section]
+
+
+\newtheorem*{claim*}{Claim}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem*{corollary*}{Corollary}
+\newtheorem*{remark*}{Remark}
+\newtheorem*{example*}{Example}
+\newtheorem*{examples*}{Examples}
+\newtheorem*{definition*}{Definition}
+\newtheorem*{question*}{Question}
+\newtheorem*{answer*}{Answer}
+
+
+\newtheoremstyle{boldBlueStyle}%                % Name
+  {}%                                          % Space above
+  {}%                                          % Space below
+  {\itshape}%                                  % Body font
+  {}%                                          % Indent amount
+  {\color{blueColor}\bfseries}%          % Theorem head font in red
+  {}%                                          % Punctuation after theorem head
+  {\newline}%                                  % Space after theorem head, new line
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}} % Theorem head spec (can be left empty, meaning `normal')
+
+\theoremstyle{boldBlueStyle}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{claim}{claim}[section]
+\newtheorem{proposition}{Proposition}[section]
+
+
+
+\newtheoremstyle{boldPurpleStyle}%                % Name
+  {}%                                          % Space above
+  {}%                                          % Space below
+  {\itshape}%                                  % Body font
+  {}%                                          % Indent amount
+  {\color{purpleColor}\bfseries}%          % Theorem head font in red
+  {}%                                          % Punctuation after theorem head
+  {\newline}%                                  % Space after theorem head, new line
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}} % Theorem head spec (can be left empty, meaning `normal')
+
+\theoremstyle{boldPurpleStyle}
+\newtheorem{theorem}{Theorem}[section]
+
+
+\newtheoremstyle{boldRedStyle}%                % Name
+  {}%                                          % Space above
+  {}%                                          % Space below
+  {\itshape}%                                  % Body font
+  {}%                                          % Indent amount
+  {\color{redColor}\bfseries}%          % Theorem head font in red
+  {}%                                          % Punctuation after theorem head
+  {\newline}%                                  % Space after theorem head, new line
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}} % Theorem head spec (can be left empty, meaning `normal')
+
+\theoremstyle{boldRedStyle}
+\newtheorem{definition}{Definition}[section]
+
+
+
+
+%\usetikzlibrary{through,backgrounds}
+\hypersetup{%
+pdfauthor={Ashudeep Singh},%
+pdftitle={Homework},%
+pdfkeywords={Tikz,latex,bootstrap,uncertaintes},%
+pdfcreator={PDFLaTeX},%
+pdfproducer={PDFLaTeX},%
+}
+%\usetikzlibrary{shadows}
+% \usepackage[francais]{babel}
+\usepackage{booktabs}
+\input{../Latex_Utils/macros.tex}
+
+\setlength{\parindent}{0pt}
+
+
+\begin{document}
+\homework{67678 - Introduction to Control with Learning}{Linear Dynamical Systems - Summary}{Spring 2024}{Prof. Oron Sabag}{}{Hadar Tal}{}
+
+
+\section{Kalman Filter}
+
+
+\begin{definition}[Kalman Filter State Space] 
+  \begin{equation}
+    \begin{aligned}
+      x_{i+1} &= \tred{F} x_i + \tred{G} w_i \\
+      y_i &= \tred{H} x_i + v_i
+    \end{aligned}
+  \end{equation}
+
+  where:
+\begin{itemize}
+    \item \( x_{i+1} \) is the state vector at time \( i+1 \),
+    \item \( x_i \) is the state vector at time \( i \),
+    \item \( y_i \) is the measurement vector at time \( i \),
+    \item \( w_i \) is the process noise (zero mean, uncorrelated),
+    \item \( v_i \) is the measurement noise (zero mean, uncorrelated).
+\end{itemize}
+\end{definition}
+
+
+\begin{definition}[Kalman Filter Covariance Matrix] 
+  Formally, the following covariance matrix describes the model:
+  \begin{equation}
+      \mathbb{E} \left[
+      \begin{pmatrix}
+          w_i \\
+          v_i \\
+          x_0
+      \end{pmatrix}
+      \begin{pmatrix}
+          w_j^* & v_j^* & x_0^* & 1
+      \end{pmatrix}
+      \right] = 
+      \begin{pmatrix}
+          \begin{pmatrix}
+            \tblu{Q} & \tblu{S} \\
+            \tblu{S^*} & \tblu{R}
+          \end{pmatrix} \delta_{ij} & 0 & 0 \\
+          0 & \tblu{\Pi_0} & 0
+      \end{pmatrix},
+      \label{eq:covariance_matrix}
+  \end{equation}
+  where \(
+    \begin{pmatrix}
+      \tblu{Q} & \tblu{S} \\
+      \tblu{S^*} & \tblu{R}
+    \end{pmatrix}
+  \) and \(\tblu{\Pi_0}\) are positive semidefinite matrices and \(\delta_{ij}\) equals 1 if \(i = j\) and is zero otherwise.
+  
+  Note that \(w_i\) is uncorrelated as a process over time but its coordinates at a fixed time can be correlated via \(Q\).
+\end{definition}
+
+\textbf{Markings:}
+\begin{itemize}
+    \item \tpur{\( P_i \)} - The error covariance matrix at time \( i \)
+    \begin{equation}
+        \tpur{P_i} \eqdef (x_i - \hat{x}_i)(x_i - \hat{x}_i)^T
+    \end{equation}
+
+    \item \tpur{\( R_{e,i} \)} - The covariance of the innovation (or residual) at time \( i \)
+    \begin{equation}
+        \tpur{R_{e,i}} \eqdef \tred{H} \tpur{P_i} \tred{H^*} + \tblu{R}  
+    \end{equation}
+
+    \item \(\tpur{K_{p,i}}\) - The optimal Kalman gain at time \( i \)
+    \begin{equation}
+        \tpur{K_{p,i}} \triangleq (\tred{F} \tpur{P_i} \tred{H^*} + \tred{G}\tblu{S}) \tpur{R_{e,i}}^{-1}
+    \end{equation}
+
+\end{itemize}
+
+\subsection*{Kalman Filter Optimality}
+
+We suggest the following predictor:
+\begin{equation}
+    \hat{x}_{i+1|i} = \tred{F} \hat{x}_{i|i-1} + \tpur{K_{p,i}} (y_i - \tred{H} \hat{x}_{i|i-1})
+\end{equation}
+
+\begin{lemma}
+  \begin{equation}
+    \tilde{x}_{i+1} = (F - K_{p,i} H) \tilde{x}_i + (G - K_{p,i}) 
+    \begin{pmatrix}
+    w_i \\
+    v_i
+    \end{pmatrix}.
+    \end{equation}
+\end{lemma}
+
+\begin{proof}
+\begin{align*}
+\tilde{x}_{i+1} &= x_{i+1} - \hat{x}_{i+1|i} \\
+&= (F x_i + G w_i) - \left( F \hat{x}_i + K_{p,i} (y_i - H \hat{x}_i) \right) \\
+&= F x_i + G w_i - F \hat{x}_i - K_{p,i} (H x_i + v_i - H \hat{x}_i) \\
+&= F x_i + G w_i - F \hat{x}_i - K_{p,i} H x_i - K_{p,i} v_i + K_{p,i} H \hat{x}_i \\
+&= F x_i - F \hat{x}_i - K_{p,i} H x_i + K_{p,i} H \hat{x}_i + G w_i - K_{p_i} v_i \\
+&= (F - K_{p,i} H)(x_i - \hat{x}_i) + G w_i - K_{p,i} v_i \\
+&= (F - K_{p,i} H) \tilde{x}_i + G w_i - K_{p,i} v_i.
+\end{align*}
+\end{proof}
+
+
+\begin{lemma}
+  For \( j < i \), the recursion can be evolved as
+  \begin{align*}
+      \tilde{x}_i &= (F - K_{p,i-1}H) \tilde{x}_{i-1} + (G - K_{p,i-1})
+      \begin{pmatrix}
+          w_{i-1} \\
+          v_{i-1}
+      \end{pmatrix} \\
+      &= \ldots \\
+      &= \phi_p(i, j) \tilde{x}_j + \xi_i(j),
+  \end{align*}
+  where
+  \begin{align*}
+      \phi_p(i, j) &= \prod_{k=j}^{i-1} (F - K_{p,k}H), \\
+      \xi_i(j) &= \sum_{k=j}^{i-1} \phi_p(i, k+1) (G w_k - K_{p,k} v_k).
+  \end{align*}
+  \end{lemma}  
+
+\end{document}
