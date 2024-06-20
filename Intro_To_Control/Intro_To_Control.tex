@@ -84,6 +84,8 @@
 \newtheorem*{question*}{Question}
 \newtheorem*{answer*}{Answer}
 
+\newtheorem{remark}{Remark}[section]
+
 
 \newtheoremstyle{boldBlueStyle}%                % Name
   {}%                                          % Space above
@@ -150,9 +152,380 @@ pdfproducer={PDFLaTeX},%
 
 
 \begin{document}
-\homework{67678 - Introduction to Control with Learning}{Linear Dynamical Systems - Summary}{Spring 2024}{Prof. Oron Sabag}{}{Hadar Tal}{}
+\homework{67678 - Introduction to Control with Learning}{Linear Dynamical Systems - Summary}{Spring 2024}
+{Dr. Oron Sabag}{}{Hadar Tal}{}
+
+% \maketitle
+\tableofcontents
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+\newpage
+\section{The Shortest Path Problem}
+
+\begin{definition}[The Shortest Path Problem]
+  Given a directed graph \( G = (V, E) \), each edge in the graph has a cost \( a^t_{ij} \) where 
+  \( i \) is the outgoing node, \( j \) is the node to which the edge is connected, 
+  and \( t \in \{0, \ldots, N+1\} \) refers to the time. We adopt the convention that no edge implies 
+  an infinite cost \( a^t_{ij} = \infty \).
+
+  The objective is to minimize the cumulative cost on a path from the source node \( S_0 = S \) to the 
+  terminal node \( S_{N+1} = T \). Formally, we aim to solve the optimization
+  \begin{equation}
+      J^* = \min_{\{n_i \in \mathcal{S}_i\}_{i=0}^{N+1}} \sum_{t=0}^{N} a^t_{n_t, n_{t+1}}.
+  \end{equation}
+\end{definition}
+
+\begin{definition}[Cost-to-Go Function]
+  We define \( J_k(i) \) as the cost-to-go function corresponding to the minimal cost from time \( k \) 
+  until the end when starting at node \( i \). Formally, for \( k = 0, \ldots, N \), define
+  \begin{equation}
+      J_k(i) = \min_{\{n_j \in \mathcal{S}_j | j=k+1,\ldots,N,n_k=i\}} \sum_{j=k}^{N} a^j_{n_t, n_{t+1}}, 
+      \quad \forall i \in \mathcal{S}_k.
+  \end{equation}
+\end{definition}
 
 
+\begin{algorithm}[H]
+    \SetNoFillComment
+    \SetAlgoLined
+    \KwIn{Cost matrix \( a^t_{ij} \) and nodes \( \mathcal{S}_0, \mathcal{S}_1, \ldots, \mathcal{S}_{N+1} \)}
+    \KwOut{Cost-to-go functions \( J_k(i) \)}
+    Initialize \( J_N(i) = a^N_{iT} \) \;
+    \For{$k = N-1, \ldots, 0$}{
+        \For{$i \in \mathcal{S}_k$}{
+            $J_k(i) = \min_{j \in \mathcal{S}_{k+1}} \left[ a^k_{ij} + J_{k+1}(j) \right]$
+        }
+    }
+    \caption{\tpur{Dynamic Programming Solution for the Shortest Path Problem (Cost-to-Go)}} \label{algo:dp_solution_shortest_path}
+\end{algorithm}
+
+
+\begin{definition}[Cost-to-Arrive Function]
+  We define \( J_{N-k}(j) \) as the cost-to-arrive function corresponding to the minimal cost from time \( 1 \) 
+  until time \( k \) when arriving at node \( j \). Formally, for \( k = 0, \ldots, N \), define
+  \begin{equation}
+      J_{N-k}(j) = \min_{\{n_i \in \mathcal{S}_i | i=1,\ldots,k-1,n_k=j\}} \sum_{i=1}^{k} a^i_{n_{i-1}, n_i}, 
+      \quad \forall j \in \mathcal{S}_k.
+  \end{equation}
+\end{definition}
+
+\begin{algorithm}[H]
+    \SetNoFillComment
+    \SetAlgoLined
+    \KwIn{Cost matrix \( a^t_{ij} \) and nodes \( \mathcal{S}_0, \mathcal{S}_1, \ldots, \mathcal{S}_{N+1} \)}
+    \KwOut{Cost-to-arrive functions \( J_{N-k}(j) \)}
+    Initialize \( J_N(j) = a^0_{sj} \), \( \forall j \in \mathcal{S}_1 \) \;
+    \For{$k = 1, \ldots, N$}{
+        \For{$j \in \mathcal{S}_{N-k+1}$}{
+            $J_k(j) = \min_{i \in \mathcal{S}_{N-k}} \left[ a^{N-k}_{ij} + J_{k+1}(i) \right]$
+        }
+    }
+    \caption{\tpur{Forward Algorithm for the Shortest Path Problem (Cost-to-Arrive)}} \label{algo:forward_algorithm_shortest_path}
+\end{algorithm}
+
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+\newpage
+\section{Markov Decision Processes (MDPs)}
+
+\begin{definition}[MDP]
+  An MDP is defined by the following elements:
+  \begin{enumerate}
+    \item The state at time \( k \) is \( x_k \) and takes values in the set \( \mathcal{S}_k \).
+    \item The action at time \( k \) is \( u_k \) and takes values from \( \mathcal{U}_k \).
+    \item The disturbance at time \( k \) is \( w_k \) and takes values from \( \mathcal{W}_k \).
+    \item A dynamical system is given by the function
+      \begin{equation}
+        x_{k+1} = f_k(x_k, u_k, w_k), \quad k = 0, \ldots, N-1.
+      \end{equation}
+    \item The probabilistic law of the disturbance random variable \( w_k \) is characterized by \( P_{W_k}(\cdot | x_k, u_k) \) conditioned on the state \( x_k \) and the action \( u_k \).
+    \item A cost function \( g_k : \mathcal{S}_k \times \mathcal{U}_k \to \mathbb{R} \).
+  \end{enumerate}
+\end{definition}
+
+The cost over a horizon \( N \) is
+\begin{equation}
+  S_\pi(x_0) = \mathbb{E}[g_N(x_N) + \sum_{k=0}^{N-1} g_k(x_k, u_k)],
+\end{equation}
+where \( g_N(\cdot) \) is the terminal cost.
+
+\begin{definition}[History-dependent policy]
+  A history-dependent policy is defined by a sequence of functions:
+  \begin{equation}
+    \mu_k : \mathcal{S}_1 \times \cdots \times \mathcal{S}_k \times \mathcal{U}_1 \times \cdots \mathcal{U}_{k-1} \to \mathcal{U}_k,
+  \end{equation}
+  such that \( u_k = \mu_k(x_1, x_2, \ldots, x_k, u_1, \ldots, u_{k-1}) \).
+\end{definition}
+
+\begin{definition}[Markovian policy]
+  A Markovian policy is defined by a sequence of functions:
+  \begin{equation}
+    \mu_k : \mathcal{S}_k \to \mathcal{U}_k,
+  \end{equation}
+  such that \( u_k = \mu_k(x_k) \).
+\end{definition}
+
+\begin{remark}[The Markov property]
+  We defined the dynamical system using a deterministic function \( f_k(\cdot) \). 
+
+  Equivalently, we could describe the evolution with the conditional probability
+  \begin{equation}
+    P_k(x_{k+1} | x_k, u_k) = P_s^{u}(s')
+  \end{equation}
+  In particular, we assume that the new state conditioned on the current state and action is not affected by the past. Formally, we assume the Markov chain induced from
+  \begin{equation}
+    P(x_{k+1} | x_1, \ldots, x_k, u_1, \ldots, u_k) = P_k(x_{k+1} | x_k, u_k).
+  \end{equation}
+\end{remark}
+
+The MDP described above is called fully observable since the actions depend directly on the state. We will later encounter partially observable MDP where only a noisy version of the state is available to the controller.
+
+
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+\newpage
+\section{Linear Systems}
+
+\begin{definition}[Linear System]
+  A linear system is given by
+  \begin{equation}
+      x_{t+1} = A x_t, \quad t = 0, 1, \ldots
+  \end{equation}
+  with some initial state \( x_0 \).
+
+  \begin{itemize}
+      \item \( x_t \in \mathbb{R}^n \) is the state vector.
+      \item \( A \in \mathbb{R}^{n \times n} \) is the state-transition matrix.
+  \end{itemize}
+\end{definition}
+
+\begin{lemma}[State and Decoupling in Linear Systems]
+  Given a diagonalizable matrix \( A = TDT^{-1} \), the state at time \( t \) in a linear system is
+  \begin{equation}
+      x_t = T D^t T^{-1} x_0.
+  \end{equation}
+  By defining a new state \( z_t = T^{-1} x_t \), we have
+  \begin{equation}
+      z_t = D^t z_0,
+  \end{equation}
+  indicating that the states are decoupled, with each entry of \( z_t \) depending only on the corresponding entry of \( z_0 \).
+\end{lemma}
+
+\begin{remark}
+  Since the eigenvalues of real matrices may be complex, we have
+  \[
+  \lambda = a + ib = re^{i\theta} \rightarrow \lambda^t = r^t e^{it\theta} (e^{i\theta} = \cos \theta + i \sin \theta).
+  \]
+  As we increase \( t \), the magnitude of \( e^{it\theta} \) is clearly unchanged. However, the length of \( r \) determines whether it converges to zero, oscillates, or blows up.
+\end{remark}
+
+\begin{definition}[Stable System]
+  A system \( A \) is \textit{stable} if all of its eigenvalues have magnitude smaller than 1, i.e., \( r < 1 \).
+\end{definition}
+
+
+
+
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+\newpage
+\section{Linear Systems with Control}
+
+\begin{definition}[Linear System with Control]
+  A linear system with control is given by
+  \begin{equation}
+      x_{t+1} = A x_t + B u_t, \quad t \geq 0, \quad x_0 \in \mathbb{R}^n,
+  \end{equation}
+  where we added:
+  \begin{itemize}
+      \item \( u_t \in \mathbb{R}^m \) is the control signal (action).
+      \item \( B \in \mathbb{R}^{n \times m} \) is the control matrix.
+  \end{itemize}
+\end{definition}
+
+\begin{definition}[State-feedback controller]
+  A controller (policy) is defined by a sequence of mappings \( \mu_t : \mathbb{R}^n \to \mathbb{R}^m \) 
+  for \( t = 0, 1, \ldots, N \) such that \( u_t = \mu_t(x_t) \).  
+\end{definition}
+  
+
+\begin{definition}[State-Feedback, Time-Invariant, Linear Controller]
+A state-feedback, time-invariant, linear controller is any mapping of the form
+\[
+u_t = -K x_t.
+\]
+\end{definition}
+
+\begin{definition}[Closed-Loop Matrix]
+  The matrix $A_K = A - BK$ is called the closed-loop matrix of the system A. I.H.T -
+  \[
+    x_{t+1} = A_Kx_t = (A - BK)x_t = Ax_t + B(-Kx_t) = Ax_t + Bu_t
+  \]
+\end{definition}
+
+
+\begin{definition}[Controllability]
+  The pair \( (A, B) \) is \textit{controllable} if the system can reach any \( \xi \in \mathbb{R}^n \) from any initial state \( x_0 \in \mathbb{R}^n \) at some finite time.
+\end{definition}
+
+\begin{lemma}[Controllability Matrix]
+  A pair \( (A, B) \) is controllable if and only if the \textit{controllability matrix}
+  \[
+  C \triangleq \begin{bmatrix} B & AB & \cdots & A^{n-1}B \end{bmatrix}
+  \]
+  has \( \text{rank}(C) = n \).
+\end{lemma}
+
+
+\begin{lemma}[Poles Placement in Controllable System]
+  Controllability implies that we can choose the eigenvalues (poles) of \( A - BK \) arbitrarily.
+\end{lemma}
+
+
+
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+\newpage
+\section{The Linear Quadratic Regulator (LQR)}
+
+\begin{definition}[The LQR problem]
+  For the linear model in (20), find a controller that minimizes
+  \[
+  J_N(u^N) = \sum_{i=0}^{N} [x_i^T Q x_i + u_i^T R u_i] + x_{N+1}^T Q_f x_{N+1},
+  \]
+  where \( u^N \triangleq u_0, u_1, \ldots, u_{N-1} \), and
+  \begin{enumerate}
+      \item \( Q, Q_f \succeq 0 \) are state weights
+      \item \( R \succ 0 \) is the input/action/control weight. (Reminder: \( R \succ 0 \iff x^T R x > 0 \ \forall x \)).
+  \end{enumerate}
+\end{definition}
+
+
+
+
+
+
+
+
+
+
+
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+\newpage
 \section{Kalman Filter}
 
 
