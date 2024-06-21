@@ -69,7 +69,6 @@
 
 
 \theoremstyle{boldStyle}
-\newtheorem{example}{Example}[section]
 \newtheorem{question}{Question}[section]
 \newtheorem{answer}{Answer}[section]
 
@@ -100,7 +99,7 @@
 \theoremstyle{boldBlueStyle}
 \newtheorem{lemma}{Lemma}[section]
 \newtheorem{corollary}{Corollary}[section]
-\newtheorem{claim}{claim}[section]
+\newtheorem{claim}{Claim}[section]
 \newtheorem{proposition}{Proposition}[section]
 
 
@@ -133,6 +132,18 @@
 \newtheorem{definition}{Definition}[section]
 
 
+\newtheoremstyle{boldGreenStyle}%                % Name
+  {}%                                          % Space above
+  {}%                                          % Space below
+  {\itshape}%                                  % Body font
+  {}%                                          % Indent amount
+  {\color{greenColor}\bfseries}%          % Theorem head font in red
+  {}%                                          % Punctuation after theorem head
+  {\newline}%                                  % Space after theorem head, new line
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}} % Theorem head spec (can be left empty, meaning `normal')
+
+\theoremstyle{boldGreenStyle}
+\newtheorem{example}{Example}[section]
 
 
 %\usetikzlibrary{through,backgrounds}
@@ -181,6 +192,15 @@ pdfproducer={PDFLaTeX},%
 \newpage
 \section{Mathematical Tools}
 
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
 \subsection{Completing The Square}
 
 \begin{lemma}[Completing the Square (scalars)]
@@ -212,15 +232,94 @@ pdfproducer={PDFLaTeX},%
 \end{proof}
 
 \begin{lemma}[Completing the Square for Quadratic Forms]
-  Given a quadratic form \( x^T A x + b^T x + c \), where \( A \) is a symmetric positive definite matrix, \( b \) is a vector, and \( c \) is a scalar, the expression can be completed to a perfect square as follows:
+  Given a quadratic form \( x^T A x + b^T x + c \), where \( A \) is a symmetric positive definite matrix, \( b \) is a vector, 
+  and \( c \) is a scalar, the expression can be completed to a perfect square as follows:
   \begin{align*}
     x^T A x + b^T x + c &= (x + \tblu{A^{-1} b/2})^T A (x + \tblu{A^{-1} b/2}) + c \text{ } \tred{ - \frac{1}{4} b^T A^{-1} b}
   \end{align*}
-  \end{lemma}
+\end{lemma}
 
 
 
 
+
+
+
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+\subsection{The Z-transform}
+
+The Z-transform converts a discrete-time signal, which is a sequence of real or complex numbers, into a complex frequency domain representation. 
+
+The Z-transform of a discrete-time signal \( x[k] \) is defined as:
+
+\[
+X(z) = \mathcal{Z}\{x[k]\} = \sum_{k=-\infty}^{\infty} x[k] z^{-k},
+\]
+
+where \( z \) is a complex variable. The Z-transform is particularly useful for analyzing linear time-invariant (LTI) systems.
+
+\subsubsection{Properties of the Z-transform}
+\begin{enumerate}
+  \item \textbf{Linearity:}
+  \[
+  \mathcal{Z}\{a x[k] + b y[k]\} = a X(z) + b Y(z).
+  \]
+
+  \item \textbf{Time Shifting:}
+  \[
+  \mathcal{Z}\{x[k-n]\} = z^{-n} X(z).
+  \]
+
+  \item \textbf{Convolution:}
+  \[
+  \mathcal{Z}\{x[k] * y[k]\} = X(z) Y(z).
+  \]
+
+  \item \textbf{Initial Value Theorem:}
+  \[
+  x[0] = \lim_{z \to \infty} X(z).
+  \]
+
+  \item \textbf{Final Value Theorem:}
+  \[
+  \lim_{k \to \infty} x[k] = \lim_{z \to 1} (1 - z^{-1}) X(z),
+  \]
+  provided the limits exist.
+\end{enumerate}
+
+
+
+\subsubsection{Differences Between Z-transform and Laplace Transform}
+
+\begin{enumerate}
+  \item \textbf{Domain:}
+  The Z-transform is used for discrete-time signals, while the Laplace transform is used for continuous-time signals.
+
+  \item \textbf{Definition:}
+  The Z-transform is defined as a summation:
+  \[
+  X(z) = \sum_{k=-\infty}^{\infty} x[k] z^{-k},
+  \]
+  while the Laplace transform is defined as an integral:
+  \[
+  X(s) = \int_{0}^{\infty} x(t) e^{-st} \, dt.
+  \]
+
+  \item \textbf{Complex Variable:}
+  The Z-transform uses the complex variable \( z \), typically represented as \( z = e^{sT} \) where \( T \) is the sampling period. The Laplace transform uses the complex variable \( s \).
+
+  \item \textbf{Application:}
+  The Z-transform is applied to discrete-time systems and signals, making it useful for digital signal processing and discrete control systems. The Laplace transform is applied to continuous-time systems and signals, making it useful for analog signal processing and continuous control systems.
+\end{enumerate}
 
 
 
@@ -677,6 +776,232 @@ An equivalent characterization of stabilizability is
 In other words, we can control the unstable modes. 
 
 If we want \( J^*(x_0) < \infty \) for all \( x_0 \), a necessary and sufficient condition is that of stabilizability.
+
+
+
+
+
+
+
+
+
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+\newpage
+\section{State-space models as mappings}
+
+
+\begin{definition}[Linear Time-Invariant (LTI) System]
+  A discrete-time linear time-invariant (LTI) system is represented by the difference equation:
+  \[
+  y_k + a_1 y_{k-1} + a_2 y_{k-2} + \cdots + a_n y_{k-n} = b_0 u_k + b_1 u_{k-1} + b_2 u_{k-2} + \cdots + b_{n-1} u_{k-n+1}.
+  \]
+  The inputs are the \( u_i \) while the outputs are the \( y_i \).
+\end{definition}
+
+
+
+\begin{example}[Moving average]
+  This system outputs the average of the current and past input values. 
+  
+  If \( a_1 = a_2 = \cdots = a_n = 0 \), the equation simplifies to:
+  \[
+  y_k = b_0 u_k + b_1 u_{k-1} + b_2 u_{k-2} + \cdots + b_{n-1} u_{k-n+1}.
+  \]
+  This form indicates that the output \( y_k \) is a weighted sum of the current and previous inputs, hence the term "moving average."
+\end{example}
+  
+\begin{example}[Auto-regressive]
+  This system models the output as a function of its previous values. 
+
+  If \( b_1 = b_2 = \cdots = b_n = 0 \), the equation simplifies to:
+  \[
+  y_k + a_1 y_{k-1} + a_2 y_{k-2} + \cdots + a_n y_{k-n} = b_0 u_k.
+  \]
+  This form indicates that the output \( y_k \) depends on its past values and the current input, making it "auto-regressive."
+\end{example}
+  
+\begin{example}[ARMA (Auto-regressive Moving Average)]
+  This system combines both auto-regressive and moving average models. 
+  Sometimes used as ARMA(\(i,j\)) to include the order, it captures dependencies on both past outputs and past inputs:
+  \[
+  y_k + a_1 y_{k-1} + a_2 y_{k-2} + \cdots + a_n y_{k-n} = b_0 u_k + b_1 u_{k-1} + b_2 u_{k-2} + \cdots + b_{n-1} u_{k-n+1}.
+  \]
+  Here, the output \( y_k \) is influenced by both its previous values (auto-regressive part) and previous inputs (moving average part).
+\end{example}
+
+
+\begin{definition}[Transfer Function \( H(z) \)]
+  The transfer function \( H(z) \) of a discrete-time linear time-invariant (LTI) system represents the relationship between the Z-transform of the output \( Y(z) \) and the Z-transform of the input \( U(z) \). It provides a way to analyze the system's behavior in the frequency domain and is defined as:
+  \[
+  H(z) = \frac{Y(z)}{U(z)}.
+  \]
+
+  For an LTI system, this can be expressed as:
+  \[
+  H(z) = \frac{b_0 + b_1 z^{-1} + b_2 z^{-2} + \cdots + b_{n-1} z^{-n+1}}{1 + a_1 z^{-1} + a_2 z^{-2} + \cdots + a_n z^{-n}}.
+  \]
+\end{definition}
+
+
+\subsection{Controllable Canonical Form}
+
+\begin{definition}[Controllable Canonical Form]
+For the discrete-time transfer function $H(z)$, the state-space representation in controllable canonical form is given by the equations:
+\[
+\dot{x}(t) = A_c x(t) + B_c u(t),
+\]
+\[
+y(t) = C_c x(t) + D_c u(t),
+\]
+where the state vector \( x(t) \) and input \( u(t) \) are defined as:
+\[
+x(t) = \begin{bmatrix}
+z_1(t) \\
+z_2(t) \\
+\vdots \\
+z_{n-1}(t) \\
+z_n(t)
+\end{bmatrix},
+\quad
+u(t) = z_n(t),
+\]
+and the matrices are defined as follows:
+\[
+A_c = \begin{bmatrix}
+0 & 1 & 0 & \cdots & 0 \\
+0 & 0 & 1 & \cdots & 0 \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+0 & 0 & 0 & \cdots & 1 \\
+-a_n & -a_{n-1} & -a_{n-2} & \cdots & -a_1
+\end{bmatrix},
+\quad
+B_c = \begin{bmatrix}
+0 \\
+0 \\
+\vdots \\
+0 \\
+1
+\end{bmatrix},
+\]
+\[
+C_c = \begin{bmatrix}
+b_{n-1} & b_{n-2} & \cdots & b_1 & b_0
+\end{bmatrix},
+\quad
+D_c = 0.
+\]
+\end{definition}
+
+\todo[inline]{Add the proof of the controllable canonical form + observable canonical form + Jordan canonical form.}
+
+
+
+
+
+
+
+
+
+
+
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+\newpage
+\section{The Asymptotic Observer}
+
+\begin{definition}[Linear System State Estimation]
+  The setting is given by a linear system:
+  \[
+  x_{i+1} = A x_i + B u_i, \quad x_0
+  \]
+  \[
+  y_i = C x_i
+  \]
+  where:
+  \begin{enumerate}
+      \item \( x_i \) is the state sequence.
+      \item \( u_i \) is the control sequence (which is available to us).
+      \item \( y_i \) is the measurement process that we observe.
+  \end{enumerate}
+  
+  The objective is to estimate the states. 
+\end{definition}
+
+\begin{claim}
+  The optimal closed-loop estimate for a linear system is of the form 
+  \[
+    \hat{x}_{i+1} = A \hat{x}_i + B u_i + K(y_i - C \hat{x}_i), \quad \hat{x}_0.
+  \] 
+\end{claim}
+
+\begin{claim}[Dynamics of the Estimation Error]
+  The estimation error \( \tilde{x}_{i} \eqdef x_{i} - \hat{x}_{i} \) evolves according to
+  \[
+  \tilde{x}_{i} = (A - KC)^{i} \tilde{x}_0.
+  \]
+\end{claim}
+
+\begin{proof}
+  We have
+  \[
+  \tilde{x}_{i+1} = x_{i+1} - \hat{x}_{i+1} = A x_i + B u_i - A \hat{x}_i - B u_i - K(y_i - C \hat{x}_i) = A \tilde{x}_i - K C \tilde{x}_i = (A - KC) \tilde{x}_i.
+  \]
+  By induction, we conclude the claim.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
