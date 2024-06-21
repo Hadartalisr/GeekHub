@@ -37,6 +37,7 @@
 \pgfplotsset{compat=1.18}
 
 
+
 \newtcolorbox{boxA}{
     fontupper = \bf,
     boxrule = 1.5pt,
@@ -162,6 +163,8 @@ pdfproducer={PDFLaTeX},%
 \setlength{\parindent}{0pt}
 
 
+\setcounter{tocdepth}{2} % Show only sections and subsections in the table of contents
+
 \begin{document}
 \homework{67678 - Introduction to Control with Learning}{Linear Dynamical Systems - Summary}{Spring 2024}
 {Dr. Oron Sabag}{}{Hadar Tal}{}
@@ -255,6 +258,7 @@ pdfproducer={PDFLaTeX},%
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
 % * * * * * * * * * * * * * * * * * * * * * * * * 
+\newpage
 \subsection{The Z-transform}
 
 The Z-transform converts a discrete-time signal, which is a sequence of real or complex numbers, into a complex frequency domain representation. 
@@ -320,6 +324,381 @@ where \( z \) is a complex variable. The Z-transform is particularly useful for 
   \item \textbf{Application:}
   The Z-transform is applied to discrete-time systems and signals, making it useful for digital signal processing and discrete control systems. The Laplace transform is applied to continuous-time systems and signals, making it useful for analog signal processing and continuous control systems.
 \end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+\newpage
+\subsection{UDL and LDU Factorizations}
+
+
+\begin{lemma}[UDL Decomposition]
+  If \( A \) and \( D \) are square matrices, and \( D \) is invertible, we can write:
+  \[
+  \begin{pmatrix}
+  A & B \\
+  C & D
+  \end{pmatrix} =
+  \begin{pmatrix}
+  I & BD^{-1} \\
+  0 & I
+  \end{pmatrix}
+  \begin{pmatrix}
+  \Delta_D & 0 \\
+  0 & D
+  \end{pmatrix}
+  \begin{pmatrix}
+  I & 0 \\
+  D^{-1}C & I
+  \end{pmatrix},
+  \]
+  where \( \Delta_D = A - BD^{-1}C \) is the \tred{Schur complement} of the matrix.
+\end{lemma}
+
+\begin{example}[UDL Decomposition Example]
+  Consider the scalars:
+  \[
+  A = 8, \quad B = 6, \quad C = 4, \quad D = 2.
+  \]
+  Since \( D \) is invertible, we apply the UDL decomposition:
+  \[
+  \Delta_D = A - BD^{-1}C = 8 - 6 \cdot \frac{1}{2} \cdot 4 = 8 - 12 = -4.
+  \]
+  Thus, the decomposition is:
+  \[
+  \begin{pmatrix}
+  8 & 6 \\
+  4 & 2
+  \end{pmatrix} =
+  \begin{pmatrix}
+  1 & 3 \\
+  0 & 1
+  \end{pmatrix}
+  \begin{pmatrix}
+  -4 & 0 \\
+  0 & 2
+  \end{pmatrix}
+  \begin{pmatrix}
+  1 & 0 \\
+  2 & 1
+  \end{pmatrix}.
+  \]
+\end{example}
+
+
+
+
+\bigbreak
+
+
+
+% \begin{lemma}[LDU Decomposition]
+%   If \( A \) and \( D \) are square matrices, and \( A \) is invertible, we can write:
+%   \[
+%   \begin{pmatrix}
+%   A & B \\
+%   C & D
+%   \end{pmatrix} =
+%   \begin{pmatrix}
+%   I & 0 \\
+%   CA^{-1} & I
+%   \end{pmatrix}
+%   \begin{pmatrix}
+%   A & 0 \\
+%   0 & \Delta_A
+%   \end{pmatrix}
+%   \begin{pmatrix}
+%   I & A^{-1}B \\
+%   0 & I
+%   \end{pmatrix},
+%   \]
+%   where \( \Delta_A = D - CA^{-1}B \) is the \tred{Schur complement} of the matrix.
+% \end{lemma}
+
+
+% \begin{example}[LDU Decomposition Example]
+%   Consider the scalars:
+%   \[
+%   A = 8, \quad B = 6, \quad C = 4, \quad D = 2.
+%   \]
+%   Since \( A \) is invertible, we apply the LDU decomposition:
+%   \[
+%   \Delta_A = D - CA^{-1}B = 2 - 4 \cdot \frac{1}{8} \cdot 6 = 2 - 3 = -1.
+%   \]
+%   Thus, the decomposition is:
+%   \[
+%   \begin{pmatrix}
+%   8 & 6 \\
+%   4 & 2
+%   \end{pmatrix} =
+%   \begin{pmatrix}
+%   1 & 0 \\
+%   \frac{1}{2} & 1
+%   \end{pmatrix}
+%   \begin{pmatrix}
+%   8 & 0 \\
+%   0 & -1
+%   \end{pmatrix}
+%   \begin{pmatrix}
+%   1 & \frac{3}{4} \\
+%   0 & 1
+%   \end{pmatrix}.
+%   \]
+%   \end{example}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+\newpage
+\subsection{Least Squares}
+
+\subsubsection{Definition}
+
+\begin{definition}[Least Squares Problem]
+For a set of linear equations
+\[
+y = Hx,
+\]
+where \(x \in \mathbb{R}^m\) is the unknown state vector, \( y \in \mathbb{R}^n \) is the 
+measurements vector and \( H \in \mathbb{R}^{n \times m} \),
+
+The least squares solution \(\hat{x}^o\) is defined as 
+\[
+\hat{x}^o = \argmin_{\hat{x} \in \mathbb{R}^m} J(\hat{x}) = \argmin_{\hat{x} \in \mathbb{R}^m} \|y - H\hat{x}\|^2 = 
+\argmin_{\hat{x} \in \mathbb{R}^m} (y - H\hat{x})^T (y - H\hat{x}).
+\]
+
+\end{definition}
+
+\begin{lemma}
+A solution \( \hat{x} \) is optimal, i.e., \( J(\hat{x}) \leq J(x) \) for all \( x \) if the normal equations
+\[
+H^* H \hat{x} = H^* y
+\]
+are satisfied. The optimal objective is
+\[
+J(\hat{x}) = \|y\|^2 - \|H \hat{x}\|^2.
+\]
+\end{lemma}
+
+
+\begin{remark}
+  The optimal estimate satisfies the orthogonality principle: \( \|y\|^2 =  \|y - H \hat{x}\|^2  + \|H \hat{x}\|^2 \)
+\end{remark}
+
+
+
+\subsubsection{Stochastic Least Squares}
+
+
+\begin{definition}[Stochastic Least Squares]
+  Given two random vectors \( X \) and \( Y \) with a probability density function \( f_{X,Y} \), 
+  the objective is to construct an estimator for \( X \) given \( Y \), denoted by \( \hat{X}(Y) \). 
+  
+  The error \( \Delta = X - \hat{X}(Y) \) is a random variable on its own, so we study the mean squared error (MSE):
+  \[
+  MSE = \mathbb{E}[(X - \hat{X}(Y))^T (X - \hat{X}(Y))].
+  \]
+\end{definition}
+
+\begin{lemma}
+The estimator that minimizes the MSE is the conditional expectation:
+\[
+\hat{X} = \mathbb{E}[X | Y].
+\]
+
+In other words, for any \( g : \mathcal{Y} \rightarrow \mathcal{X} \), we have
+\[
+\mathbb{E}[(X - g(Y))^T (X - g(Y))] \geq \mathbb{E}[(X - \mathbb{E}[X | Y])^T (X - \mathbb{E}[X | Y])].
+\]
+\end{lemma}
+
+
+
+\begin{definition}[Linear Least Mean Square Estimator (LLMSE)]
+  A linear estimator takes the form \( \hat{X} = K Y \), where \( K \) is a matrix to be optimized. 
+  
+  The \tred{error covariance matrix of a linear estimator} \( K \) is defined as:
+  \[
+  P(K) = \mathbb{E}[(X - K Y)(X - K Y)^T].
+  \]
+  
+  We say \( K_0 \) is a linear least mean square estimator (LLMSE) if:
+  \[
+  P(K) \succeq P(K_0)
+  \]
+  for any \( K \). Alternatively, this can be written as:
+  \[
+  a^T P(K) a \geq a^T P(K_0) a,
+  \]
+  for all \( K \) and vectors \( a \). 
+\end{definition}
+
+\begin{claim}
+  The LLMSE is optimal if (X,Y) are jointly Gaussian.
+\end{claim}
+
+
+\begin{theorem}
+  Any LLMSE \( K_0 \) satisfies the normal equations:
+  \[
+  K_0 R_Y = R_{XY},
+  \]
+  where \( R_Y = \mathbb{E}[YY^T] \) is the covariance of the measurements, and \( R_{XY} \) is the covariance between \( X \) and \( Y \).
+  \end{theorem}
+  
+  If \( R_Y \) is invertible, we obtain the well-known estimator:
+  \[
+  \hat{X} = R_{XY} R_Y^{-1} Y,
+  \]
+  with the estimation error covariance:
+  \[
+  P(K_0) = R_X - R_{XY} R_Y^{-1} R_{YX}.
+  \]
+  
+  \begin{remark}
+  We can gain some intuition on the proposed solution by writing the covariance matrix using a UDL factorization:
+  \[
+  \begin{pmatrix}
+  R_X & R_{XY} \\
+  R_{YX} & R_Y
+  \end{pmatrix} =
+  \begin{pmatrix}
+  I & R_{XY} R_Y^{-1} \\
+  0 & I
+  \end{pmatrix}
+  \begin{pmatrix}
+  R_X - R_{XY} R_Y^{-1} R_{YX} & 0 \\
+  0 & R_Y
+  \end{pmatrix}
+  \begin{pmatrix}
+  I & 0 \\
+  R_Y^{-1} R_{YX} & I
+  \end{pmatrix}.
+  \]
+  
+  \begin{enumerate}
+      \item \textbf{Starting Point:}
+      \begin{itemize}
+          \item We start with the joint covariance matrix of \( X \) and \( Y \):
+          \[
+          \begin{pmatrix}
+          R_X & R_{XY} \\
+          R_{YX} & R_Y
+          \end{pmatrix}.
+          \]
+      \end{itemize}
+      
+      \item \textbf{UDL Factorization:}
+      \begin{itemize}
+          \item We apply the UDL factorization:
+          \[
+          \begin{pmatrix}
+          R_X & R_{XY} \\
+          R_{YX} & R_Y
+          \end{pmatrix} =
+          \begin{pmatrix}
+          I & R_{XY} R_Y^{-1} \\
+          0 & I
+          \end{pmatrix}
+          \begin{pmatrix}
+          R_X - R_{XY} R_Y^{-1} R_{YX} & 0 \\
+          0 & R_Y
+          \end{pmatrix}
+          \begin{pmatrix}
+          I & 0 \\
+          R_Y^{-1} R_{YX} & I
+          \end{pmatrix}.
+          \]
+      \end{itemize}
+      
+      \item \textbf{Explanation of Terms:}
+      \begin{itemize}
+          \item \( R_X - R_{XY} R_Y^{-1} R_{YX} \): This term represents the optimal error variance.
+          \item The matrix \( \begin{pmatrix} I & R_{XY} R_Y^{-1} \\ 0 & I \end{pmatrix} \) projects the variable \( X \) onto the linear space spanned by \( Y \).
+      \end{itemize}
+      
+      \item \textbf{Optimal Error Variance:}
+      \begin{itemize}
+          \item The first element of the diagonal matrix is the optimal error variance:
+          \[
+          R_X - R_{XY} R_Y^{-1} R_{YX}.
+          \]
+          \item Since this term appears in the factorization, it confirms that the estimator minimizes the estimation error.
+      \end{itemize}
+      
+      \item \textbf{Estimation:}
+      \begin{itemize}
+          \item We can express the relationship between \( X \) and \( \tilde{X} \) using the projection matrix:
+          \[
+          \begin{pmatrix}
+          X \\
+          Y
+          \end{pmatrix} =
+          \begin{pmatrix}
+          I & R_{XY} R_Y^{-1} \\
+          0 & I
+          \end{pmatrix}
+          \begin{pmatrix}
+          \tilde{X} \\
+          Y
+          \end{pmatrix}.
+          \]
+          \item This equation shows that \( \hat{X} \) is the projection of \( X \) onto the space spanned by \( Y \).
+      \end{itemize}
+      
+      \item \textbf{Projection Interpretation:}
+      \begin{itemize}
+          \item This can be viewed as a Gram-Schmidt process to project the variable \( X \) onto the linear space spanned by \( Y \) with the inner product \( \langle X, Y \rangle = \mathbb{E}[XY^T] \). Thus, we will sometimes write it as:
+          \[
+          \hat{X} = \langle X, Y \rangle \langle Y, Y \rangle^{-1} Y = \langle X, Y \rangle \|Y\|^{-2} Y.
+          \]
+      \end{itemize}
+  \end{enumerate}
+  
+  By using the UDL factorization and interpreting the projection, we understand how the LLMSE minimizes the estimation error variance.
+  \end{remark}
+
+
+
+
+
+
+
+
 
 
 
@@ -989,7 +1368,26 @@ D_c = 0.
 \end{proof}
 
 
-
+\begin{definition}[Observability]
+  A discrete-time system is said to be observable if, for any initial state \( x_0 \), the state \( x_k \) can be determined from the output \( y_k \) over a finite time interval \( k = 0, 1, \ldots, N \).
+  \end{definition}
+  
+  \begin{lemma}
+  The discrete-time system is observable if and only if the observability matrix \( \mathcal{O} \) defined by:
+  \[
+  \mathcal{O} = \begin{bmatrix}
+  C \\
+  CA \\
+  CA^2 \\
+  \vdots \\
+  CA^{n-1}
+  \end{bmatrix}
+  \]
+  has full rank, i.e.,
+  \[
+  \operatorname{rank}(\mathcal{O}) = n.
+  \]
+  \end{lemma}
 
 
 
