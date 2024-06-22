@@ -693,8 +693,59 @@ In other words, for any \( g : \mathcal{Y} \rightarrow \mathcal{X} \), we have
   \end{remark}
 
 
-
-
+\begin{theorem}[Sum of Predictions]
+  Given two independent samples \( Y_1 \) and \( Y_2 \), the optimal predictor for \( X \) based on \( Y = (Y_1, Y_2) \) is the sum of the predictors based on \( Y_1 \) and \( Y_2 \) separately. Mathematically, if the samples \( Y_1 \) and \( Y_2 \) are independent, then:
+  \[
+  \hat{X}|_{Y_1, Y_2} = \hat{X}|_{Y_1} + \hat{X}|_{Y_2} \iff \langle Y_1, Y_2 \rangle = 0.
+  \]
+\end{theorem}
+  
+\begin{proof}
+  \begin{align*}
+    \hat{X}|_{Y_1, Y_2} &= R_{XY} R_Y^{-1} Y \\
+    &= R_{XY} 
+    \begin{pmatrix}
+    R_{Y_1} & R_{Y_1 Y_2} \\
+    R_{Y_2 Y_1} & R_{Y_2}
+    \end{pmatrix}^{-1}
+    \begin{pmatrix}
+    Y_1 \\
+    Y_2
+    \end{pmatrix} \\
+    &= R_{XY} 
+    \begin{pmatrix}
+    R_{Y_1} & 0 \\
+    0 & R_{Y_2}
+    \end{pmatrix}^{-1}
+    \begin{pmatrix}
+    Y_1 \\
+    Y_2
+    \end{pmatrix} \quad (\text{independence of } Y_1 \text{ and } Y_2) \\
+    &= R_{XY}
+    \begin{pmatrix}
+    R_{Y_1}^{-1} & 0 \\
+    0 & R_{Y_2}^{-1}
+    \end{pmatrix}
+    \begin{pmatrix}
+    Y_1 \\
+    Y_2
+    \end{pmatrix} \\
+    &= R_{XY}
+    \begin{pmatrix}
+    R_{Y_1}^{-1} Y_1 \\
+    R_{Y_2}^{-1} Y_2
+    \end{pmatrix} \\
+    &= \begin{pmatrix}
+    R_{XY_1} & R_{XY_2}
+    \end{pmatrix}
+    \begin{pmatrix}
+    R_{Y_1}^{-1} Y_1 \\
+    R_{Y_2}^{-1} Y_2
+    \end{pmatrix} \\
+    &= R_{XY_1} R_{Y_1}^{-1} Y_1 + R_{XY_2} R_{Y_2}^{-1} Y_2 \\
+    &= \hat{X}|_{Y_1} + \hat{X}|_{Y_2}
+  \end{align*}
+\end{proof}
 
 
 
@@ -1451,6 +1502,22 @@ D_c = 0.
 \end{itemize}
 \end{definition}
 
+\begin{definition}[Estimator]
+  An estimator is a sequence of mappings
+  \[
+  \pi_i = \mathcal{Y}^i \rightarrow \mathcal{X}, \quad i \geq 0
+  \]
+  such that \( \hat{x}_{i|i} = \pi_i(y^i) \). The corresponding error of an estimator is $\tilde{x}_{i|i} \eqdef x_i - \hat{x}_{i|i}$.
+\end{definition}
+  
+\begin{definition}[Predictor]
+  A predictor is a sequence of mappings
+  \[
+  \pi_i = \mathcal{Y}^{i-1} \rightarrow \mathcal{X}, \quad i \geq 0
+  \]
+  such that \( \hat{x}_{i|i-1} = \pi_i(y^{i-1}) \). The corresponding error of a predictor is $\tilde{x}_{i|i-1} \eqdef x_i - \hat{x}_{i|i-1}$.
+\end{definition}
+
 
 \begin{definition}[Kalman Filter Covariance Matrix] 
   Formally, the following covariance matrix describes the model:
@@ -1505,12 +1572,12 @@ D_c = 0.
 
 \subsection*{Kalman Filter Optimality}
 
-We suggest the following predictor:
-\begin{equation}
+We suggest the following predictor who use the innovation \( y_i - \tred{H} \hat{x}_{i|i-1} \) to update the state estimate:
+\begin{equation} \label{eq:predictor}
     \hat{x}_{i+1|i} = \tred{F} \hat{x}_{i|i-1} + \tpur{K_{p,i}} (y_i - \tred{H} \hat{x}_{i|i-1})
 \end{equation}
 
-\begin{lemma}
+\begin{lemma} 
   \begin{equation}
     \tilde{x}_{i+1} = (F - K_{p,i} H) \tilde{x}_i + (G - K_{p,i}) 
     \begin{pmatrix}
@@ -1531,6 +1598,33 @@ We suggest the following predictor:
 &= (F - K_{p,i} H) \tilde{x}_i + G w_i - K_{p,i} v_i.
 \end{align*}
 \end{proof}
+
+
+\begin{theorem}
+  For the previous model and predictor, if the error covariance matrix at time \(i\) is $P_i$,
+  the matrix \(K_i\) that minimizes \(P_{i+1}\) is given by
+  \[
+    \tpur{K_{p,i}} \triangleq (\tred{F} \tpur{P_i} \tred{H^*} + \tred{G}\tblu{S}) \tpur{R_{e,i}}^{-1}
+  \]
+\end{theorem}
+
+The proof uses lemma \ref{eq:predictor} and UDL decomposition.
+
+
+\begin{definition}[The Innovations Process]
+  The innovations process \( \{e_i\} \) is given by
+  \[
+  e_i = y_i - \hat{y}_{i|i-1} = y_i - \mathbb{E}[H x_i + v_i | y^{i-1}] = H x_i + v_i - H \hat{x}_i = H (x_i - \hat{x}_i) + v_i = H \tilde{x}_i + v_i.
+  \]
+\end{definition}
+
+
+\begin{theorem}
+  The innovations process \( \{e_i\} \) is white. That is, we have
+  \[
+  \mathbb{E}[e_i e_j^T] = R_{e,i} \delta_{ij}.
+  \]
+\end{theorem}
 
 
 \begin{lemma}
