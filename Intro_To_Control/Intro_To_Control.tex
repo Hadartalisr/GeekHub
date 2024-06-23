@@ -1610,6 +1610,13 @@ We suggest the following predictor who use the innovation \( y_i - \tred{H} \hat
 
 The proof uses lemma \ref{eq:predictor} and UDL decomposition.
 
+\begin{theorem}
+  The optimal error covariance matrix at time \(i+1\) is given by
+  \[
+    \tpur{P_{i+1}} = \tred{F}\tpur{P_i}\tred{F^*} + \tred{G}\tblu{Q}\tred{G^*} - \tpur{K_{p,i} R_{e,i} K_{p,i}^*}
+  \]
+\end{theorem}
+
 
 \begin{definition}[The Innovations Process]
   The innovations process \( \{e_i\} \) is given by
@@ -1644,5 +1651,156 @@ The proof uses lemma \ref{eq:predictor} and UDL decomposition.
       \xi_i(j) &= \sum_{k=j}^{i-1} \phi_p(i, k+1) (G w_k - K_{p,k} v_k).
   \end{align*}
   \end{lemma}  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+\newpage
+\section{Stochastic LQR}
+
+
+\begin{definition}[Stochastic LQR]
+  The system is given by
+  \[
+  x_{t+1} = A x_t + B u_t + w_t,
+  \]
+  where \(\mathbb{E}[w_t] = 0\), \(\mathbb{E}[w_t w_t^T] = W \delta_{ij}\). The objective function is
+  \[
+  \min_{\mathbb{E}_{w,x_0}} \left[ x_N^T Q_f x_N + \sum_{t=0}^{N-1} \left( x_t^T Q x_t + u_t^T R u_t \right) \right].
+  \]
+  As before, we define the value function and derive its recursive formula
+  \[
+  V_t(z) = \min_{u_t, \ldots, u_{N-1}: x_t = z} \mathbb{E} \left[ x_N^T Q_f x_N + \sum_{\tau=t}^{N-1} \left( x_{\tau}^T Q x_{\tau} + u_{\tau}^T R u_{\tau} \right) \right].
+  \]
+\end{definition}
+  
+\begin{theorem}
+  For a zero-mean disturbance, the optimal controller in the stochastic setting is equal to the controller in the non-stochastic setting.
+\end{theorem}
+
+
+\begin{lemma}
+  The value function is equal to
+  \[
+  V_t(z) = z^T P_t z + q_t,
+  \]
+  where \( P_t \) can be computed for \( t = N-1, \ldots, 0 \) as
+  \[
+  P_t = A^T P_{t+1} A + Q - A^T P_{t+1} B (R + B^T P_{t+1} B)^{-1} B^T P_{t+1} A
+  \]
+  with the initial condition \( P_N = Q_f \). The additive term can be computed for \( t = N-1, \ldots, 0 \) 
+  as \( q_t = q_{t+1} + \text{Tr}(W P_{t+1}) \) with the initial condition \( q_N = 0 \).
+\end{lemma}
+
+
+\begin{lemma}
+  If \( \mathbb{E}[w w^T] = W \), then \( \mathbb{E}[w^T P w] = \text{Tr}(W P) \).
+\end{lemma}
+
+
+
+
+
+
+
+
+
+
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+% * * * * * * * * * * * * * * * * * * * * * * * * 
+\newpage
+\section{Linear Quadratic Gaussian (LQG) Control}
+
+
+\begin{definition}[LQG Control]
+  The linear-quadratic-Gaussian control concerns linear systems driven by additive white Gaussian noise. We are given a partially observable space state:
+  \begin{align}
+      x_{t+1} &= A x_t + B u_t + w_t, \\
+      y_t &= C x_t + v_t,
+  \end{align}
+  where the pair \( (w_i, v_i) \sim \mathcal{N}\left(0, \begin{pmatrix}
+  W & 0 \\
+  0 & V
+  \end{pmatrix}\right) \) is an i.i.d. and zero-mean process. The initial state is independent of sequences and is distributed according to \( x_0 \sim \mathcal{N}(0, \Pi_0) \).
+  
+  The objective is the same as the stochastic LQR problem:
+  \[
+  J(u) = \mathbb{E} \left[ x_N^T Q_f x_N + \sum_{k=0}^{N-1} \begin{pmatrix}
+  x_k \\
+  u_k
+  \end{pmatrix}^T \begin{pmatrix}
+  Q & S^T \\
+  S & R
+  \end{pmatrix} \begin{pmatrix}
+  x_k \\
+  u_k
+  \end{pmatrix} \right],
+  \]
+  but the control signals \( u_1, \ldots, u_{N-1} \) are only causal functions of the measurements. That is, the control signal \( u_t \) is a function of \( y_1, \ldots, y_t \).
+\end{definition}
+
+
+\begin{theorem}[Separation Principle]
+  The LQG problem can be solved optimally with two separate parts, which facilitate the design:
+  \begin{enumerate}
+      \item Estimate \( x_t \) based on Kalman Filter: given \((y_1, y_2, \ldots, y_t)\) we construct the estimate \( \hat{x}_{t|t} \). Its error covariance is denoted by \( \Sigma_t \).
+      \item Apply LQR control replacing the state with its estimate \( \hat{x}_{t|t} \). That is, the controller is \( u_t = -K_{LQR,t} \hat{x}_{t|t} \).
+  \end{enumerate}
+\end{theorem}
+
+
+
+
+
+
+
 
 \end{document}
